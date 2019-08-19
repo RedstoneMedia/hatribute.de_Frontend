@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { DataService } from '../dataService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  currentRoute: string;
+  currentlyLoggedIn: boolean;
+
+  constructor(private data: DataService, private client: HttpClient, protected router: Router) { }
 
   ngOnInit() {
+    this.data.curRoute.subscribe(currentRoute => this.currentRoute = currentRoute);
+    this.data.currentlyLoggedIn.subscribe(currentlyLoggedIn => this.currentlyLoggedIn = currentlyLoggedIn);
   }
 
 }

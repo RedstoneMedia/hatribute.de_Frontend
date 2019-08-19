@@ -1,0 +1,14 @@
+@import "~src/global";
+
+.aboutme {
+  padding: 10px;
+  text-align: center
+}
+
+.admin-text {
+  color: $font-color-important
+}
+
+.normal-user-text {
+  color: $font-color-not-important
+}

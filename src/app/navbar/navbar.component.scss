@@ -1,0 +1,30 @@
+@import "~src/global";
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  background-color: $navbar_background_color;
+  padding: 10px;
+  grid-column-gap: 1%;
+}
+
+.grid-item {
+  text-align : center;
+  color: $navbar_tab_color;
+}
+
+a {
+  text-decoration : none;
+  color: $navbar_tab_color;
+  &:hover {
+    color: $navbar_hover_tab_color;
+  }
+}
+
+.selected {
+  color: $navbar_selected_tab_color
+}
+
+#ankes-website-text {
+  grid-column: -1;
+}

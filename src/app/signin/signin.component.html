@@ -1,0 +1,44 @@
+
+
+<div style="text-align:center" class="signIn">
+
+  <h1>Sign in</h1>
+
+  <form class="signInForm" [formGroup]="signInForm" (ngSubmit)="sign_in()">
+
+      <div class="name" [ngClass]="{'error': signInForm.controls['name'].errors && !signInForm.controls['name'].pristine}" >
+          <label>Name : </label>
+          <input type="text" name="name" formControlName="name">
+          <div *ngIf="signInForm.controls['name'].errors && !signInForm.controls['name'].pristine" class="error-msg">
+              <div [hidden]="!signInForm.controls['name'].errors.required">Name ist benötigt.</div>
+              <div [hidden]="!signInForm.controls['name'].errors.minlength">Name ist zu kurtz.</div>
+          </div>
+      </div>
+
+    <div [ngClass]="{'error': signInForm.controls['email'].errors && !signInForm.controls['email'].pristine}">
+      <label >Email : </label>
+      <input type="email" required name="email" formControlName="email">
+      <div *ngIf="signInForm.controls['email'].errors && !signInForm.controls['email'].pristine" class="error-msg">
+          <div [hidden]="!signInForm.controls['email'].errors.required">Email ist benötigt.</div>
+          <div [hidden]="!signInForm.controls['email'].errors.pattern">Die eingegeben Email ist keine richtige Email.</div>
+      </div>
+    </div>
+
+    <div class="password" [ngClass]="{'error': signInForm.controls['password'].errors && !signInForm.controls['password'].pristine}" >
+        <label>Passwort : </label>
+        <input type="password" name="password" formControlName="password" >
+        <div *ngIf="signInForm.controls['password'].errors && !signInForm.controls['password'].pristine" class="error-msg">
+            <div [hidden]="!signInForm.controls['password'].errors.required">Password ist benötigt.</div>
+            <div [hidden]="!signInForm.controls['password'].errors.minlength">Password ist zu kurtz.</div>
+        </div>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Sign in</button>
+
+    <br>
+    <span class="error-msg error" *ngIf="right == false">{{errortext}}</span>
+  </form>
+
+<a href="#login" class="logininlink">Zurück zum Login .</a>
+
+</div>
+

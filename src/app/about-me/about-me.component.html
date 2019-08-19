@@ -1,0 +1,10 @@
+<div class="aboutme">
+  <h2 class="name">Hallo : {{UserData?.name}}</h2>
+
+  <span *ngIf="UserData?.role > 0; else not_admin">
+    <p class="admin-text"><b>Eingelogt als Admin</b></p>
+  </span>
+  <ng-template #not_admin>
+    <p class="normal-user-text"><b>Eingelogt als Normaler Nutzer</b></p>
+  </ng-template>
+</div>

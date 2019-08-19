@@ -1,0 +1,36 @@
+
+
+<div style="text-align:center" class="login">
+
+  <h1>Login</h1>
+
+  <form class="loginform" [formGroup]="loginForm" (ngSubmit)="login()">
+    <div [ngClass]="{'error': loginForm.controls['email'].errors && !loginForm.controls['email'].pristine}">
+      <label >Email : </label>
+      <input type="email" required name="email" formControlName="email">
+      <div *ngIf="loginForm.controls['email'].errors && !loginForm.controls['email'].pristine" class="error-msg">
+          <div [hidden]="!loginForm.controls['email'].errors.required">Email wird benötigt.</div>
+          <div [hidden]="!loginForm.controls['email'].errors.pattern">Email ist invalid.</div>
+      </div>
+    </div>
+
+    <div class="password" [ngClass]="{'error': loginForm.controls['password'].errors && !loginForm.controls['password'].pristine}" >
+        <label>Passwort : </label>
+        <input type="password" name="password" formControlName="password" >
+        <div *ngIf="loginForm.controls['password'].errors && !loginForm.controls['password'].pristine" class="error-msg">
+            <div [hidden]="!loginForm.controls['password'].errors.required">Password ist benötigt.</div>
+            <div [hidden]="!loginForm.controls['password'].errors.minlength">Password ist zu kurtz.</div>
+        </div>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Login</button>
+
+    <br>
+    <span class="error-msg error" *ngIf="right == false">{{errortext}}</span>
+  </form>
+
+  <br>
+  <a href="#sign-in" class="signinlink">Kein Account ? Erstelle hier einen Account .</a>
+
+</div>
+
