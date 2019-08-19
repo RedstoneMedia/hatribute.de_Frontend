@@ -14,3 +14,44 @@ body {
 .weak-text {
   color : $font-color-weak
 }
+
+.cool_button {
+	-moz-box-shadow:inset 0px 0px 0px 0px $cool-button-box-shadow ;
+	-webkit-box-shadow:inset 0px 0px 0px 0px $cool-button-box-shadow ;
+	box-shadow:inset 0px 0px 0px 0px $cool-button-box-shadow ;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, $cool-button-color-gradient-a), color-stop(1, $cool-button-color-gradient-b));
+	background:-moz-linear-gradient(top, $cool-button-color-gradient-a 5%, $cool-button-color-gradient-b 100%);
+	background:-webkit-linear-gradient(top, $cool-button-color-gradient-a 5%, $cool-button-color-gradient-b 100%);
+	background:-o-linear-gradient(top, $cool-button-color-gradient-a 5%, $cool-button-color-gradient-b 100%);
+	background:-ms-linear-gradient(top, $cool-button-color-gradient-a 5%, $cool-button-color-gradient-b 100%);
+	background:linear-gradient(to bottom, $cool-button-color-gradient-a 5%, $cool-button-color-gradient-b 100%);
+	background-color: $cool-button-color-gradient-a;
+	-moz-border-radius: $cool-button-border-radius;
+	-webkit-border-radius:$cool-button-border-radius;
+	border-radius:$cool-button-border-radius;
+	border:1px solid $cool-button-border-color;
+	display:inline-block;
+	cursor:pointer;
+  color:$cool-button-font-color;
+  font-family: $main-font;
+	font-weight:bold;
+	padding:16px 31px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px $cool-button-text-shadow-color;
+
+  &:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, $cool-button-color-gradient-b), color-stop(1, #41c464));
+    background:-moz-linear-gradient(top, $cool-button-color-gradient-b 5%, $cool-button-color-gradient-a 100%);
+    background:-webkit-linear-gradient(top, $cool-button-color-gradient-b 5%, $cool-button-color-gradient-a 100%);
+    background:-o-linear-gradient(top, $cool-button-color-gradient-b 5%, $cool-button-color-gradient-a 100%);
+    background:-ms-linear-gradient(top, $cool-button-color-gradient-b 5%, $cool-button-color-gradient-a 100%);
+    background:linear-gradient(to bottom, $cool-button-color-gradient-b 5%, $cool-button-color-gradient-a 100%);
+    background-color:$cool-button-color-gradient-b;
+  }
+
+  &:active {
+    position:relative;
+    top:1px;
+  }
+
+}
