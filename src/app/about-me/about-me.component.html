@@ -1,7 +1,7 @@
 <div class="aboutme">
   <h2 class="name">Hallo {{UserData?.name.split(" ")[0]}}</h2>
 
-  <span *ngIf="UserData?.role > 2">
+  <span *ngIf="UserData?.role >= 2">
     <h3 class="admin-text"><b>Eingelogt als Admin</b></h3>
   </span>
 
