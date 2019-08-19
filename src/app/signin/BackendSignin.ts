@@ -39,6 +39,7 @@ export class BackendSigin extends BackendComunicator {
           sessionStorage["session-id"] = session.session;
           sessionStorage["session-expires"] = session.expires;
           this.host.data.changeLoggedIn(true);
+          this.host.router.navigate(['about-me']);
           // this.host.router.navigate(['password-manager']);
         }, error => {
           this.host.errortext = "Fehler beim einloggen in den Account.";
