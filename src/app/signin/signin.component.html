@@ -6,14 +6,32 @@
 
   <form class="signInForm" [formGroup]="signInForm" (ngSubmit)="sign_in()">
 
-      <div class="name" [ngClass]="{'error': signInForm.controls['name'].errors && !signInForm.controls['name'].pristine}" >
-          <label>Name : </label>
-          <input type="text" name="name" formControlName="name">
-          <div *ngIf="signInForm.controls['name'].errors && !signInForm.controls['name'].pristine" class="error-msg">
-              <div [hidden]="!signInForm.controls['name'].errors.required">Name ist benötigt.</div>
-              <div [hidden]="!signInForm.controls['name'].errors.minlength">Name ist zu kurtz.</div>
-          </div>
+    <div class="school" [ngClass]="{'error': signInForm.controls['school'].errors && !signInForm.controls['school'].pristine}" >
+      <label>Schulname : </label>
+      <input type="text" name="school" formControlName="school" >
+      <div *ngIf="signInForm.controls['school'].errors && !signInForm.controls['school'].pristine" class="error-msg">
+          <div [hidden]="!signInForm.controls['school'].errors.required">Schulname ist benötigt.</div>
+          <div [hidden]="!signInForm.controls['school'].errors.minlength">Schulname ist zu kurtz.</div>
       </div>
+    </div>
+
+    <div class="class" [ngClass]="{'error': signInForm.controls['schoolClass'].errors && !signInForm.controls['schoolClass'].pristine}" >
+      <label>Klasse : </label>
+      <input type="text" name="schoolClass" formControlName="schoolClass">
+      <div *ngIf="signInForm.controls['schoolClass'].errors && !signInForm.controls['schoolClass'].pristine" class="error-msg">
+          <div [hidden]="!signInForm.controls['schoolClass'].errors.required">Klasse ist benötigt.</div>
+          <div [hidden]="!signInForm.controls['schoolClass'].errors.pattern">Klasse ist nicht valid.</div>
+      </div>
+    </div>
+
+    <div class="name" [ngClass]="{'error': signInForm.controls['name'].errors && !signInForm.controls['name'].pristine}" >
+        <label>Name : </label>
+        <input type="text" name="name" formControlName="name">
+        <div *ngIf="signInForm.controls['name'].errors && !signInForm.controls['name'].pristine" class="error-msg">
+            <div [hidden]="!signInForm.controls['name'].errors.required">Name ist benötigt.</div>
+            <div [hidden]="!signInForm.controls['name'].errors.minlength">Name ist zu kurtz.</div>
+        </div>
+    </div>
 
     <div [ngClass]="{'error': signInForm.controls['email'].errors && !signInForm.controls['email'].pristine}">
       <label >Email : </label>
@@ -32,7 +50,8 @@
             <div [hidden]="!signInForm.controls['password'].errors.minlength">Password ist zu kurtz.</div>
         </div>
     </div>
-    <button mat-raised-button color="primary" type="submit">Sign in</button>
+
+    <button type="submit">Account erstellen</button>
 
     <br>
     <span class="error-msg error" *ngIf="right == false">{{errortext}}</span>

@@ -15,13 +15,15 @@ export class BackendSigin extends BackendComunicator {
     super(client, host, adrress);
   }
 
-  sign_in(password: string, email: string, name: string) {
+  sign_in(password: string, email: string, name: string, school: string, schoolClass: string) {
       const salt = this.secure_random_number().replace(",", "");
       const hashedpwd = CryptoJS.SHA512(salt + password.trim()).toString();
       const jsondata = JSON.stringify({
         "hashedpwd" : hashedpwd,
         "email" : email,
         "name" : name,
+        "school" : school,
+        "school_class" : schoolClass,
         "salt" : salt,
       });
       // Sgin in with data
@@ -44,7 +46,7 @@ export class BackendSigin extends BackendComunicator {
         });
       }, error => {
         console.log(error);
-        this.host.errortext = "Fehler beim kreiren des Account.";
+        this.host.errortext = "Fehler beim Kreieren des Account.";
         this.host.right = false;
       });
   }
