@@ -8,7 +8,7 @@
 
     <div class="school" [ngClass]="{'error': signInForm.controls['school'].errors && !signInForm.controls['school'].pristine}" >
       <label>Schulname : </label>
-      <input type="text" name="school" formControlName="school" >
+      <input type="text" name="school" formControlName="school" placeholder="test-school">
       <div *ngIf="signInForm.controls['school'].errors && !signInForm.controls['school'].pristine" class="error-msg">
           <div [hidden]="!signInForm.controls['school'].errors.required">Schulname ist benötigt.</div>
           <div [hidden]="!signInForm.controls['school'].errors.minlength">Schulname ist zu kurtz.</div>
