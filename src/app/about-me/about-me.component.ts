@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BackendSession } from '../BackendSession';
 import { DataService } from '../dataService';
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
+import { BackendAboutMe } from './BackendAboutMe';
 
 @Component({
   selector: 'app-about-me',
@@ -11,20 +11,25 @@ import { Router } from "@angular/router";
 })
 export class AboutMeComponent implements OnInit {
 
-  backendSession: BackendSession;
+  backendAboutMe: BackendAboutMe;
   UserData;
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
   ngOnInit() {
     this.data.changeCurRoute("about-me");
-    this.backendSession = new BackendSession(this.client, this);
-    this.backendSession.post_with_session_no_data("get_data", (data: any) => {
+    this.backendAboutMe = new BackendAboutMe(this.client, this);
+    this.backendAboutMe.post_with_session_no_data("get_data", (data: any) => {
       this.UserData = data.user;
     }, (error) => {
       console.log(error);
       this.router.navigate(['login']);
     });
+  }
+
+  logout() {
+    console.log("logout !");
+    this.backendAboutMe.logout(() => {}, () => {});
   }
 
 }
