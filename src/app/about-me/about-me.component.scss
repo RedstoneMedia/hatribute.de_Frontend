@@ -28,3 +28,21 @@
 .limited-user-sub-text {
   color: #ff00003f
 }
+
+.about-me-container {
+  padding-bottom: 5%;
+}
+
+#delete-account {
+  padding-bottom: 0px;
+  color: $error-color;
+}
+
+[no-copy-text] {
+
+  font-weight: bold;
+
+  &::after {
+    content: attr(no-copy-text);
+  }
+}

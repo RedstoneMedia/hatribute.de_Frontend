@@ -13,6 +13,9 @@ export class AboutMeComponent implements OnInit {
 
   backendAboutMe: BackendAboutMe;
   UserData;
+  realyDelete = false;
+  verifyStringInput = "";
+
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
@@ -28,8 +31,21 @@ export class AboutMeComponent implements OnInit {
   }
 
   logout() {
-    console.log("logout !");
     this.backendAboutMe.logout(() => {}, () => {});
+  }
+
+  delete_account() {
+    if (!this.realyDelete) {
+      this.realyDelete = true;
+    } else if ("Account Löschen" === this.verifyStringInput) {
+      // delete account
+      console.log("delete account");
+      this.backendAboutMe.delete_account(() => {}, () => {});
+    } else {
+      this.realyDelete = false;
+      this.verifyStringInput = "";
+    }
+
   }
 
 }
