@@ -13,12 +13,14 @@ import { StartComponent } from './start/start.component';
 import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './signin/signin.component';
 import { AboutMeComponent } from './about-me/about-me.component';
+import { HomeworklistComponent } from './homeworklist/homeworklist.component';
 
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
   {path : 'login', component: LoginComponent},
   {path : 'sign-in', component: SigninComponent},
   {path : 'about-me', component: AboutMeComponent},
+  {path : 'homework-list', component: HomeworklistComponent}
 ];
 
 @NgModule({
@@ -28,7 +30,8 @@ const myRoutes: Routes = [
     StartComponent,
     LoginComponent,
     SigninComponent,
-    AboutMeComponent
+    AboutMeComponent,
+    HomeworklistComponent
   ],
   imports: [
     BrowserModule,

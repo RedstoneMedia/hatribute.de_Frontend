@@ -5,7 +5,11 @@
 
   <span class="grid-item" *ngIf="currentlyLoggedIn">
       <a [className]="currentRoute == 'about-me' ? 'selected': ''" href="#about-me">Ich</a>
-    </span>
+  </span>
+
+  <span class="grid-item" *ngIf="currentlyLoggedIn">
+    <a [className]="currentRoute == 'homework-list' ? 'selected': ''" href="#homework-list">Hausaufgaben</a>
+  </span>
 
   <span class="grid-item" *ngIf="!currentlyLoggedIn && currentRoute != 'sign_in' || currentRoute == 'login'">
     <a [className]="currentRoute == 'login' ? 'selected': ''" href="#login">Login</a>
@@ -14,6 +18,7 @@
   <span class="grid-item" *ngIf="currentRoute == 'sign_in'">
     <a [className]="currentRoute == 'sign_in' ? 'selected': ''" href="#sign-in">Sign in</a>
   </span>
+
   <span class="grid-item" id="ankes-website-text">Eure-Hausaufgaben.net</span>
 
 </div>

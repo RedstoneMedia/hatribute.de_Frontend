@@ -1,0 +1,16 @@
+<div class="SchoolClass">
+
+  <h1>{{schoolClass?.ClassName}}</h1>
+
+  <div id="HomeworkList">
+    <div *ngFor="let homework of schoolClass?.homework" class="Homework">
+        <h3>{{homework.Exercise}} | Fertig : {{homework.DonePercentage}}% | Fällig : {{homework.Due}} : </h3>
+
+        <div class="sub_Homework" *ngFor="let sub_homework of homework.SubHomework">
+          {{sub_homework.Exercise}} | Fertig : {{sub_homework.Done === true ? "Ja" : "Nein"}}
+          <h6>{{sub_homework.User.name}}</h6>
+    </div>
+    </div>
+  </div>
+
+</div>
