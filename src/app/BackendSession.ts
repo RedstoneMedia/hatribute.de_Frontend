@@ -8,7 +8,7 @@ export class BackendSession extends BackendComunicator {
     super(client, host, adrress, port);
   }
 
-  post_with_session(DataObject , route: string, succsesFunction: any, errorFunction: any) {
+  post_with_session(DataObject, route: string, succsesFunction: any, errorFunction: any) {
     DataObject.session = sessionStorage["session-id"];
     this.post_data(JSON.stringify(DataObject), route, (data: any) => {
       const session = data.session;

@@ -28,6 +28,26 @@ input {
   }
 }
 
+select {
+  border-width:2px;
+  border-color: $content-border-color;
+  border-style:solid;
+  font-family: $main-font;
+  border-radius:5px;
+  padding: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url(/assets/img/icon-expand-arrow.png);
+  background-position: right;
+  background-repeat: no-repeat;
+
+  &:focus {
+     outline:none;
+  }
+
+
+}
+
 button {
 	-moz-box-shadow:inset 0px 0px 0px 0px $cool-button-box-shadow ;
 	-webkit-box-shadow:inset 0px 0px 0px 0px $cool-button-box-shadow ;

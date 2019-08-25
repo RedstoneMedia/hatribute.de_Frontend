@@ -5,18 +5,173 @@
   text-align: center
 }
 
-.Homework {
-  margin-left: 50%;
-  text-align: justify;
+#HomeworkTable {
+  width: 50%;
+  margin: auto;
+  text-align: left;
+  border-color: $content-border-color;
+  border-radius: 5px;
+  border-width: 3px;
+  border-spacing: 0px;
+  box-shadow: 1px 2px 6px $content-border-color;
+  border-style: solid;
+}
+
+th {
+  text-align: left;
+  background-color: $content-border-color;
+  color : $main-background-color;
+}
+
+td {
+  border-color: $content-border-color;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .sub_Homework {
-  margin-left: 5%;
-  text-align: justify;
+  column-span: 3;
+  border-style: none;
 }
 
-h4 {
-  display: inline;
+.bg-modal {
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  animation-name: modalOpen;
+  animation-duration: 0.1s;
+  animation-delay: 0.0s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-direction: alternate;
+
+  width: 50%;
+  height: auto;
+  overflow: auto;
+  background-color: $main-background-color;
+  opacity: 1;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 1%;
+  font-size: 2em;
+  transform: rotate(45deg);
+  cursor: pointer;
+
+  &:hover {
+    color: $font-color-important;
+    animation-name: closeRotate;
+    animation-duration: 0.8s;
+    animation-delay: 0.1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+  }
+}
+
+.add {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin: auto;
+  width: 1em;
+  font-size: 2em;
+  cursor: pointer;
+
+  &:hover {
+    color: $font-color-important;
+    animation-name: AddRotate;
+    animation-duration: 0.3s;
+    animation-delay: 0.1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+  }
+}
+
+.register {
+  text-align: center;
+  font-size: 1em;
+  cursor: pointer;
+  &:hover {
+    color: $font-color-important;
+  }
+}
+
+.error {
+  color: $error-color;
+}
+
+#Exercise {
+  width: 70%;
+
+  @media #{$information-phone} {
+    margin-bottom: 10%;
+    width: 90%;
+  }
+}
+
+#SubExercise {
+  width: 50%;
+
+  @media #{$information-phone} {
+    margin-bottom: 10%;
+    width: 90%;
+  }
+}
+
+.error-msg {
+  margin-top : 0.5%;
+  display: block;
+  font-size: 75%;
 }
 
 
+@keyframes modalOpen {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes closeRotate {
+  0% {
+    transform: rotate(45deg);
+  }
+  75% {
+    transform: rotate(360deg);
+  }
+  99% {
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes AddRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

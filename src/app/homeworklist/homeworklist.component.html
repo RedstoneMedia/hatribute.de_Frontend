@@ -2,15 +2,79 @@
 
   <h1>{{schoolClass?.ClassName}}</h1>
 
-  <div id="HomeworkList">
-    <div *ngFor="let homework of schoolClass?.homework" class="Homework">
-        <h3>{{homework.Exercise}} | Fertig : {{homework.DonePercentage}}% | Fällig : {{homework.Due}} : </h3>
-
-        <div class="sub_Homework" *ngFor="let sub_homework of homework.SubHomework">
+  <div *ngIf="curSlectedHomework" class="bg-modal">
+    <div class="modal-content">
+      <div class="modal-close" (click)="closeHomeworkDetails()">+</div>
+      <h4>Hausaufgaben Details</h4>
+      <div class="sub_Homework" *ngFor="let sub_homework of curSlectedHomework.SubHomework; index as i;">
           {{sub_homework.Exercise}} | Fertig : {{sub_homework.Done === true ? "Ja" : "Nein"}}
-          <h6>{{sub_homework.User.name}}</h6>
-    </div>
+          <h2 *ngIf="!sub_homework.User.name else normal_no_add" (click)="registerForSubHomework(i)" class="register">Eintragen</h2>
+          <ng-template #normal_no_add><h4>{{sub_homework.User.name}}</h4></ng-template>
+      </div>
     </div>
   </div>
+
+  <div *ngIf="addHomeworkModal" class="bg-modal">
+      <div class="modal-content">
+        <div class="modal-close" (click)="closeAddHomework()">+</div>
+        <h4>Hausaufgabe Hinzufügen</h4>
+        <form class="AddHomeworkForm" [formGroup]="AddHomeworkForm" (ngSubmit)="addHomework()">
+            <!--Exercise-->
+            <div [ngClass]="{'error': AddHomeworkForm.controls['Exercise'].errors}">
+              <label >Aufgabe : </label>
+              <input type="text" id="Exercise" required name="Exercise" formControlName="Exercise">
+              <div *ngIf="AddHomeworkForm.controls['Exercise'].errors && !AddHomeworkForm.controls['Exercise'].pristine" class="error-msg">
+                  <div [hidden]="!AddHomeworkForm.controls['Exercise'].errors.required">Aufgabe wird benötigt.</div>
+                  <div [hidden]="!AddHomeworkForm.controls['Exercise'].errors.minLength">Aufgabe ist zu Kurtz.</div>
+              </div>
+            </div>
+            <!--Subject-->
+            <br>
+            <div [ngClass]="{'error': AddHomeworkForm.controls['Subject'].errors}">
+                <label >Fach : </label>
+                <select id="Subject" required name="Subject" formControlName="Subject" class="Subject">
+                    <option value="" disabled>Schulfach wählen</option>
+                    <option>Deutsch</option>
+                    <option>Englisch</option>
+                    <option>Mahte</option>
+                    <option>Physik</option>
+                    <option>Biologie</option>
+                    <option>Chemie</option>
+                    <option>Anders</option>
+                </select>
+                <div *ngIf="AddHomeworkForm.controls['Subject'].errors && !AddHomeworkForm.controls['Subject'].pristine" class="error-msg">
+                    <div [hidden]="!AddHomeworkForm.controls['Subject'].errors.required">Fach wird benötigt.</div>
+                </div>
+            </div>
+            <!--Sub Exercise-->
+            <br>
+            <div [ngClass]="{'error': AddHomeworkForm.controls['SubExercise'].errors}">
+                <label >Unter Aufgaben : </label>
+                <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise">
+                <div *ngIf="AddHomeworkForm.controls['SubExercise'].errors && !AddHomeworkForm.controls['SubExercise'].pristine" class="error-msg">
+                    <div [hidden]="!AddHomeworkForm.controls['SubExercise'].errors.pattern">Falsches Format.</div>
+                </div>
+            </div>
+
+            <br>
+            <button color="primary" type="submit">Hausaufgabe Hinzufügen</button>
+          </form>
+      </div>
+    </div>
+
+  <table id="HomeworkTable">
+    <tr>
+      <th>Aufgabe</th>
+      <th>Fetig %</th>
+      <th>Fällig</th>
+    </tr>
+    <tr (click)="showHomeworkDetails(i)" *ngFor="let homework of schoolClass?.homework; index as i;" class="Homework">
+        <td><h3>{{homework.Exercise}}</h3></td>
+        <td><h4>{{homework.DonePercentage}}%</h4></td>
+        <td><h4>{{homework.Due}}</h4></td>
+    </tr>
+  </table>
+
+  <div *ngIf="!curSlectedHomework && !addHomeworkModal" (click)="showAddHomework();" class="add">+</div>
 
 </div>
