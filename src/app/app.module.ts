@@ -16,6 +16,7 @@ import { AboutMeComponent } from './about-me/about-me.component';
 import { HomeworklistComponent } from './homeworklist/homeworklist.component';
 
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { ImageObjToImagePathPipe } from './image-obj-to-image-path.pipe';
 
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
@@ -33,7 +34,8 @@ const myRoutes: Routes = [
     LoginComponent,
     SigninComponent,
     AboutMeComponent,
-    HomeworklistComponent
+    HomeworklistComponent,
+    ImageObjToImagePathPipe
   ],
   imports: [
     BrowserModule,

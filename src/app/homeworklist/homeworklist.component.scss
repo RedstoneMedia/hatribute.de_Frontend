@@ -123,6 +123,14 @@ td {
   }
 }
 
+.sub_homework_finished {
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    color: $font-color-important;
+  }
+}
+
 .error {
   color: $error-color;
 }

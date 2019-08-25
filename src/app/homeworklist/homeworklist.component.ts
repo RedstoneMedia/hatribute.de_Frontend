@@ -17,6 +17,7 @@ export class HomeworklistComponent implements OnInit {
   schoolClass: any;
   curSlectedHomework: any;
   curUploadSubHomework: any;
+  curSubHomeworkDisplay: any;
   addHomeworkModal: boolean;
   homeworkUploadFiles: any;
   UserData: any;
@@ -59,6 +60,22 @@ export class HomeworklistComponent implements OnInit {
     this.curUploadSubHomework = null;
   }
 
+  showSubHomework(i) {
+    this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
+    this.curSubHomeworkDisplay["images"] = [];
+    this.backendSchoolClass.get_sub_homework_image_count(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
+      for (let index = 0; index < data.image_count; index++) {
+        this.curSubHomeworkDisplay.images.push(
+          {"index" : index, "sub_homework_id" : this.curSubHomeworkDisplay.id}
+          );
+      }
+    });
+  }
+
+  closeSubHomework() {
+    this.curSubHomeworkDisplay = null;
+  }
+
   onImageUploadChange(files) {
     this.homeworkUploadFiles = files;
   }
@@ -83,6 +100,7 @@ export class HomeworklistComponent implements OnInit {
     if (imageNameValid) {
       // tslint:disable-next-line: max-line-length
       this.curUploadSubHomework.Done = true;
+      // tslint:disable-next-line: max-line-length
       this.backendSchoolClass.upload_sub_homework(this.curSlectedHomework.id, this.curUploadSubHomework.id, this.homeworkUploadFiles, () => {}, () => {});
       this.closeUploadSubHomework();
     }
