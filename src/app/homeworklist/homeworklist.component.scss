@@ -114,6 +114,15 @@ td {
   }
 }
 
+.deRegister {
+  text-align: center;
+  font-size: 0.7em;
+  cursor: pointer;
+  &:hover {
+    color: $font-color-important;
+  }
+}
+
 .error {
   color: $error-color;
 }

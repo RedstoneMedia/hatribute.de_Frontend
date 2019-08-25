@@ -43,4 +43,16 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
+  de_register_for_sub_homework(homeworkId: number, subHomeworkId: number, succsesFunction) {
+    const jsonData = {
+      "homework_id" : homeworkId,
+      "sub_homework_id" : subHomeworkId
+    };
+    this.post_with_session(jsonData, "de_register_for_sub_homework", (data: any) => {
+      succsesFunction();
+    }, (error: any) => {
+      this.host.router.navigate(['login']);
+    });
+  }
+
 }

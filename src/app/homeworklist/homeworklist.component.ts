@@ -53,6 +53,11 @@ export class HomeworklistComponent implements OnInit {
     this.backendSchoolClass.register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {});
   }
 
+  deRegisterForSubHomework(i) {
+    this.curSlectedHomework.SubHomework[i].User.name = null;
+    this.backendSchoolClass.de_register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {});
+  }
+
   addHomework() {
     // Generate subExercises
     const subExercises = [];
