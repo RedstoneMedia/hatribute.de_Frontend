@@ -10,15 +10,29 @@
           {{sub_homework.Exercise}} | Fertig : {{sub_homework.Done === true ? "Ja" : "Nein"}}
           <h2 *ngIf="!sub_homework.User.name else normal_no_add" (click)="registerForSubHomework(i)" class="register">Eintragen</h2>
           <ng-template #normal_no_add>
-            <span *ngIf="sub_homework.User.name == UserData.name else normal_no_deregister" class="deRegister" (click)="deRegisterForSubHomework(i)">
-                <br>
-                {{sub_homework.User.name}} | Abmelden
-            </span>
-            <ng-template #normal_no_deregister></ng-template>
-            <h4>{{sub_homework.User.name}}</h4>
+            <div *ngIf="sub_homework.User.name == UserData.name else normal_no_deregister">
+                <span *ngIf="!sub_homework.Done">
+                  <button (click)="showUploadSubHomework(i)">Fertig</button>
+                  <br>
+                </span>
+                <span class="deRegister" (click)="deRegisterForSubHomework(i)">{{sub_homework.User.name}} | Abmelden</span>
+            </div>
+            <ng-template #normal_no_deregister><h4>{{sub_homework.User.name}}</h4></ng-template>
+
           </ng-template>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="curUploadSubHomework" class="bg-modal">
+      <div class="modal-content">
+          <div class="modal-close" (click)="closeUploadSubHomework()">+</div>
+          <h4>Hausaufgaben Hochladen</h4>
+          <input type="file" alife-file-to-base64 multiple (onFileChanged)="onImageUploadChange($event)"/>
+          <br>
+          <br>
+          <button (click)="uploadHomworkImage()">Hochladen</button>
+      </div>
   </div>
 
   <div *ngIf="addHomeworkModal" class="bg-modal">

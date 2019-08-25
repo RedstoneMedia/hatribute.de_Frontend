@@ -15,6 +15,8 @@ import { SigninComponent } from './signin/signin.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { HomeworklistComponent } from './homeworklist/homeworklist.component';
 
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
   {path : 'login', component: LoginComponent},
@@ -38,6 +40,7 @@ const myRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AlifeFileToBase64Module,
     RouterModule.forRoot(myRoutes , { useHash: true })
   ],
   providers: [DataService],

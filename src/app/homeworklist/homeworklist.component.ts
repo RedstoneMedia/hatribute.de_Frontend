@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { BackendSchoolClass } from './BackendSchoolClass';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-homeworklist',
   templateUrl: './homeworklist.component.html',
@@ -15,7 +16,9 @@ export class HomeworklistComponent implements OnInit {
   backendSchoolClass: BackendSchoolClass;
   schoolClass: any;
   curSlectedHomework: any;
+  curUploadSubHomework: any;
   addHomeworkModal: boolean;
+  homeworkUploadFiles: any;
   UserData: any;
 
   AddHomeworkForm = new FormGroup({
@@ -46,6 +49,43 @@ export class HomeworklistComponent implements OnInit {
 
   closeHomeworkDetails() {
     this.curSlectedHomework = null;
+  }
+
+  showUploadSubHomework(i) {
+    this.curUploadSubHomework = this.curSlectedHomework.SubHomework[i];
+  }
+
+  closeUploadSubHomework() {
+    this.curUploadSubHomework = null;
+  }
+
+  onImageUploadChange(files) {
+    this.homeworkUploadFiles = files;
+  }
+
+  uploadHomworkImage() {
+    const allowedFileExtensions = ["png", "jpg", "jepg", "gif"];
+    let imageNameValid = false;
+
+    if (this.homeworkUploadFiles.length > 0) {
+      for (let i = 0; i < allowedFileExtensions.length; i++) {
+        const extension = allowedFileExtensions[i];
+        for (let j = 0; j < this.homeworkUploadFiles.length; j++) {
+          const homeworkUploadFile = this.homeworkUploadFiles[j];
+          if (homeworkUploadFile.name.toLowerCase().endsWith(extension)) {
+            imageNameValid = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (imageNameValid) {
+      // tslint:disable-next-line: max-line-length
+      this.curUploadSubHomework.Done = true;
+      this.backendSchoolClass.upload_sub_homework(this.curSlectedHomework.id, this.curUploadSubHomework.id, this.homeworkUploadFiles, () => {}, () => {});
+      this.closeUploadSubHomework();
+    }
   }
 
   registerForSubHomework(i) {

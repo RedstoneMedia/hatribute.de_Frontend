@@ -55,4 +55,21 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
+  upload_sub_homework(homeworkId: number, subHomeworkId: number, files: any, sucsessFunction, errorFunction) {
+    const jsondata = {
+      "homework_id" : homeworkId,
+      "sub_homework_id" : subHomeworkId,
+      "base64Files" : []
+    };
+    files.forEach(file => {
+      jsondata.base64Files.push(file.base64);
+    });
+
+    this.post_with_session(jsondata, "upload_sub_homework", (data: any) => {
+      sucsessFunction(data);
+    }, (error: any) => {
+      errorFunction(error);
+    });
+  }
+
 }
