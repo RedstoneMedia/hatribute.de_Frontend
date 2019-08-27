@@ -2,12 +2,15 @@
 $main-font-color: #599ce9;
 $font-color-weak: #5899e469;
 $font-color-important: #EB3B55;
+$content-border-color : #84A1FF;
+$content-border-color-weak : rgba(132,161,255, 0.1);
 $font-color-not-important: rgb(154, 255, 154);
+$font-color-done : rgb(132, 255, 138);
+$background-color-done : $content-border-color;
 $main-font : "Roboto" , sans-serif;
 $main-background-color : #ffffff;
 $error-color : #DC143C;
-$content-border-color : #84A1FF;
-$content-border-color-weak : rgba(132,161,255, 0.1);
+
 
 /* Cool Button*/
 $cool-button-box-shadow : #1b77c2;

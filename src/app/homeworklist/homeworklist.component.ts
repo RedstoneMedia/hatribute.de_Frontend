@@ -94,6 +94,15 @@ export class HomeworklistComponent implements OnInit {
     if (imageNameValid) {
       // tslint:disable-next-line: max-line-length
       this.curUploadSubHomework.Done = true;
+      const subHomeworkCount = this.curSlectedHomework.SubHomework.length;
+      let doneSubHomeworkCount = 0;
+      this.curSlectedHomework.SubHomework.forEach(element => {
+        if (element.Done) {
+          doneSubHomeworkCount++;
+        }
+      });
+
+      this.curSlectedHomework.DonePercentage = Math.round((doneSubHomeworkCount / subHomeworkCount) * 100);
       // tslint:disable-next-line: max-line-length
       this.backendSchoolClass.upload_sub_homework(this.curSlectedHomework.id, this.curUploadSubHomework.id, this.homeworkUploadFiles, () => {}, () => {});
       this.closeUploadSubHomework();

@@ -23,6 +23,11 @@ th {
   color : $main-background-color;
 }
 
+.done {
+  background-color: $background-color-done;
+  color: $font-color-done;
+}
+
 td {
   border-color: $content-border-color;
   border-width: 2px;
