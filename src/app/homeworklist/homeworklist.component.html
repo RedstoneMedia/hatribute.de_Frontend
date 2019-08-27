@@ -34,7 +34,7 @@
           <div class="modal-close" (click)="closeSubHomework()">+</div>
           <h4>Hausaufgabe anzeige</h4>
           <div *ngFor="let base_64Image of curSubHomeworkDisplay?.base64_images">
-              <img [src]="base_64Image | base64ImageSafe">
+              <img class="image_display" [src]="base_64Image | base64ImageSafe">
           </div>
 
       </div>
