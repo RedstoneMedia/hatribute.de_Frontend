@@ -62,14 +62,8 @@ export class HomeworklistComponent implements OnInit {
 
   showSubHomework(i) {
     this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
-    this.curSubHomeworkDisplay["images"] = [];
-    this.backendSchoolClass.get_sub_homework_image_count(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
-      for (let index = 0; index < data.image_count; index++) {
-        this.curSubHomeworkDisplay.images.push(
-          {"index" : index, "sub_homework_id" : this.curSubHomeworkDisplay.id}
-          );
-      }
-    });
+    this.curSubHomeworkDisplay["base64_images"] = [];
+    this.backendSchoolClass.get_sub_homework_images(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {});
   }
 
   closeSubHomework() {

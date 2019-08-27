@@ -72,14 +72,14 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
-  get_sub_homework_image_count(homeworkId: number, subHomeworkId: number, succsesFunction) {
+  get_sub_homework_images(homeworkId: number, subHomeworkId: number, succsesFunction) {
     const jsonData = {
       "homework_id" : homeworkId,
       "sub_homework_id" : subHomeworkId
     };
-    this.post_with_session(jsonData, "get_sub_homework_image_count", (data: any) => {
+    this.post_with_session(jsonData, "get_sub_homework_images", (data: any) => {
       console.log(data);
-      this.host.curSubHomeworkDisplay["image_count"] = data.image_count;
+      this.host.curSubHomeworkDisplay["base64_images"] = data.base64_images;
       succsesFunction(data);
     }, (error: any) => {
       this.host.router.navigate(['login']);
