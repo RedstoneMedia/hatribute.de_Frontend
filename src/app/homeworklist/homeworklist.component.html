@@ -85,12 +85,9 @@
             </div>
             <!--Sub Exercise-->
             <br>
-            <div [ngClass]="{'error': AddHomeworkForm.controls['SubExercise'].errors}">
+            <div>
                 <label >Unter Aufgaben : </label>
                 <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise">
-                <div *ngIf="AddHomeworkForm.controls['SubExercise'].errors && !AddHomeworkForm.controls['SubExercise'].pristine" class="error-msg">
-                    <div [hidden]="!AddHomeworkForm.controls['SubExercise'].errors.pattern">Falsches Format.</div>
-                </div>
             </div>
 
             <br>

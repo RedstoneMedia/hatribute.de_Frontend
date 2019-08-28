@@ -26,7 +26,7 @@ export class HomeworklistComponent implements OnInit {
     Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
     Subject : new FormControl(null, [Validators.required]),
     // tslint:disable-next-line: max-line-length
-    SubExercise : new FormControl(null, [Validators.pattern(/^[ &|][Aa-zZ]{1}[+-][Aa-zZ]{1}|[Aa-zZ]{1}[+-][Aa-zZ]{1}/)])
+    SubExercise : new FormControl(null, [])
   });
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
@@ -125,35 +125,44 @@ export class HomeworklistComponent implements OnInit {
     const subExercisesRaw = [];
     let validSubExercises = true;
     const subExercise = this.AddHomeworkForm.controls.SubExercise.value;
-    subExercise.split(" ").forEach(element => {
-      element = element.replace(" ", "");
-      element = element.toLowerCase();
-      if (element.charAt(1) === '-') {
-        if (!(element.charCodeAt(0) > element.charCodeAt(2))) {
-          for (let i = element.charCodeAt(0); i < element.charCodeAt(2) + 1; i++) {
-            subExercises.push({Exercise : String.fromCharCode(i), User : {name : "Nicht Eingetragen"}, Done : false});
-            subExercisesRaw.push( String.fromCharCode(i));
+    if (subExercise !== null) {
+      subExercise.split(" ").forEach(element => {
+        element = element.replace(" ", "");
+        element = element.toLowerCase();
+        if (element.charAt(1) === '-') {
+          if (!(element.charCodeAt(0) > element.charCodeAt(2))) {
+            for (let i = element.charCodeAt(0); i < element.charCodeAt(2) + 1; i++) {
+              subExercises.push({Exercise : String.fromCharCode(i), User : {name : "Nicht Eingetragen"}, Done : false});
+              subExercisesRaw.push( String.fromCharCode(i));
+            }
+          } else {
+            validSubExercises = false;
           }
-        } else {
-          validSubExercises = false;
+        } else if (element.charAt(1) === '+') {
+          subExercises.push({Exercise : element.charAt(0), User : {name : "Nicht Eingetragen"}, Done : false});
+          subExercisesRaw.push(element.charAt(0));
+          subExercises.push({Exercise : element.charAt(2), User : {name : "Nicht Eingetragen"}, Done : false});
+          subExercisesRaw.push(element.charAt(2));
         }
-      } else if (element.charAt(1) === '+') {
-        subExercises.push({Exercise : element.charAt(0), User : {name : "Nicht Eingetragen"}, Done : false});
-        subExercisesRaw.push(element.charAt(0));
-        subExercises.push({Exercise : element.charAt(2), User : {name : "Nicht Eingetragen"}, Done : false});
-        subExercisesRaw.push(element.charAt(2));
-      }
-    });
+      });
+    }
+
+    if (subExercise === null) {
+      subExercises.push({Exercise : this.AddHomeworkForm.controls.Exercise.value, User : {name : "Nicht Eingetragen"}, Done : false});
+      subExercisesRaw.push(this.AddHomeworkForm.controls.Exercise.value);
+    }
 
     // check if form is valid
-    if (this.AddHomeworkForm.valid && validSubExercises) {
-      this.schoolClass.homework.push({
+    console.log(subExercises);
+    if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Subject.valid && validSubExercises) {
+      const newHomework = {
         DonePercentage : 0,
         Due: "None",
         Exercise: this.AddHomeworkForm.controls.Exercise.value,
         Subject : this.AddHomeworkForm.controls.Subject.value,
         SubHomework: subExercises
-      });
+      };
+      this.schoolClass.homework.push(newHomework);
       // tslint:disable-next-line: max-line-length
       this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, () => {this.addHomeworkModal = false; });
     }
