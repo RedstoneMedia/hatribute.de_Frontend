@@ -11,9 +11,9 @@ export class BackendSchoolClass extends BackendSession {
   get_school_class_data(succsesFunction, errorFunction) {
     this.post_with_session_no_data("get_school_class", (data: any) => {
       this.host.schoolClass = data.school_class;
-      succsesFunction();
+      succsesFunction(data);
     }, (error: any) => {
-      errorFunction();
+      errorFunction(error);
       this.host.router.navigate(['login']);
     });
   }
@@ -72,17 +72,23 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
-  get_sub_homework_images(homeworkId: number, subHomeworkId: number, succsesFunction) {
+  get_sub_homework_images(homeworkId: number, subHomeworkId: number, succsesFunction, noPointsErrorFuntion) {
     const jsonData = {
       "homework_id" : homeworkId,
       "sub_homework_id" : subHomeworkId
     };
     this.post_with_session(jsonData, "get_sub_homework_images", (data: any) => {
-      console.log(data);
-      this.host.curSubHomeworkDisplay["base64_images"] = data.base64_images;
       succsesFunction(data);
     }, (error: any) => {
-      this.host.router.navigate(['login']);
+      if (error.status === 403) {
+        const session = error.error.session;
+        sessionStorage["session-id"] = session.session;
+        sessionStorage["session-expires"] = session.expires;
+        this.host.data.changeLoggedIn(true);
+        noPointsErrorFuntion(error);
+      } else {
+        this.host.router.navigate(['login']);
+      }
     });
   }
 

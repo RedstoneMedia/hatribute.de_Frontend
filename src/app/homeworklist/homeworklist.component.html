@@ -6,13 +6,14 @@
     <div class="modal-content">
       <div class="modal-close" (click)="closeHomeworkDetails()">+</div>
       <h4>Hausaufgaben Details</h4>
+      <h4 *ngIf="notEnougthPoints" class="error">Nicht Genügend Punkte</h4>
       <div class="sub_Homework" *ngFor="let sub_homework of curSlectedHomework.SubHomework; index as i;">
 
           <span *ngIf="sub_homework.Done else normal_display" class="sub_homework_finished" (click)="showSubHomework(i)">
               {{sub_homework.Exercise}} | Fertig : Ja
           </span>
           <ng-template #normal_display>{{sub_homework.Exercise}} | Fertig : Nein</ng-template>
-
+          {{sub_homework.User.name}}
           <h2 *ngIf="!sub_homework.User.name else normal_no_add" (click)="registerForSubHomework(i)" class="register">Eintragen</h2>
           <ng-template #normal_no_add>
             <div *ngIf="sub_homework.User.name == UserData.name else normal_no_deregister">
@@ -44,7 +45,7 @@
       <div class="modal-content">
           <div class="modal-close" (click)="closeUploadSubHomework()">+</div>
           <h4>Hausaufgaben Hochladen</h4>
-          <input type="file" alife-file-to-base64 multiple (onFileChanged)="onImageUploadChange($event)"/>
+          <input type="file" name="photo" accept="image/*" capture="camera" alife-file-to-base64 multiple (onFileChanged)="onImageUploadChange($event)"/>
           <br>
           <br>
           <button (click)="uploadHomworkImage()">Hochladen</button>

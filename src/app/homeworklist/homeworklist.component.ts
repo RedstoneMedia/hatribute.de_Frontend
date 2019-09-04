@@ -21,6 +21,7 @@ export class HomeworklistComponent implements OnInit {
   addHomeworkModal: boolean;
   homeworkUploadFiles: any;
   UserData: any;
+  notEnougthPoints = false;
 
   AddHomeworkForm = new FormGroup({
     Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
@@ -63,7 +64,12 @@ export class HomeworklistComponent implements OnInit {
   showSubHomework(i) {
     this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
     this.curSubHomeworkDisplay["base64_images"] = [];
-    this.backendSchoolClass.get_sub_homework_images(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {});
+    this.backendSchoolClass.get_sub_homework_images(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
+      this.curSubHomeworkDisplay["base64_images"] = data.base64_images;
+    }, (error) => {
+      this.notEnougthPoints = true;
+      this.closeSubHomework();
+    });
   }
 
   closeSubHomework() {
@@ -139,16 +145,16 @@ export class HomeworklistComponent implements OnInit {
             validSubExercises = false;
           }
         } else if (element.charAt(1) === '+') {
-          subExercises.push({Exercise : element.charAt(0), User : {name : "Nicht Eingetragen"}, Done : false});
+          subExercises.push({Exercise : element.charAt(0), User : {name : null}, Done : false});
           subExercisesRaw.push(element.charAt(0));
-          subExercises.push({Exercise : element.charAt(2), User : {name : "Nicht Eingetragen"}, Done : false});
+          subExercises.push({Exercise : element.charAt(2), User : {name : null}, Done : false});
           subExercisesRaw.push(element.charAt(2));
         }
       });
     }
 
-    if (subExercise === null) {
-      subExercises.push({Exercise : this.AddHomeworkForm.controls.Exercise.value, User : {name : "Nicht Eingetragen"}, Done : false});
+    if (subExercise === null || subExercise.length <= 0) {
+      subExercises.push({Exercise : this.AddHomeworkForm.controls.Exercise.value, User : {name : null}, Done : false});
       subExercisesRaw.push(this.AddHomeworkForm.controls.Exercise.value);
     }
 
@@ -164,7 +170,11 @@ export class HomeworklistComponent implements OnInit {
       };
       this.schoolClass.homework.push(newHomework);
       // tslint:disable-next-line: max-line-length
-      this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, () => {this.addHomeworkModal = false; });
+      this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, () => {
+        this.backendSchoolClass.get_school_class_data(() => {
+          this.closeAddHomework();
+        }, () => {});
+      });
     }
   }
 

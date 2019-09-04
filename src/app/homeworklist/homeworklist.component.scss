@@ -15,6 +15,9 @@
   border-spacing: 0px;
   box-shadow: 1px 2px 6px $content-border-color;
   border-style: solid;
+  @media #{$information-phone} {
+    width: 100%;
+  }
 }
 
 th {
@@ -44,12 +47,13 @@ td {
   min-height: 100%;
   height: auto;
   background-color: rgba(0,0,0,0.7);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 }
 
 .modal-content {
@@ -59,7 +63,6 @@ td {
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-direction: alternate;
-
   width: 50%;
   height: auto;
   overflow: auto;
@@ -69,6 +72,18 @@ td {
   padding: 20px;
   text-align: center;
   position: relative;
+
+  @media #{$information-phone} {
+    width: 95%;
+    padding: 10px;
+  }
+}
+
+.modal-tall-content {
+  // ICH HASSE CSS
+  position: absolute;
+  padding: 0px;
+  height: 100%;
 }
 
 .modal-close {
@@ -131,6 +146,10 @@ td {
 .image_display {
   max-width: 90%;
   max-height: 90%;
+  @media #{$information-phone} {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
 .sub_homework_finished {
