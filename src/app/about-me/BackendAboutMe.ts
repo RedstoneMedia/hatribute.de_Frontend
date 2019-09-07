@@ -21,6 +21,28 @@ export class BackendAboutMe extends BackendSession {
     });
   }
 
+  get_time_table(units_username, units_password, succsesFunction: any, errorFunction: any) {
+    const json_data = {
+      "units_username" : units_username,
+      "units_password" : units_password
+    };
+    this.post_with_session(json_data, "get_time_table", (data: any) => {
+      succsesFunction();
+    }, (error: any) => {
+      console.error(error);
+      errorFunction(error);
+    });
+  }
+
+  get_time_table_download_info(succsesFunction: any, errorFunction: any) {
+    this.post_with_session_no_data("get_time_table_download_info", (data: any) => {
+      succsesFunction(data);
+    }, (error: any) => {
+      console.error(error);
+      errorFunction(error);
+    });
+  }
+
   delete_account(succsesFunction: any, errorFunction: any) {
     this.post_with_session_no_data("delete_account", (data: any) => {
       this.host.data.changeLoggedIn(false);

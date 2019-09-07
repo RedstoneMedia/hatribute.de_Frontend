@@ -172,6 +172,7 @@ export class HomeworklistComponent implements OnInit {
       // tslint:disable-next-line: max-line-length
       this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, () => {
         this.backendSchoolClass.get_school_class_data(() => {
+          this.AddHomeworkForm.reset();
           this.closeAddHomework();
         }, () => {});
       });

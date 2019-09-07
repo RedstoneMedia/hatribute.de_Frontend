@@ -3,6 +3,7 @@ import { DataService } from '../dataService';
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { BackendAboutMe } from './BackendAboutMe';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-about-me',
@@ -15,6 +16,15 @@ export class AboutMeComponent implements OnInit {
   UserData;
   realyDelete = false;
   verifyStringInput = "";
+  UpdateTimeTableModal = false;
+  TimeTableUpdateForm = new FormGroup({
+    Username : new FormControl(null, [Validators.required, Validators.minLength(4), Validators.pattern(/^.+\..+$/)]),
+    Password : new FormControl(null, [Validators.required, Validators.minLength(4)]),
+  });
+  TimeTableDownloading = false;
+  TimeTableDownloadInfo = "";
+  TimeTableDownloadError = false;
+  TimeTableDownloadInfoUpdaterIntrerval;
 
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
@@ -45,7 +55,40 @@ export class AboutMeComponent implements OnInit {
       this.realyDelete = false;
       this.verifyStringInput = "";
     }
-
   }
 
+  showUpdateTimeTableModal() {
+    this.UpdateTimeTableModal = true;
+  }
+
+  closeUpdateTimeTableModal() {
+    this.UpdateTimeTableModal = false;
+  }
+
+  UpdateTimetable() {
+    const Username = this.TimeTableUpdateForm.controls.Username;
+    const Password = this.TimeTableUpdateForm.controls.Password;
+
+    if (Username.valid && Password.valid) {
+      this.backendAboutMe.get_time_table(Username.value, Password.value, () => {
+        this.TimeTableDownloadError = false;
+        this.TimeTableDownloading = true;
+        this.TimeTableDownloadInfoUpdaterIntrerval = setInterval(() => {
+          this.backendAboutMe.get_time_table_download_info((data) => {
+            this.TimeTableDownloadInfo = data.download_info;
+            if (this.TimeTableDownloadInfo === "DONE") {
+              clearInterval(this.TimeTableDownloadInfoUpdaterIntrerval);
+              this.closeUpdateTimeTableModal();
+              this.TimeTableDownloading = false;
+            } else if (this.TimeTableDownloadInfo.includes("Error : ")) {
+              clearInterval(this.TimeTableDownloadInfoUpdaterIntrerval);
+              this.TimeTableDownloadError = true;
+              this.TimeTableDownloading = false;
+            }
+          }, (error) => {});
+        }, 1000);
+      }, (error) => {});
+      this.TimeTableUpdateForm.reset();
+    }
+  }
 }
