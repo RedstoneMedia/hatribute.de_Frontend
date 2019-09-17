@@ -91,6 +91,17 @@
                 <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise">
             </div>
 
+            <!--Due Date-->
+            <br>
+            <div [ngClass]="{'error': AddHomeworkForm.controls['DueDate'].errors}">
+                <label >Fällig : </label>
+                <input type="date" id="DueDate" required name="DueDate" formControlName="DueDate" class="DueDate">
+                <div *ngIf="AddHomeworkForm.controls['DueDate'].errors && !AddHomeworkForm.controls['DueDate'].pristine" class="error-msg">
+                  <div [hidden]="!AddHomeworkForm.controls['DueDate'].errors.required">Das Datum wird benötigt.</div>
+                  <div [hidden]="!AddHomeworkForm.controls['DueDate'].errors.datePassed">Das Datum ist in schon vergangen.</div>
+              </div>
+            </div>
+
             <br>
             <button color="primary" type="submit">Hausaufgabe Hinzufügen</button>
           </form>
@@ -99,11 +110,13 @@
 
   <table id="HomeworkTable">
     <tr>
+      <th>Fach</th>
       <th>Aufgabe</th>
       <th>Fetig %</th>
       <th>Fällig</th>
     </tr>
     <tr (click)="showHomeworkDetails(i)" *ngFor="let homework of schoolClass?.homework; index as i;" class="Homework" [className]="homework.DonePercentage === 100 ? 'done': ''">
+        <td><h3>{{homework.Subject}}</h3></td>
         <td><h3>{{homework.Exercise}}</h3></td>
         <td><h4>{{homework.DonePercentage}}%</h4></td>
         <td><h4>{{homework.Due}}</h4></td>

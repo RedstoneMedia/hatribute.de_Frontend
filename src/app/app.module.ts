@@ -18,6 +18,8 @@ import { HomeworklistComponent } from './homeworklist/homeworklist.component';
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { Base64ImageSafePipe } from './base64-image-safe.pipe';
 
+import { ValidateDate } from './DateValidator';
+
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
   {path : 'login', component: LoginComponent},

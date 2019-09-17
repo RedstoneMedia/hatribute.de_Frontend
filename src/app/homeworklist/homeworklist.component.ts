@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { BackendSchoolClass } from './BackendSchoolClass';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ValidateDate } from '../DateValidator';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class HomeworklistComponent implements OnInit {
   AddHomeworkForm = new FormGroup({
     Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
     Subject : new FormControl(null, [Validators.required]),
-    // tslint:disable-next-line: max-line-length
+    DueDate : new FormControl(null, [ValidateDate, Validators.required]),
     SubExercise : new FormControl(null, [])
   });
 
@@ -160,17 +161,18 @@ export class HomeworklistComponent implements OnInit {
 
     // check if form is valid
     console.log(subExercises);
-    if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Subject.valid && validSubExercises) {
+    // tslint:disable-next-line: max-line-length
+    if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Subject.valid && validSubExercises && this.AddHomeworkForm.controls.DueDate.valid) {
       const newHomework = {
         DonePercentage : 0,
-        Due: "None",
+        Due: this.AddHomeworkForm.controls.DueDate.value,
         Exercise: this.AddHomeworkForm.controls.Exercise.value,
         Subject : this.AddHomeworkForm.controls.Subject.value,
         SubHomework: subExercises
       };
       this.schoolClass.homework.push(newHomework);
       // tslint:disable-next-line: max-line-length
-      this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, () => {
+      this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, this.AddHomeworkForm.controls.DueDate.value, () => {
         this.backendSchoolClass.get_school_class_data(() => {
           this.AddHomeworkForm.reset();
           this.closeAddHomework();
