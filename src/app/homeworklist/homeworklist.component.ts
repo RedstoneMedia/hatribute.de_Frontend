@@ -38,12 +38,37 @@ export class HomeworklistComponent implements OnInit {
     this.backendSchoolClass = new BackendSchoolClass(this.client, this);
     this.backendSchoolClass.get_school_class_data(() => {
         this.backendSchoolClass.post_with_session_no_data("get_data", (data: any) => {
-        this.UserData = data.user;
+          this.UserData = data.user;
+          this.updateCanDelete();
       }, (error) => {
         console.log(error);
         this.router.navigate(['login']);
       });
     }, () => {});
+  }
+
+  updateCanDelete() {
+    this.schoolClass.homework.forEach(element => {
+      if (this.UserData.role >= 2) {
+        element["CanDelete"] = true;
+      } else {
+        if (element.CreatorId === this.UserData.id) {
+          let good = true;
+          if (this.schoolClass.homework.SubHomework !== undefined) {
+            for (let i = 0; i < this.schoolClass.homework.SubHomework.length; i++) {
+              const subHomework = this.schoolClass.homework.SubHomework[i];
+              if (subHomework.Done === true) {
+                good = false;
+                break;
+              }
+            }
+          }
+          element["CanDelete"] = good;
+        } else {
+          element["CanDelete"] = false;
+        }
+      }
+    });
   }
 
   showHomeworkDetails(index: number) {
@@ -52,6 +77,15 @@ export class HomeworklistComponent implements OnInit {
 
   closeHomeworkDetails() {
     this.curSlectedHomework = null;
+  }
+
+  deleteHomwork() {
+    this.backendSchoolClass.delete_homework(this.curSlectedHomework.id, () => {
+      this.backendSchoolClass.get_school_class_data(() => {
+        this.updateCanDelete();
+      }, () => {});
+    });
+    this.closeHomeworkDetails();
   }
 
   showUploadSubHomework(i) {
@@ -128,7 +162,6 @@ export class HomeworklistComponent implements OnInit {
 
   addHomework() {
     // Generate subExercises
-    const subExercises = [];
     const subExercisesRaw = [];
     let validSubExercises = true;
     const subExercise = this.AddHomeworkForm.controls.SubExercise.value;
@@ -139,42 +172,29 @@ export class HomeworklistComponent implements OnInit {
         if (element.charAt(1) === '-') {
           if (!(element.charCodeAt(0) > element.charCodeAt(2))) {
             for (let i = element.charCodeAt(0); i < element.charCodeAt(2) + 1; i++) {
-              subExercises.push({Exercise : String.fromCharCode(i), User : {name : "Nicht Eingetragen"}, Done : false});
               subExercisesRaw.push( String.fromCharCode(i));
             }
           } else {
             validSubExercises = false;
           }
         } else if (element.charAt(1) === '+') {
-          subExercises.push({Exercise : element.charAt(0), User : {name : null}, Done : false});
           subExercisesRaw.push(element.charAt(0));
-          subExercises.push({Exercise : element.charAt(2), User : {name : null}, Done : false});
           subExercisesRaw.push(element.charAt(2));
         }
       });
     }
 
     if (subExercise === null || subExercise.length <= 0) {
-      subExercises.push({Exercise : this.AddHomeworkForm.controls.Exercise.value, User : {name : null}, Done : false});
       subExercisesRaw.push(this.AddHomeworkForm.controls.Exercise.value);
     }
 
-    // check if form is valid
-    console.log(subExercises);
     // tslint:disable-next-line: max-line-length
     if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Subject.valid && validSubExercises && this.AddHomeworkForm.controls.DueDate.valid) {
-      const newHomework = {
-        DonePercentage : 0,
-        Due: this.AddHomeworkForm.controls.DueDate.value,
-        Exercise: this.AddHomeworkForm.controls.Exercise.value,
-        Subject : this.AddHomeworkForm.controls.Subject.value,
-        SubHomework: subExercises
-      };
-      this.schoolClass.homework.push(newHomework);
       // tslint:disable-next-line: max-line-length
       this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, this.AddHomeworkForm.controls.DueDate.value, () => {
         this.backendSchoolClass.get_school_class_data(() => {
           this.AddHomeworkForm.reset();
+          this.updateCanDelete();
           this.closeAddHomework();
         }, () => {});
       });

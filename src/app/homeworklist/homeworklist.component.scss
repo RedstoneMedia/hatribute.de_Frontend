@@ -127,6 +127,14 @@ td {
   font-size: 75%;
 }
 
+.delete {
+  cursor: pointer;
+  font-size: 0.7em;
+  &:hover {
+    color: $font-color-important;
+  }
+}
+
 @keyframes AddRotate {
   0% {
     transform: rotate(0deg);

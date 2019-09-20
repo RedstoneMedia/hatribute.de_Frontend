@@ -24,9 +24,9 @@
                 <span class="deRegister" (click)="deRegisterForSubHomework(i)">{{sub_homework.User.name}} | Abmelden</span>
             </div>
             <ng-template #normal_no_deregister><h4>{{sub_homework.User.name}}</h4></ng-template>
-
           </ng-template>
       </div>
+    <button *ngIf="curSlectedHomework.CanDelete === true" (click)="deleteHomwork();" class="delete">Löschen (Löscht sofort)</button>
     </div>
   </div>
 
