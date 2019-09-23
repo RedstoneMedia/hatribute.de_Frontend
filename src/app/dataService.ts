@@ -9,6 +9,8 @@ export class DataService {
   curRoute = this.curRouteSource.asObservable();
   private loggedInSource = new BehaviorSubject(false);
   currentlyLoggedIn = this.loggedInSource.asObservable();
+  private currentRoleSource = new BehaviorSubject(-2);
+  currentRole = this.currentRoleSource.asObservable();
 
   constructor() {}
 
@@ -18,6 +20,10 @@ export class DataService {
 
   changeLoggedIn(loggedIn: boolean) {
     this.loggedInSource.next(loggedIn);
+  }
+
+  changeRole(role: number) {
+    this.currentRoleSource.next(role);
   }
 
 }

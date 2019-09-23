@@ -34,6 +34,7 @@ export class AboutMeComponent implements OnInit {
     this.backendAboutMe = new BackendAboutMe(this.client, this);
     this.backendAboutMe.post_with_session_no_data("get_data", (data: any) => {
       this.UserData = data.user;
+      this.data.changeRole(data.user.role);
     }, (error) => {
       console.log(error);
       this.router.navigate(['login']);

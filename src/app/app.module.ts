@@ -19,13 +19,15 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { Base64ImageSafePipe } from './base64-image-safe.pipe';
 
 import { ValidateDate } from './DateValidator';
+import { ModDashboardComponent } from './mod-dashboard/mod-dashboard.component';
 
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
   {path : 'login', component: LoginComponent},
   {path : 'sign-in', component: SigninComponent},
   {path : 'about-me', component: AboutMeComponent},
-  {path : 'homework-list', component: HomeworklistComponent}
+  {path : 'homework-list', component: HomeworklistComponent},
+  {path : 'mod-dashboard', component: ModDashboardComponent}
 ];
 
 @NgModule({
@@ -37,7 +39,8 @@ const myRoutes: Routes = [
     SigninComponent,
     AboutMeComponent,
     HomeworklistComponent,
-    Base64ImageSafePipe
+    Base64ImageSafePipe,
+    ModDashboardComponent
   ],
   imports: [
     BrowserModule,

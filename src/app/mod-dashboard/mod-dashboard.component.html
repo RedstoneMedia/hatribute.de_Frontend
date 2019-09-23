@@ -1,0 +1,30 @@
+<div class="ModDashboard">
+
+    <h1>Reports</h1>
+
+    <div *ngIf="curReportedHomeworkDisplay" class="bg-modal">
+        <div class="modal-content">
+            <div class="modal-close" (click)="closeReportedHomework()">+</div>
+            <h4>Report Sub Image anzeige</h4>
+            <div *ngFor="let base_64Image of curReportedHomeworkDisplay?.base64_images">
+                <img class="image_display" [src]="base_64Image | base64ImageSafe">
+            </div>
+            <button (click)="resetSubHomework()">Lösung Löschen</button>
+        </div>
+    </div>
+
+    <table id="ReportsTable">
+        <tr>
+          <th>Type</th>
+          <th>Anzahl</th>
+          <th>Report Von</th>
+          <th>Report Über</th>
+        </tr>
+        <tr (click)="showReportedHomework(report)" *ngFor="let report of reports; index as i;" class="Report">
+            <td><h3>{{report.type}}</h3></td>
+            <td><h3>{{report.count}}</h3></td>
+            <td><h4>{{report.reportCreator.name}}</h4></td>
+            <td><h4>{{report.reportedUser.name}}</h4></td>
+        </tr>
+      </table>
+</div>

@@ -37,8 +37,34 @@
           <div *ngFor="let base_64Image of curSubHomeworkDisplay?.base64_images">
               <img class="image_display" [src]="base_64Image | base64ImageSafe">
           </div>
-
+          <img *ngIf="!curSubHomeworkDisplay.reported" (click)="showReport()" src="assets/img/report_icon.png" alt="image" class="report">
       </div>
+  </div>
+
+  <div *ngIf="report" class="bg-modal">
+    <div class="modal-content">
+        <div class="modal-close" (click)="closeReport()">+</div>
+        <h4>Report</h4>
+        <form [formGroup]="ReportForm" (ngSubmit)="addReport()">
+          <div [ngClass]="{'error': ReportForm.controls['Type'].errors}">
+            <label >Type : </label>
+            <select id="Type" required name="Type" formControlName="Type" class="Type">
+                <option value="" disabled>Verstoß wählen</option>
+                <option>0. Fehler in Lösung</option>
+                <option>1. Bild ist keine Hausaufgabe</option>
+                <option>2. Bild enthält Gewalt</option>
+                <option>3. Bild enthält Pornographische Inhalte</option>
+                <option>4. Bild enthält 2. und 3.</option>
+            </select>
+            <div *ngIf="ReportForm.controls['Type'].errors && !ReportForm.controls['Type'].pristine" class="error-msg">
+                <div [hidden]="!ReportForm.controls['Type'].errors.required">Fach wird benötigt.</div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <button type="submit">Report</button>
+      </form>
+    </div>
   </div>
 
   <div *ngIf="curUploadSubHomework" class="bg-modal">
@@ -103,7 +129,7 @@
             </div>
 
             <br>
-            <button color="primary" type="submit">Hausaufgabe Hinzufügen</button>
+            <button type="submit">Hausaufgabe Hinzufügen</button>
           </form>
       </div>
     </div>

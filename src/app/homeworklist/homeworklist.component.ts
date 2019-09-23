@@ -12,6 +12,7 @@ import { ValidateDate } from '../DateValidator';
   templateUrl: './homeworklist.component.html',
   styleUrls: ['./homeworklist.component.scss']
 })
+
 export class HomeworklistComponent implements OnInit {
 
   backendSchoolClass: BackendSchoolClass;
@@ -23,12 +24,17 @@ export class HomeworklistComponent implements OnInit {
   homeworkUploadFiles: any;
   UserData: any;
   notEnougthPoints = false;
+  report: boolean;
 
   AddHomeworkForm = new FormGroup({
     Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
     Subject : new FormControl(null, [Validators.required]),
     DueDate : new FormControl(null, [ValidateDate, Validators.required]),
     SubExercise : new FormControl(null, [])
+  });
+
+  ReportForm = new FormGroup({
+    Type : new FormControl(null, [Validators.required])
   });
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
@@ -39,6 +45,7 @@ export class HomeworklistComponent implements OnInit {
     this.backendSchoolClass.get_school_class_data(() => {
         this.backendSchoolClass.post_with_session_no_data("get_data", (data: any) => {
           this.UserData = data.user;
+          this.data.changeRole(data.user.role);
           this.updateCanDelete();
       }, (error) => {
         console.log(error);
@@ -207,6 +214,29 @@ export class HomeworklistComponent implements OnInit {
 
   closeAddHomework() {
     this.addHomeworkModal = false;
+  }
+
+  showReport() {
+    this.report = true;
+  }
+
+  closeReport() {
+    this.report = false;
+  }
+
+  addReport() {
+    if (this.ReportForm.controls.Type.valid) {
+      const typeString = this.ReportForm.controls.Type.value;
+      const type = Number.parseFloat(typeString.split('.')[0]);
+      this.backendSchoolClass.report_sub_image(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, type, () => {
+        this.backendSchoolClass.get_school_class_data(() => {
+          this.ReportForm.reset();
+          this.closeReport();
+          this.closeSubHomework();
+          this.closeHomeworkDetails();
+        }, () => {});
+      });
+    }
   }
 
 }

@@ -4,17 +4,9 @@ import { HomeworklistComponent } from './homeworklist.component';
 
 export class BackendSchoolClass extends BackendSession {
 
-  constructor(client: HttpClient, host: HomeworklistComponent, adrress = '192.168.178.23', port = 31812) {
+  constructor(client: HttpClient, host: any, adrress = '192.168.178.23', port = 31812) {
     super(client, host, adrress);
   }
-
-  getWeekNumber(d: Date) {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    const weekNo = Math.ceil(( ( (d.valueOf() - yearStart.valueOf()) / 86400000) + 1) / 7);
-    return weekNo;
-}
 
   get_school_class_data(succsesFunction, errorFunction) {
     this.post_with_session_no_data("get_school_class", (data: any) => {
@@ -116,4 +108,17 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
+  report_sub_image(homeworkId: number, subHomeworkId: number, type: number, sucsessFunction) {
+    const jsondata = {
+      "homework_id" : homeworkId,
+      "sub_homework_id" : subHomeworkId,
+      "type" : type
+    };
+    this.post_with_session(jsondata, "report_sub_image", (data: any) => {
+      sucsessFunction(data);
+    }, (error: any) => {
+      console.error(error);
+      this.host.router.navigate(['login']);
+    });
+  }
 }
