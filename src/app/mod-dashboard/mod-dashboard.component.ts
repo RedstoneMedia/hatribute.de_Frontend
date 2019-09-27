@@ -3,6 +3,7 @@ import { BackendModDashboard } from './BackendModDashboard';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../dataService';
 import { Router } from '@angular/router';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-mod-dashboard',
@@ -15,6 +16,12 @@ export class ModDashboardComponent implements OnInit {
   reports: any;
   UserData: any;
   curReportedHomeworkDisplay: any;
+  users: any;
+  curUser: any;
+
+  PointRemoveForm = new FormGroup({
+    Points : new FormControl(null, [Validators.required, Validators.pattern(/^-{0,1}\d+$/)])
+  });
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
@@ -22,13 +29,15 @@ export class ModDashboardComponent implements OnInit {
     this.data.changeCurRoute("mod-dashboard");
     this.backendModDashboard = new BackendModDashboard(this.client, this);
     this.backendModDashboard.get_reports(() => {
-        this.backendModDashboard.post_with_session_no_data("get_data", (data: any) => {
-          this.UserData = data.user;
-          this.data.changeRole(data.user.role);
-      }, (error) => {
-        console.log(error);
-        this.router.navigate(['login']);
-      });
+        this.backendModDashboard.get_users_data(() => {
+          this.backendModDashboard.post_with_session_no_data("get_data", (data: any) => {
+            this.UserData = data.user;
+            this.data.changeRole(data.user.role);
+          }, (error) => {
+            console.log(error);
+            this.router.navigate(['login']);
+          });
+        });
     }, () => {});
   }
 
@@ -44,6 +53,23 @@ export class ModDashboardComponent implements OnInit {
 
   closeReportedHomework() {
     this.curReportedHomeworkDisplay = null;
+  }
+
+  showUser(user) {
+    this.curUser = user;
+  }
+
+  closeUser() {
+    this.curUser = null;
+  }
+
+  removePoints() {
+    if (this.PointRemoveForm.controls.Points.valid) {
+      this.backendModDashboard.remove_points(this.curUser.id, this.PointRemoveForm.controls.Points.value, () => {
+        this.PointRemoveForm.reset();
+        this.closeUser();
+      });
+    }
   }
 
   resetSubHomework() {

@@ -2,7 +2,8 @@
 
   <h1>{{schoolClass?.ClassName}}</h1>
 
-  <div *ngIf="curSlectedHomework" class="bg-modal">
+  <div *ngIf="curSlectedHomework" class="bg-modal"></div>
+  <div *ngIf="curSlectedHomework" class="modal">
     <div class="modal-content">
       <div class="modal-close" (click)="closeHomeworkDetails()">+</div>
       <h4>Hausaufgaben Details</h4>
@@ -30,7 +31,8 @@
     </div>
   </div>
 
-  <div *ngIf="curSubHomeworkDisplay" class="bg-modal">
+  <div *ngIf="curSubHomeworkDisplay" class="bg-modal"></div>
+  <div *ngIf="curSubHomeworkDisplay" class="modal">
       <div class="modal-content">
           <div class="modal-close" (click)="closeSubHomework()">+</div>
           <h4>Hausaufgabe anzeige</h4>
@@ -41,7 +43,8 @@
       </div>
   </div>
 
-  <div *ngIf="report" class="bg-modal">
+  <div *ngIf="report" class="bg-modal"></div>
+  <div *ngIf="report" class="modal">
     <div class="modal-content">
         <div class="modal-close" (click)="closeReport()">+</div>
         <h4>Report</h4>
@@ -67,7 +70,8 @@
     </div>
   </div>
 
-  <div *ngIf="curUploadSubHomework" class="bg-modal">
+  <div *ngIf="curUploadSubHomework" class="bg-modal"></div>
+  <div *ngIf="curUploadSubHomework" class="modal">
       <div class="modal-content">
           <div class="modal-close" (click)="closeUploadSubHomework()">+</div>
           <h4>Hausaufgaben Hochladen</h4>
@@ -78,7 +82,8 @@
       </div>
   </div>
 
-  <div *ngIf="addHomeworkModal" class="bg-modal">
+  <div *ngIf="addHomeworkModal" class="bg-modal"></div>
+  <div *ngIf="addHomeworkModal" class="modal">
       <div class="modal-content">
         <div class="modal-close" (click)="closeAddHomework()">+</div>
         <h4>Hausaufgabe Hinzufügen</h4>

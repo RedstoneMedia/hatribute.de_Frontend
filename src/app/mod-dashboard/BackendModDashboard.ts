@@ -30,4 +30,28 @@ export class BackendModDashboard extends BackendSchoolClass {
     });
   }
 
+  get_users_data(succsesFunction) {
+    this.post_with_session_no_data("get_users_data", (data: any) => {
+      succsesFunction();
+      this.host.users = data.users;
+    }, (error: any) => {
+      this.host.router.navigate(['login']);
+    });
+  }
+
+  remove_points(userId, points, succsesFunction) {
+    const jsonData = {
+      "user_id" : userId,
+      "points" : points
+    };
+    this.post_with_session(jsonData, "remove_points", (data: any) => {
+      this.get_users_data(() => {
+        succsesFunction();
+      });
+    }, (error: any) => {
+      console.error(error);
+      this.host.router.navigate(['login']);
+    });
+  }
+
 }

@@ -1,8 +1,7 @@
 <div class="ModDashboard">
-
     <h1>Reports</h1>
-
-    <div *ngIf="curReportedHomeworkDisplay" class="bg-modal">
+    <div *ngIf="curReportedHomeworkDisplay" class="bg-modal"></div>
+    <div class="modal" *ngIf="curReportedHomeworkDisplay">
         <div class="modal-content">
             <div class="modal-close" (click)="closeReportedHomework()">+</div>
             <h4>Report Sub Image anzeige</h4>
@@ -13,18 +12,54 @@
         </div>
     </div>
 
+    <div *ngIf="curUser" class="bg-modal"></div>
+    <div *ngIf="curUser" class="modal">
+      <div class="modal-content">
+          <div class="modal-close" (click)="closeUser()">+</div>
+          <h4 class="user-title">{{curUser.name}}</h4>
+
+          <h6 *ngIf="curUser.role >= 2" class="admin-text"><b>Admin</b></h6>
+          <h6 *ngIf="curUser?.role == 1" class="better-user-text"><b>Nutzer+</b></h6>
+          <h6 *ngIf="curUser?.role == 0" class="normal-user-text"><b>Normaler Nutzer</b></h6>
+          <h6 *ngIf="curUser.role == -1"class="limited-user-text"><b>Gebannt</b></h6>
+
+          <form [formGroup]="PointRemoveForm" (ngSubmit)="removePoints()">
+              <div [ngClass]="{'error': PointRemoveForm.controls['Points'].errors}">
+                <label >Punkte : </label>
+                <input type="text" id="Points" required name="Points" formControlName="Points">
+                <div *ngIf="PointRemoveForm.controls['Points'].errors && !PointRemoveForm.controls['Points'].pristine" class="error-msg">
+                    <div [hidden]="!PointRemoveForm.controls['Points'].errors.required">Punkte werden benötigt.</div>
+                    <div [hidden]="!PointRemoveForm.controls['Points'].errors.pattern">Es wird eine Zahl benötigt.</div>
+                </div>
+              </div>
+              <br>
+              <br>
+              <button type="submit">Punkte Abziehen</button>
+          </form>
+      </div>
+    </div>
+
     <table id="ReportsTable">
         <tr>
           <th>Type</th>
-          <th>Anzahl</th>
           <th>Report Von</th>
           <th>Report Über</th>
         </tr>
         <tr (click)="showReportedHomework(report)" *ngFor="let report of reports; index as i;" class="Report">
             <td><h3>{{report.type}}</h3></td>
-            <td><h3>{{report.count}}</h3></td>
             <td><h4>{{report.reportCreator.name}}</h4></td>
             <td><h4>{{report.reportedUser.name}}</h4></td>
         </tr>
-      </table>
+    </table>
+
+  <table id="UsersTable">
+    <tr>
+      <th>Nutzer</th>
+      <th>Punkte</th>
+    </tr>
+    <tr (click)="showUser(user);" class="User" *ngFor="let user of users; index as i;">
+      <td>{{user.name}}</td>
+      <td>{{user.points}}</td>
+    </tr>
+  </table>
 </div>
