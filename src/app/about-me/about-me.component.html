@@ -1,6 +1,8 @@
 <div class="aboutme">
   <h2 class="name">Hallo {{UserData?.name.split(" ")[0]}}</h2>
 
+  <h3 [className]="UserData?.points < 5 ? 'limited-user-text': 'normal-user-text'">Du hast {{UserData?.points}} Punkte</h3>
+
   <span *ngIf="UserData?.role >= 2">
     <h3 class="admin-text"><b>Eingelogt als Admin</b></h3>
   </span>
@@ -19,45 +21,11 @@
     <p class="limited-user-sub-text">Diese Rolle wird nur vergeben wen du die Regeln dieser Website nicht einhälst .</p>
   </span>
 
-  <!--
-  <div *ngIf="UpdateTimeTableModal" class="bg-modal">
-    <div class="modal-content">
-        <div *ngIf="!TimeTableDownloading" class="modal-close" (click)="closeUpdateTimeTableModal()">+</div>
-        <h4>Stundenplan Update</h4>
-        <form class="TimeTableUpdateForm" [formGroup]="TimeTableUpdateForm" (ngSubmit)="UpdateTimetable()">
-          <div [ngClass]="{'error': TimeTableUpdateForm.controls['Username'].errors}">
-              <label>Untis Nutzername : </label>
-              <input type="text" id="Username" required name="Username" formControlName="Username">
-              <div *ngIf="TimeTableUpdateForm.controls['Username'].errors && !TimeTableUpdateForm.controls['Username'].pristine" class="error-msg">
-                  <div [hidden]="!TimeTableUpdateForm.controls['Username'].errors.required">Nutzername wird benötigt.</div>
-                  <div [hidden]="!TimeTableUpdateForm.controls['Username'].errors.minLength">Nutzername ist zu Kurtz.</div>
-                  <div [hidden]="!TimeTableUpdateForm.controls['Username'].errors.pattern">Nutzername ist im Falschen Format.</div>
-              </div>
-            </div>
-          <br>
-          <div [ngClass]="{'error': TimeTableUpdateForm.controls['Password'].errors}">
-            <label>Untis Passwort : </label>
-            <input type="password" id="Password" required name="Password" formControlName="Password">
-            <div *ngIf="TimeTableUpdateForm.controls['Password'].errors && !TimeTableUpdateForm.controls['Password'].pristine" class="error-msg">
-                <div [hidden]="!TimeTableUpdateForm.controls['Password'].errors.required">Passwort wird benötigt.</div>
-                <div [hidden]="!TimeTableUpdateForm.controls['Password'].errors.minLength">Passwort ist zu Kurtz.</div>
-            </div>
-          </div>
-          <br>
-          <br>
-          <p [className]="TimeTableDownloadError == true ? 'error': ''">{{TimeTableDownloadInfo}}</p>
-          <br>
-          <button *ngIf="!TimeTableDownloading" color="primary" type="submit">Stundenplan Update</button>
-        </form>
-    </div>
-  </div>
-  -->
 
   <div class="about-me-container">
     <button (click)="logout()">Aus Loggen</button>
     <br>
     <br>
-    <!--<button (click)="showUpdateTimeTableModal()">Stundenplan Update</button>-->
   </div>
 
   <div id="delete-account" class="about-me-container">

@@ -19,14 +19,14 @@
           <h4 class="user-title">{{curUser.name}}</h4>
 
           <h6 *ngIf="curUser.role >= 2" class="admin-text"><b>Admin</b></h6>
-          <h6 *ngIf="curUser?.role == 1" class="better-user-text"><b>Nutzer+</b></h6>
-          <h6 *ngIf="curUser?.role == 0" class="normal-user-text"><b>Normaler Nutzer</b></h6>
+          <h6 *ngIf="curUser.role == 1" class="better-user-text"><b>Nutzer+</b></h6>
+          <h6 *ngIf="curUser.role == 0" class="normal-user-text"><b>Normaler Nutzer</b></h6>
           <h6 *ngIf="curUser.role == -1"class="limited-user-text"><b>Gebannt</b></h6>
 
           <form [formGroup]="PointRemoveForm" (ngSubmit)="removePoints()">
               <div [ngClass]="{'error': PointRemoveForm.controls['Points'].errors}">
                 <label >Punkte : </label>
-                <input type="text" id="Points" required name="Points" formControlName="Points">
+                <input [placeholder]="curUser.points" type="text" id="Points" required name="Points" formControlName="Points">
                 <div *ngIf="PointRemoveForm.controls['Points'].errors && !PointRemoveForm.controls['Points'].pristine" class="error-msg">
                     <div [hidden]="!PointRemoveForm.controls['Points'].errors.required">Punkte werden benötigt.</div>
                     <div [hidden]="!PointRemoveForm.controls['Points'].errors.pattern">Es wird eine Zahl benötigt.</div>
