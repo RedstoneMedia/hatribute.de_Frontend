@@ -36,8 +36,8 @@
       <div class="modal-content">
           <div class="modal-close" (click)="closeSubHomework()">+</div>
           <h4>Hausaufgabe anzeige</h4>
-          <div *ngFor="let base_64Image of curSubHomeworkDisplay?.base64_images">
-              <img class="image_display" [src]="base_64Image | base64ImageSafe">
+          <div *ngFor="let imageUrl of curSubHomeworkDisplay?.imageUrls">
+              <img class="image_display" [src]="imageUrl">
           </div>
           <img *ngIf="!curSubHomeworkDisplay.reported" (click)="showReport()" src="assets/img/report_icon.png" alt="image" class="report">
       </div>

@@ -23,6 +23,11 @@
         </div>
     </div>
 
+    <div class="stayLoggedIn" [ngClass]="{'error': loginForm.controls['stayLoggedIn'].errors && !loginForm.controls['stayLoggedIn'].pristine}" >
+      <label>Eingeloget Bleiben : </label>
+      <input class="checkbox" type="checkbox" name="stayLoggedIn" formControlName="stayLoggedIn" >
+  </div>
+
     <button color="primary" type="submit">Login</button>
 
     <br>

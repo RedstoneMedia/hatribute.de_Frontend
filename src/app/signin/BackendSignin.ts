@@ -30,7 +30,8 @@ export class BackendSigin extends BackendComunicator {
       this.post_data(jsondata, "sign-in", (data: any) => {
         const jsondata = JSON.stringify({
           "hashedpwd" : hashedpwd,
-          "email" : email
+          "email" : email,
+          "stay_logged_in" : false
         });
         // Login with salted password
         this.post_data(jsondata, "login", (data: any) => {

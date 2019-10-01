@@ -105,9 +105,11 @@ export class HomeworklistComponent implements OnInit {
 
   showSubHomework(i) {
     this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
-    this.curSubHomeworkDisplay["base64_images"] = [];
-    this.backendSchoolClass.get_sub_homework_images(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
-      this.curSubHomeworkDisplay["base64_images"] = data.base64_images;
+    this.curSubHomeworkDisplay["imageUrls"] = [];
+    this.backendSchoolClass.get_sub_homework_images_url(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
+      for (let j = 0; j < data.images_total; j++) {
+        this.curSubHomeworkDisplay.imageUrls.push(`\\${data.images_url}\\${j}.png`);
+      }
     }, (error) => {
       this.notEnougthPoints = true;
       this.closeSubHomework();
@@ -164,7 +166,11 @@ export class HomeworklistComponent implements OnInit {
 
   deRegisterForSubHomework(i) {
     this.curSlectedHomework.SubHomework[i].User.name = null;
-    this.backendSchoolClass.de_register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {});
+    this.backendSchoolClass.de_register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {
+      this.backendSchoolClass.get_school_class_data(() => {
+        this.closeHomeworkDetails();
+      }, () => {});
+    });
   }
 
   addHomework() {

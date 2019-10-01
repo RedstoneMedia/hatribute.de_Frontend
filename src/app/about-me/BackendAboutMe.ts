@@ -13,6 +13,7 @@ export class BackendAboutMe extends BackendSession {
       this.host.data.changeLoggedIn(false);
       sessionStorage.removeItem("session-id");
       sessionStorage.removeItem("session-expires");
+      localStorage.clear();
       this.host.router.navigate(['']);
       succsesFunction();
     }, (error: any) => {

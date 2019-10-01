@@ -10,7 +10,7 @@ export class BackendLogin extends BackendComunicator {
     super(client, host, adrress);
   }
 
-  login(password: string, email: string) {
+  login(password: string, email: string, stayLoggedIn: boolean) {
     const jsondata = JSON.stringify({
       "email" : email
     });
@@ -20,7 +20,8 @@ export class BackendLogin extends BackendComunicator {
       const hashedpwd = CryptoJS.SHA512(salt + password.trim()).toString();
       const jsondata = JSON.stringify({
         "hashedpwd" : hashedpwd,
-        "email" : email
+        "email" : email,
+        "stay_logged_in" : stayLoggedIn
       });
       // login with salted password
       this.post_data(jsondata, "login", (data: any) => {
@@ -28,6 +29,12 @@ export class BackendLogin extends BackendComunicator {
         const session = data.session;
         sessionStorage["session-id"] = session.session;
         sessionStorage["session-expires"] = session.expires;
+        if (stayLoggedIn) {
+          localStorage["session-id"] = session.session;
+          localStorage["session-expires"] = session.expires;
+        } else {
+          localStorage.clear();
+        }
         this.host.data.changeLoggedIn(true);
         this.host.router.navigate(['about-me']);
       }, error => {

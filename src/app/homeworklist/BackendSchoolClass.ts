@@ -73,12 +73,12 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
-  get_sub_homework_images(homeworkId: number, subHomeworkId: number, succsesFunction, noPointsErrorFuntion) {
+  get_sub_homework_images_url(homeworkId: number, subHomeworkId: number, succsesFunction, noPointsErrorFuntion) {
     const jsonData = {
       "homework_id" : homeworkId,
       "sub_homework_id" : subHomeworkId
     };
-    this.post_with_session(jsonData, "get_sub_homework_images", (data: any) => {
+    this.post_with_session(jsonData, "get_sub_homework_images_url", (data: any) => {
       succsesFunction(data);
     }, (error: any) => {
       if (error.status === 403) {

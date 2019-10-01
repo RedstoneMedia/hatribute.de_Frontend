@@ -5,8 +5,8 @@
         <div class="modal-content">
             <div class="modal-close" (click)="closeReportedHomework()">+</div>
             <h4>Report Sub Image anzeige</h4>
-            <div *ngFor="let base_64Image of curReportedHomeworkDisplay?.base64_images">
-                <img class="image_display" [src]="base_64Image | base64ImageSafe">
+            <div *ngFor="let imageUrl of curReportedHomeworkDisplay?.imageUrls">
+              <img class="image_display" [src]="imageUrl">
             </div>
             <button (click)="resetSubHomework()">Lösung Löschen</button>
         </div>

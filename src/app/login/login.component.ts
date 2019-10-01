@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
     email : new FormControl(null, [Validators.required, Validators.pattern(
       // tslint:disable-next-line:max-line-length
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
-    password: new FormControl(null, [Validators.minLength(7), Validators.required])
+    password: new FormControl(null, [Validators.minLength(7), Validators.required]),
+    stayLoggedIn : new FormControl(null, [])
   });
 
   right = null;
@@ -37,9 +38,10 @@ export class LoginComponent implements OnInit {
   login() {
     const pwd = this.loginForm.controls.password;
     const email = this.loginForm.controls.email;
+    const stayLoggedIn = this.loginForm.controls.stayLoggedIn;
 
     if (pwd.valid && email.valid) {
-      this.backendLogin.login(pwd.value, email.value);
+      this.backendLogin.login(pwd.value, email.value, stayLoggedIn.value);
       this.loginForm.reset();
     }
   }

@@ -42,10 +42,13 @@ export class ModDashboardComponent implements OnInit {
   }
 
   showReportedHomework(reportedHomework) {
+
     this.curReportedHomeworkDisplay = reportedHomework;
-    this.curReportedHomeworkDisplay["base64_images"] = [];
-    this.backendModDashboard.get_sub_homework_images(this.curReportedHomeworkDisplay.reportHomeworkId, this.curReportedHomeworkDisplay.reportSubHomeworkId, (data) => {
-      this.curReportedHomeworkDisplay["base64_images"] = data.base64_images;
+    this.curReportedHomeworkDisplay["imageUrls"] = [];
+    this.backendModDashboard.get_sub_homework_images_url(this.curReportedHomeworkDisplay.id, this.curReportedHomeworkDisplay.id, (data) => {
+      for (let j = 0; j < data.images_total; j++) {
+        this.curReportedHomeworkDisplay.imageUrls.push(`\\${data.images_url}\\${j}.png`);
+      }
     }, (error) => {
       this.closeReportedHomework();
     });
