@@ -4,7 +4,7 @@ import { BackendSession } from '../BackendSession';
 
 export class BackendAboutMe extends BackendSession {
 
-  constructor(client: HttpClient, host: AboutMeComponent, adrress = '192.168.178.23', port = 31812) {
+  constructor(client: HttpClient, host: AboutMeComponent, adrress = '192.168.178.23', port = 3182) {
     super(client, host, adrress);
   }
 

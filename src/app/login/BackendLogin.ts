@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 
 export class BackendLogin extends BackendComunicator {
 
-  constructor(client: HttpClient, host: LoginComponent, adrress = '192.168.178.23', port = 31812) {
+  constructor(client: HttpClient, host: LoginComponent, adrress = '192.168.178.23', port = 3182) {
     super(client, host, adrress);
   }
 

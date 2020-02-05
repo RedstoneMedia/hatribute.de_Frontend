@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class BackendSession extends BackendComunicator {
 
-  constructor(client: HttpClient, host: any, adrress = '192.168.178.23', port = 31812) {
+  constructor(client: HttpClient, host: any, adrress = '192.168.178.23', port = 3182) {
     super(client, host, adrress, port);
   }
 

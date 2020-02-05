@@ -7,7 +7,7 @@ export class BackendComunicator {
   protected backendAdress: string;
   protected backendPort: number;
 
-  constructor(protected client: HttpClient, protected host: any, backendAdress = '192.168.178.23', backendPort = 31812) {
+  constructor(protected client: HttpClient, protected host: any, backendAdress = '192.168.178.23', backendPort = 3182) {
     this.backendAdress = backendAdress;
     this.backendPort = backendPort;
   }
