@@ -4,7 +4,7 @@ import { HomeworklistComponent } from './homeworklist.component';
 
 export class BackendSchoolClass extends BackendSession {
 
-  constructor(client: HttpClient, host: any, adrress = '192.168.178.23', port = 3182) {
+  constructor(client: HttpClient, host: any, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
     super(client, host, adrress);
   }
 

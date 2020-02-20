@@ -11,7 +11,7 @@ export class BackendSigin extends BackendComunicator {
     return window.crypto.getRandomValues(array).toString();
   }
 
-  constructor(client: HttpClient, host: SigninComponent, adrress = '192.168.178.23', port = 3182) {
+  constructor(client: HttpClient, host: SigninComponent, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
     super(client, host, adrress);
   }
 
