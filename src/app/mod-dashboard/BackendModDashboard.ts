@@ -4,7 +4,7 @@ import { BackendSchoolClass } from '../homeworklist/BackendSchoolClass';
 
 export class BackendModDashboard extends BackendSchoolClass {
 
-  constructor(client: HttpClient, host: ModDashboardComponent, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
+  constructor(client: HttpClient, host: ModDashboardComponent, adrress = 'desktop-2d4qv4n.kg0tg33tqt4rgjsp.myfritz.net', port = 3182) {
     super(client, host, adrress);
   }
 

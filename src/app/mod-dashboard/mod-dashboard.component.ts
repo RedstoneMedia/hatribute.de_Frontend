@@ -45,7 +45,7 @@ export class ModDashboardComponent implements OnInit {
 
     this.curReportedHomeworkDisplay = reportedHomework;
     this.curReportedHomeworkDisplay["imageUrls"] = [];
-    this.backendModDashboard.get_sub_homework_images_url(this.curReportedHomeworkDisplay.id, this.curReportedHomeworkDisplay.id, (data) => {
+    this.backendModDashboard.get_sub_homework_images_url(this.curReportedHomeworkDisplay.reportHomeworkId, this.curReportedHomeworkDisplay.reportSubHomeworkId, (data) => {
       for (let j = 0; j < data.images_total; j++) {
         this.curReportedHomeworkDisplay.imageUrls.push(`\\${data.images_url}\\${j}.png`);
       }
