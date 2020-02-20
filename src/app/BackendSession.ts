@@ -18,6 +18,10 @@ export class BackendSession extends BackendComunicator {
       const session = data.session;
       sessionStorage["session-id"] = session.session;
       sessionStorage["session-expires"] = session.expires;
+      if (localStorage["session-id"] !== undefined) {
+        localStorage["session-id"] = session.session;
+        localStorage["session-expires"] = session.expires;
+      }
       this.host.data.changeLoggedIn(true);
       succsesFunction(data);
     }, error => {
