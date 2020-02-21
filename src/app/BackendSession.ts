@@ -16,11 +16,13 @@ export class BackendSession extends BackendComunicator {
 
     this.post_data(JSON.stringify(DataObject), route, (data: any) => {
       const session = data.session;
-      sessionStorage["session-id"] = session.session;
-      sessionStorage["session-expires"] = session.expires;
-      if (localStorage["session-id"] !== undefined) {
-        localStorage["session-id"] = session.session;
-        localStorage["session-expires"] = session.expires;
+      if (session.session) {
+        sessionStorage["session-id"] = session.session;
+        sessionStorage["session-expires"] = session.expires;
+        if (localStorage["session-id"] !== undefined) {
+          localStorage["session-id"] = session.session;
+          localStorage["session-expires"] = session.expires;
+        }
       }
       this.host.data.changeLoggedIn(true);
       succsesFunction(data);
@@ -46,11 +48,13 @@ export class BackendSession extends BackendComunicator {
 
     this.post_data(JSON.stringify(jsondata), route, (data: any) => {
       const session = data.session;
-      sessionStorage["session-id"] = session.session;
-      sessionStorage["session-expires"] = session.expires;
-      if (localStorage["session-id"] !== undefined) {
-        localStorage["session-id"] = session.session;
-        localStorage["session-expires"] = session.expires;
+      if (session.session) {
+        sessionStorage["session-id"] = session.session;
+        sessionStorage["session-expires"] = session.expires;
+        if (localStorage["session-id"] !== undefined) {
+          localStorage["session-id"] = session.session;
+          localStorage["session-expires"] = session.expires;
+        }
       }
       this.host.data.changeLoggedIn(true);
       succsesFunction(data);
@@ -76,11 +80,15 @@ export class BackendSession extends BackendComunicator {
     });
     this.post_data(jsondata, "check_session", (data: any) => {
       const session = data.session;
-      this.host.data.changeLoggedIn(true);
-      if (localStorage["session-id"] !== undefined) {
-        localStorage["session-id"] = session.session;
-        localStorage["session-expires"] = session.expires;
+      if (session.session) {
+        sessionStorage["session-id"] = session.session;
+        sessionStorage["session-expires"] = session.expires;
+        if (localStorage["session-id"] !== undefined) {
+          localStorage["session-id"] = session.session;
+          localStorage["session-expires"] = session.expires;
+        }
       }
+      this.host.data.changeLoggedIn(true);
     }, error => {
       this.host.data.changeLoggedIn(false);
       sessionStorage.removeItem("session-id");

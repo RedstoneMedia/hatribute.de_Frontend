@@ -1,12 +1,22 @@
 
-#dab {
+@import "~src/global";
+
+#content {
   height: 100%;
   width: 100%;
   left: 0;
   overflow: hidden;
   position: fixed;
-  background: url("/assets/img/dab.gif") no-repeat center center fixed;
   background-size: cover;
   height: 100%;
   overflow: hidden;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
 }

@@ -40,10 +40,11 @@ export class BackendLogin extends BackendComunicator {
       }, error => {
         this.host.errortext = "Falsches Passwort oder Email.";
         this.host.right = false;
+        localStorage.clear();
       });
 
     }, error => {
-      console.log(error);
+      console.error(error);
     });
   }
 }
