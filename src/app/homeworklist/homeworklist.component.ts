@@ -108,7 +108,7 @@ export class HomeworklistComponent implements OnInit {
     this.curSubHomeworkDisplay["imageUrls"] = [];
     this.backendSchoolClass.get_sub_homework_images_url(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
       for (let j = 0; j < data.images_total; j++) {
-        this.curSubHomeworkDisplay.imageUrls.push(`\\${data.images_url}\\${j}.png`);
+        this.curSubHomeworkDisplay.imageUrls.push(`/${data.images_url}/${j}.jpg`);
       }
     }, (error) => {
       this.notEnougthPoints = true;
