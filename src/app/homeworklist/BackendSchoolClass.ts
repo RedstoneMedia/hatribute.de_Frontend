@@ -83,6 +83,34 @@ export class BackendSchoolClass extends BackendSession {
     }, (error: any) => {
       if (error.status === 403) {
         const session = error.error.session;
+        if (localStorage["session-id"] != null) {
+          localStorage["session-id"] = session.session;
+          localStorage["session-expires"] = session.expires;
+        }
+        sessionStorage["session-id"] = session.session;
+        sessionStorage["session-expires"] = session.expires;
+        this.host.data.changeLoggedIn(true);
+        noPointsErrorFuntion(error);
+      } else {
+        this.host.router.navigate(['login']);
+      }
+    });
+  }
+
+  get_sub_homework_base64_images(homeworkId: number, subHomeworkId: number, succsesFunction, noPointsErrorFuntion) {
+    const jsonData = {
+      "homework_id" : homeworkId,
+      "sub_homework_id" : subHomeworkId
+    };
+    this.post_with_session(jsonData, "get_sub_homework_base64_images", (data: any) => {
+      succsesFunction(data);
+    }, (error: any) => {
+      if (error.status === 403) {
+        const session = error.error.session;
+        if (localStorage["session-id"] != null) {
+          localStorage["session-id"] = session.session;
+          localStorage["session-expires"] = session.expires;
+        }
         sessionStorage["session-id"] = session.session;
         sessionStorage["session-expires"] = session.expires;
         this.host.data.changeLoggedIn(true);

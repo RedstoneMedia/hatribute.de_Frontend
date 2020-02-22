@@ -20,6 +20,7 @@ export class HomeworklistComponent implements OnInit {
   curSlectedHomework: any;
   curUploadSubHomework: any;
   curSubHomeworkDisplay: any;
+  usingBase64ImageLoading = false;
   addHomeworkModal: boolean;
   homeworkUploadFiles: any;
   UserData: any;
@@ -104,11 +105,29 @@ export class HomeworklistComponent implements OnInit {
   }
 
   showSubHomework(i) {
+    this.usingBase64ImageLoading = false;
     this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
     this.curSubHomeworkDisplay["imageUrls"] = [];
+    const start = new Date().getTime();
     this.backendSchoolClass.get_sub_homework_images_url(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
       for (let j = 0; j < data.images_total; j++) {
         this.curSubHomeworkDisplay.imageUrls.push(`/${data.images_url}/${j}.jpg`);
+      }
+      const end = new Date().getTime();
+      const time = end - start;
+      if (time > 200) { // if request took longer then 200 ms use other method to display images
+        console.log(`Request took to long : ${time}ms using base64 to load images instead`);
+        // Now trying to load images again but with the base64 image method
+        this.usingBase64ImageLoading = true;
+        this.backendSchoolClass.get_sub_homework_base64_images(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
+          // setting base64 images so they can be displayed
+          console.log(data);
+          this.curSubHomeworkDisplay["base64_images"] = data.base64_images;
+        }, (error) => {
+          this.notEnougthPoints = true;
+          this.closeSubHomework();
+        });
+
       }
     }, (error) => {
       this.notEnougthPoints = true;
