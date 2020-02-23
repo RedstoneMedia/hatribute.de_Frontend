@@ -20,18 +20,6 @@ export class NavbarComponent implements OnInit {
 
   constructor(private data: DataService, private client: HttpClient, protected router: Router) { }
 
-  onBeforeUnload(e) {
-    // only logut if logged in and stay logged in is not active
-    if (this.currentlyLoggedIn && (localStorage["session-id"] == null)) {
-      this.backendAboutMe.logout(() => {
-        console.log("Logged Out Successfully");
-      }, (error) => {
-        console.error("Could not log out");
-      });
-    }
-    delete e['returnValue'];
-  }
-
   ngOnInit() {
     this.data.curRoute.subscribe(currentRoute => this.currentRoute = currentRoute);
     this.data.currentlyLoggedIn.subscribe(currentlyLoggedIn => this.currentlyLoggedIn = currentlyLoggedIn);
@@ -40,17 +28,18 @@ export class NavbarComponent implements OnInit {
 
     window.addEventListener('beforeunload', (e) => {
       // only logut if logged in and stay logged in is not active
-      if (this.currentlyLoggedIn && (localStorage["session-id"] == null) ) {
-        this.backendAboutMe.logout(() => {
-          console.log("Logged Out Successfully");
-        }, (error) => {
-          console.error("Could not log out");
-        });
+      if (this.currentlyLoggedIn) {
+        if (localStorage["session-id"] == undefined) {
+          this.backendAboutMe.logout(() => {
+            console.log("Logged Out Successfully");
+          }, (error) => {
+            console.error("Could not log out");
+          });
+        }
+
       }
       delete e['returnValue'];
     }, false);
-
-    window.onbeforeunload = this.onBeforeUnload;
 
   }
 
