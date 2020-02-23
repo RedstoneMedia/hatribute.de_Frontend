@@ -7,7 +7,7 @@ export class BackendSession extends BackendComunicator {
     super(client, host, adrress, port);
   }
 
-  post_with_session(DataObject, route: string, succsesFunction: any, errorFunction: any) {
+  post_with_session(DataObject, route: string, succsesFunction: any, errorFunction: any, logOutOnError = true) {
     if (localStorage["session-id"] !== undefined) {
       DataObject.session = localStorage["session-id"];
     } else {
@@ -27,15 +27,17 @@ export class BackendSession extends BackendComunicator {
       this.host.data.changeLoggedIn(true);
       succsesFunction(data);
     }, error => {
-      this.host.data.changeLoggedIn(false);
-      sessionStorage.removeItem("session-id");
-      sessionStorage.removeItem("session-expires");
-      localStorage.clear();
+      if (logOutOnError) {
+        this.host.data.changeLoggedIn(false);
+        sessionStorage.removeItem("session-id");
+        sessionStorage.removeItem("session-expires");
+        localStorage.clear();
+      }
       errorFunction(error);
     });
   }
 
-  post_with_session_no_data(route: string, succsesFunction: any, errorFunction: any) {
+  post_with_session_no_data(route: string, succsesFunction: any, errorFunction: any, logOutOnError = true) {
     let sessionId;
     if (localStorage["session-id"] !== undefined) {
       sessionId = localStorage["session-id"];
@@ -59,10 +61,12 @@ export class BackendSession extends BackendComunicator {
       this.host.data.changeLoggedIn(true);
       succsesFunction(data);
     }, error => {
-      this.host.data.changeLoggedIn(false);
-      sessionStorage.removeItem("session-id");
-      sessionStorage.removeItem("session-expires");
-      localStorage.clear();
+      if (logOutOnError) {
+        this.host.data.changeLoggedIn(false);
+        sessionStorage.removeItem("session-id");
+        sessionStorage.removeItem("session-expires");
+        localStorage.clear();
+      }
       errorFunction(error);
     });
   }

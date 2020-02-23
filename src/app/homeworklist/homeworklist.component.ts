@@ -179,8 +179,11 @@ export class HomeworklistComponent implements OnInit {
   }
 
   registerForSubHomework(i) {
-    this.curSlectedHomework.SubHomework[i].User.name = this.UserData.name;
-    this.backendSchoolClass.register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {});
+    this.backendSchoolClass.register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {
+      this.curSlectedHomework.SubHomework[i].User.name = this.UserData.name;
+    }, (user) => {
+      this.curSlectedHomework.SubHomework[i].User = user; // someone has already registered for this homework
+    });
   }
 
   deRegisterForSubHomework(i) {

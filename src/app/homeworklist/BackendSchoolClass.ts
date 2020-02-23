@@ -32,7 +32,7 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
-  register_for_sub_homework(homeworkId: number, subHomeworkId: number, succsesFunction) {
+  register_for_sub_homework(homeworkId: number, subHomeworkId: number, succsesFunction, someoneAlreadyRegistered) {
     const jsonData = {
       "homework_id" : homeworkId,
       "sub_homework_id" : subHomeworkId
@@ -40,8 +40,32 @@ export class BackendSchoolClass extends BackendSession {
     this.post_with_session(jsonData, "register_for_sub_homework", (data: any) => {
       succsesFunction();
     }, (error: any) => {
-      this.host.router.navigate(['login']);
-    });
+      if (error.status === 403) {
+        if (error.error.already_registered_user) {  // check if someone has already registered
+          const session = error.error.session;
+          if (session.session) {
+            if (localStorage["session-id"] != null) {
+              localStorage["session-id"] = session.session;
+              localStorage["session-expires"] = session.expires;
+            }
+            sessionStorage["session-id"] = session.session;
+            sessionStorage["session-expires"] = session.expires;
+            this.host.data.changeLoggedIn(true);
+          }
+          someoneAlreadyRegistered(error.error.already_registered_user);
+        } else {
+          this.host.data.changeLoggedIn(false);
+          sessionStorage.removeItem("session-id");
+          sessionStorage.removeItem("session-expires");
+          localStorage.clear();
+        }
+      } else {
+        this.host.data.changeLoggedIn(false);
+        sessionStorage.removeItem("session-id");
+        sessionStorage.removeItem("session-expires");
+        localStorage.clear();
+      }
+    }, false);
   }
 
   de_register_for_sub_homework(homeworkId: number, subHomeworkId: number, succsesFunction) {
@@ -83,18 +107,23 @@ export class BackendSchoolClass extends BackendSession {
     }, (error: any) => {
       if (error.status === 403) {
         const session = error.error.session;
-        if (localStorage["session-id"] != null) {
-          localStorage["session-id"] = session.session;
-          localStorage["session-expires"] = session.expires;
+        if (session.session) {
+          if (localStorage["session-id"] != null) {
+            localStorage["session-id"] = session.session;
+            localStorage["session-expires"] = session.expires;
+          }
+          sessionStorage["session-id"] = session.session;
+          sessionStorage["session-expires"] = session.expires;
+          this.host.data.changeLoggedIn(true);
         }
-        sessionStorage["session-id"] = session.session;
-        sessionStorage["session-expires"] = session.expires;
-        this.host.data.changeLoggedIn(true);
         noPointsErrorFuntion(error);
       } else {
-        this.host.router.navigate(['login']);
+        this.host.data.changeLoggedIn(false);
+        sessionStorage.removeItem("session-id");
+        sessionStorage.removeItem("session-expires");
+        localStorage.clear();
       }
-    });
+    }, false);
   }
 
   get_sub_homework_base64_images(homeworkId: number, subHomeworkId: number, succsesFunction, noPointsErrorFuntion) {
@@ -107,18 +136,23 @@ export class BackendSchoolClass extends BackendSession {
     }, (error: any) => {
       if (error.status === 403) {
         const session = error.error.session;
-        if (localStorage["session-id"] != null) {
-          localStorage["session-id"] = session.session;
-          localStorage["session-expires"] = session.expires;
+        if (session.session) {
+          if (localStorage["session-id"] != null) {
+            localStorage["session-id"] = session.session;
+            localStorage["session-expires"] = session.expires;
+          }
+          sessionStorage["session-id"] = session.session;
+          sessionStorage["session-expires"] = session.expires;
+          this.host.data.changeLoggedIn(true);
         }
-        sessionStorage["session-id"] = session.session;
-        sessionStorage["session-expires"] = session.expires;
-        this.host.data.changeLoggedIn(true);
         noPointsErrorFuntion(error);
       } else {
-        this.host.router.navigate(['login']);
+        this.host.data.changeLoggedIn(false);
+        sessionStorage.removeItem("session-id");
+        sessionStorage.removeItem("session-expires");
+        localStorage.clear();
       }
-    });
+    }, false);
   }
 
   delete_homework(homeworkId: number, succsesFunction) {
