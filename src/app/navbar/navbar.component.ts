@@ -21,7 +21,8 @@ export class NavbarComponent implements OnInit {
   constructor(private data: DataService, private client: HttpClient, protected router: Router) { }
 
   onBeforeUnload(e) {
-    if (this.currentlyLoggedIn) {
+    // only logut if logged in and stay logged in is not active
+    if (this.currentlyLoggedIn && (localStorage["session-id"] == null)) {
       this.backendAboutMe.logout(() => {
         console.log("Logged Out Successfully");
       }, (error) => {
@@ -38,7 +39,8 @@ export class NavbarComponent implements OnInit {
     this.backendAboutMe = new BackendAboutMe(this.client, this);
 
     window.addEventListener('beforeunload', (e) => {
-      if (this.currentlyLoggedIn) {
+      // only logut if logged in and stay logged in is not active
+      if (this.currentlyLoggedIn && (localStorage["session-id"] == null) ) {
         this.backendAboutMe.logout(() => {
           console.log("Logged Out Successfully");
         }, (error) => {
