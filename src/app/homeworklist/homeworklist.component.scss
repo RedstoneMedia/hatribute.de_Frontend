@@ -5,6 +5,33 @@
   text-align: center
 }
 
+
+/* Urgent Level colors */
+.urgent_level_-1 {
+  color : $urgent-level-1
+}
+
+.urgent_level_0 {
+  color : $urgent-level0
+}
+
+.urgent_level_1 {
+  color : $urgent-level1
+}
+
+.urgent_level_2 {
+  color : $urgent-level2
+}
+
+.urgent_level_3 {
+  color : $urgent-level3
+}
+
+.urgent_level_4 {
+  color : $urgent-level4
+}
+
+
 #HomeworkTable {
   width: 50%;
   margin: auto;

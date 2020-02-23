@@ -11,6 +11,13 @@ $main-font : "Roboto" , sans-serif;
 $main-background-color : #ffffff;
 $error-color : #DC143C;
 
+/* Urgent Level Colors */
+$urgent-level-1 : #a5b6c9;
+$urgent-level0 : $main-font-color;
+$urgent-level1 : #eca841;
+$urgent-level2 : #e07a35;
+$urgent-level3 : #d84545;
+$urgent-level4 : #961818;
 
 /* Cool Button*/
 $cool-button-box-shadow : #1b77c2;
