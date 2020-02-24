@@ -6,30 +6,23 @@ import { SigninComponent } from './signin.component';
 
 export class BackendSigin extends BackendComunicator {
 
-  secure_random_number() {
-    const array = new Uint32Array(2);
-    return window.crypto.getRandomValues(array).toString();
-  }
-
   constructor(client: HttpClient, host: SigninComponent, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
     super(client, host, adrress);
   }
 
   sign_in(password: string, email: string, name: string, school: string, schoolClass: string) {
-      const salt = this.secure_random_number().replace(",", "");
-      const hashedpwd = CryptoJS.SHA512(salt + password.trim()).toString();
+      password = password.trim().toString();
       const jsondata = JSON.stringify({
-        "hashedpwd" : hashedpwd,
+        "password" : password,
         "email" : email,
         "name" : name,
         "school" : school,
-        "school_class" : schoolClass,
-        "salt" : salt,
+        "school_class" : schoolClass
       });
-      // Sgin in with data
+      // Sign in with data
       this.post_data(jsondata, "sign-in", (data: any) => {
         const jsondata = JSON.stringify({
-          "hashedpwd" : hashedpwd,
+          "password" : password,
           "email" : email,
           "stay_logged_in" : false
         });
