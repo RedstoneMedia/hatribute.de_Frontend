@@ -1,3 +1,18 @@
-<h1>
-  knowledge works!
-</h1>
+<div class="knowledge">
+  <h1>Hipity hopity hier ist Wissen<br>😎</h1>
+
+  <table id="KnowledgeTable">
+    <tr>
+      <th>Type</th>
+      <th>Von</th>
+      <th>Daten</th>
+      <th>Votes</th>
+    </tr>
+    <tr *ngFor="let knowledgeSource of KnowledgeSources; index as i;" class="KnowledgeSources">
+        <td><h3>{{knowledgeSource.Type}}</h3></td>
+        <td><h3>{{knowledgeSource.ByUser.name}}</h3></td>
+        <td><h4>{{knowledgeSource.Data}}</h4></td>
+        <td><h4>{{knowledgeSource.Votes}}</h4></td>
+    </tr>
+  </table>
+</div>

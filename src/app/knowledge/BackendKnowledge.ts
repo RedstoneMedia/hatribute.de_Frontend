@@ -8,4 +8,13 @@ export class BackendKnowledge extends BackendSession {
     super(client, host, address);
   }
 
+  get_knowledge_sources(successFunction: any, errorFunction: any) {
+    this.post_with_session_no_data("get_knowledge_sources", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+      errorFunction(error);
+    });
+  }
+
 }
