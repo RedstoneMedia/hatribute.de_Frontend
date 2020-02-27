@@ -12,7 +12,14 @@
   </span>
 
   <span class="grid-item" *ngIf="currentlyLoggedIn && currentRole >= 2">
-    <a [className]="currentRoute == 'mod-dashboard' ? 'selected': ''" href="#mod-dashboard">Mod-Dashboard</a>
+    <a [className]="currentRoute == 'mod-dashboard' ? 'selected': ''" href="#mod-dashboard">
+      <span id="mod-dashboard-long-text">Mod-Dashboard</span>
+      <span id="mod-dashboard-short-text">Mod-Board</span>
+    </a>
+  </span>
+
+  <span class="grid-item" id="knowledge" *ngIf="currentlyLoggedIn && currentRole >= 2">
+    <a [className]="currentRoute == 'knowledge' ? 'selected': ''" href="#knowledge">Wissen</a>
   </span>
 
   <span class="grid-item" *ngIf="!currentlyLoggedIn && currentRoute != 'sign_in' || currentRoute == 'login'">

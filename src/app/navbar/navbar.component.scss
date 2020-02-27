@@ -2,7 +2,7 @@
 
 .navbar {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   background-color: $navbar_background_color;
   padding: 10px;
   grid-column-gap: 1%;
@@ -15,6 +15,20 @@
 .grid-item {
   text-align : center;
   color: $navbar_tab_color;
+}
+
+#mod-dashboard-long-text {
+
+  @media #{$information-phone} {
+    display: none;
+  }
+}
+
+#mod-dashboard-short-text {
+  display: none;
+  @media #{$information-phone} {
+    display: unset;
+  }
 }
 
 a {

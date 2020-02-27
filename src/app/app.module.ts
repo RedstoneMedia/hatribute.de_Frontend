@@ -20,6 +20,7 @@ import { Base64ImageSafePipe } from './base64-image-safe.pipe';
 
 import { ValidateDate } from './DateValidator';
 import { ModDashboardComponent } from './mod-dashboard/mod-dashboard.component';
+import { KnowledgeComponent } from './knowledge/knowledge.component';
 
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
@@ -27,7 +28,8 @@ const myRoutes: Routes = [
   {path : 'sign-in', component: SigninComponent},
   {path : 'about-me', component: AboutMeComponent},
   {path : 'homework-list', component: HomeworklistComponent},
-  {path : 'mod-dashboard', component: ModDashboardComponent}
+  {path : 'mod-dashboard', component: ModDashboardComponent},
+  {path : 'knowledge', component: KnowledgeComponent}
 ];
 
 @NgModule({
@@ -40,7 +42,8 @@ const myRoutes: Routes = [
     AboutMeComponent,
     HomeworklistComponent,
     Base64ImageSafePipe,
-    ModDashboardComponent
+    ModDashboardComponent,
+    KnowledgeComponent
   ],
   imports: [
     BrowserModule,
