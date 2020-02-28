@@ -32,3 +32,13 @@ td {
   border-width: 2px;
   border-style: solid;
 }
+
+a {
+  color: $main-font-color;
+  text-decoration: none;
+  font-weight: bolder;
+
+  &:hover {
+    color: $font-color-important;
+  }
+}

@@ -1,18 +1,47 @@
 <div class="knowledge">
   <h1>Hipity hopity hier ist Wissen<br>😎</h1>
 
+  <div *ngIf="curSelectedKnowledgeSource" class="bg-modal"></div>
+  <div *ngIf="curSelectedKnowledgeSource" class="modal">
+    <div class="modal-content">
+      <div class="modal-close" (click)="closeKnowledgeSourceDetails()">+</div>
+      <h4>{{curSelectedKnowledgeSource.Title}}</h4>
+      <p>{{curSelectedKnowledgeSource.Description}}</p>
+
+      <span *ngIf="curSelectedKnowledgeSource.Type == 0">
+        <a href={{curSelectedKnowledgeSource.Data}} target="_blank" rel="noopener noreferrer"><h4>Link zum Google Dokument</h4></a>
+      </span>
+
+      <span *ngIf="curSelectedKnowledgeSource.Type == 1">
+        <h4>PDF Dateien sind noch nicht Implementiert</h4>
+      </span>
+
+      <h6>
+        Veröffentlicht am {{curSelectedKnowledgeSource.CreationTime}} von {{curSelectedKnowledgeSource.ByUser.name}}
+        <br>
+        Zuletzt Geändert am {{curSelectedKnowledgeSource.LastModifiedTime}}
+      </h6>
+
+    </div>
+  </div>
+
   <table id="KnowledgeTable">
     <tr>
-      <th>Type</th>
+      <th>Titel</th>
+      <th>Fach</th>
       <th>Von</th>
-      <th>Daten</th>
+      <th>Type</th>
       <th>Votes</th>
     </tr>
-    <tr *ngFor="let knowledgeSource of KnowledgeSources; index as i;" class="KnowledgeSources">
-        <td><h3>{{knowledgeSource.Type}}</h3></td>
-        <td><h3>{{knowledgeSource.ByUser.name}}</h3></td>
-        <td><h4>{{knowledgeSource.Data}}</h4></td>
-        <td><h4>{{knowledgeSource.Votes}}</h4></td>
+    <tr (click)="showKnowledgeSourceDetails(i)" *ngFor="let knowledgeSource of KnowledgeSources; index as i;" class="KnowledgeSources">
+      <td><h4>{{knowledgeSource.Title}}</h4></td>
+      <td><h3>{{knowledgeSource.Subject}}</h3></td>
+      <td><h3>{{knowledgeSource.ByUser.name}}</h3></td>
+      <td>
+        <h3 *ngIf="knowledgeSource.Type == 0">Google Dokument</h3>
+        <h3 *ngIf="knowledgeSource.Type == 1">PDF Datei</h3>
+      </td>
+      <td><h4>{{knowledgeSource.Votes}}</h4></td>
     </tr>
   </table>
 </div>

@@ -18,7 +18,7 @@
     </a>
   </span>
 
-  <span class="grid-item" id="knowledge" *ngIf="currentlyLoggedIn && currentRole >= 2">
+  <span class="grid-item" id="knowledge" *ngIf="currentlyLoggedIn && currentRole != -1">
     <a [className]="currentRoute == 'knowledge' ? 'selected': ''" href="#knowledge">Wissen</a>
   </span>
 

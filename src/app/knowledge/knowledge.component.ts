@@ -14,6 +14,7 @@ export class KnowledgeComponent implements OnInit {
   backendKnowledge: BackendKnowledge;
   UserData;
   KnowledgeSources;
+  curSelectedKnowledgeSource: any;
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
@@ -24,6 +25,14 @@ export class KnowledgeComponent implements OnInit {
       this.KnowledgeSources = data.knowledge_sources;
       console.log(data.knowledge_sources);
     }, () => {});
+  }
+
+  showKnowledgeSourceDetails(index: number) {
+    this.curSelectedKnowledgeSource = this.KnowledgeSources[index];
+  }
+
+  closeKnowledgeSourceDetails() {
+    this.curSelectedKnowledgeSource = null;
   }
 
 }
