@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { BackendSession } from '../BackendSession';
 import { HomeworklistComponent } from './homeworklist.component';
+import { Constants } from '../constants';
 
 export class BackendSchoolClass extends BackendSession {
 
-  constructor(client: HttpClient, host: any, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
+  constructor(client: HttpClient, host: any, adrress = Constants.backendUrl, port = 3182) {
     super(client, host, adrress);
   }
 

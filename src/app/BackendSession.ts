@@ -1,9 +1,10 @@
 import { BackendComunicator } from './BackendComunicator';
 import { HttpClient } from '@angular/common/http';
+import { Constants } from './constants';
 
 export class BackendSession extends BackendComunicator {
 
-  constructor(client: HttpClient, host: any, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
+  constructor(client: HttpClient, host: any, adrress = Constants.backendUrl, port = 3182) {
     super(client, host, adrress, port);
   }
 

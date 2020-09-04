@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { Constants } from './constants';
+
 
 export class BackendComunicator {
 
   protected backendAdress: string;
   protected backendPort: number;
 
-  constructor(protected client: HttpClient, protected host: any, backendAdress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', backendPort = 3182) {
+  constructor(protected client: HttpClient, protected host: any, backendAdress = Constants.backendUrl, backendPort = 3182) {
     this.backendAdress = backendAdress;
     this.backendPort = backendPort;
   }
@@ -26,14 +28,14 @@ export class BackendComunicator {
         'Content-Type':  'application/json'
       })
     };
-    this.client.post(`https://${this.backendAdress}:${this.backendPort}/${route}`, DataObject , httpOptions).subscribe(
+    this.client.post(`${Constants.requestProtocol}://${this.backendAdress}:${this.backendPort}/${route}`, DataObject , httpOptions).subscribe(
       (data: any) => this._succses(data, succsesFunction),
       error => this._error(error, errorFunction)
     );
   }
 
   get_data(args, route, succsesFunction, errorFunction) {
-    this.client.get(`https://${this.backendAdress}:${this.backendPort}/${route}?${args}`).subscribe(
+    this.client.get(`${Constants.requestProtocol}://${this.backendAdress}:${this.backendPort}/${route}?${args}`).subscribe(
       (data: any) => this._succses(data, succsesFunction),
       error => this._error(error, errorFunction)
     );

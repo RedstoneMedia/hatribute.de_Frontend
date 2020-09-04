@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import * as CryptoJS from 'crypto-js';
 import {Router} from "@angular/router";
 import { SigninComponent } from './signin.component';
+import { Constants } from '../constants';
 
 export class BackendSigin extends BackendComunicator {
 
-  constructor(client: HttpClient, host: SigninComponent, adrress = 'desktop-2d4qv4n.​kg0tg33tqt4rgjsp.​myfritz.​net', port = 3182) {
+  constructor(client: HttpClient, host: SigninComponent, adrress = Constants.backendUrl, port = 3182) {
     super(client, host, adrress);
   }
 

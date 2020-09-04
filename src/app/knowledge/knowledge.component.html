@@ -25,23 +25,73 @@
     </div>
   </div>
 
+  <div *ngIf="addKnowledgeSource" class="bg-modal"></div>
+  <div *ngIf="addKnowledgeSource" class="modal">
+    <div class="modal-content">
+      <div class="modal-close" (click)="closeAddKnowledgeSource()">+</div>
+      <h4>Wissen Hinzufügen</h4>
+
+      <form class="AddKnowledgeSourceForm" [formGroup]="AddKnowledgeSourceForm" (ngSubmit)="addNewKnowledgeSource()">
+        <!--Title-->
+        <div [ngClass]="{'error': AddKnowledgeSourceForm.controls['Title'].errors}">
+          <label >Titel : </label>
+          <input type="text" id="Title" required name="Title" formControlName="Title">
+          <div *ngIf="AddKnowledgeSourceForm.controls['Title'].errors && !AddKnowledgeSourceForm.controls['Title'].pristine" class="error-msg">
+              <div [hidden]="!AddKnowledgeSourceForm.controls['Title'].errors.required">Titel wird benötigt.</div>
+              <div [hidden]="!AddKnowledgeSourceForm.controls['Title'].errors.minLength">Titel ist zu kurz.</div>
+          </div>
+        </div>
+        <br>
+        <!--Description-->
+        <div [ngClass]="{'error': AddKnowledgeSourceForm.controls['Description'].errors}">
+          <label >Beschreibung : </label>
+          <input type="text" id="Description" required name="Description" formControlName="Description">
+          <div *ngIf="AddKnowledgeSourceForm.controls['Description'].errors && !AddKnowledgeSourceForm.controls['Description'].pristine" class="error-msg">
+              <div [hidden]="!AddKnowledgeSourceForm.controls['Description'].errors.required">Beschreibung wird benötigt.</div>
+              <div [hidden]="!AddKnowledgeSourceForm.controls['Description'].errors.minLength">Beschreibung ist zu kurz.</div>
+          </div>
+        </div>
+        <br>
+        <!--Subject-->
+        <div [ngClass]="{'error': AddKnowledgeSourceForm.controls['Subject'].errors}">
+            <label >Fach : </label>
+            <select id="Subject" required name="Subject" formControlName="Subject" class="Subject">
+                <option value="" disabled>Schulfach wählen</option>
+                <option>Deutsch</option>
+                <option>Englisch</option>
+                <option>Mathematik</option>
+                <option>Physik</option>
+                <option>Biologie</option>
+                <option>Chemie</option>
+                <option>Anders</option>
+            </select>
+            <div *ngIf="AddKnowledgeSourceForm.controls['Subject'].errors && !AddKnowledgeSourceForm.controls['Subject'].pristine" class="error-msg">
+                <div [hidden]="!AddKnowledgeSourceForm.controls['Subject'].errors.required">Fach wird benötigt.</div>
+            </div>
+        </div>
+        <!--Data-->
+
+        <br>
+        <button type="submit">Wissen Hinzufügen</button>
+      </form>
+
+    </div>
+  </div>
+
   <table id="KnowledgeTable">
     <tr>
       <th>Titel</th>
       <th>Fach</th>
-      <th>Von</th>
       <th>Type</th>
-      <th>Votes</th>
     </tr>
     <tr (click)="showKnowledgeSourceDetails(i)" *ngFor="let knowledgeSource of KnowledgeSources; index as i;" class="KnowledgeSources">
       <td><h4>{{knowledgeSource.Title}}</h4></td>
       <td><h3>{{knowledgeSource.Subject}}</h3></td>
-      <td><h3>{{knowledgeSource.ByUser.name}}</h3></td>
       <td>
-        <h3 *ngIf="knowledgeSource.Type == 0">Google Dokument</h3>
-        <h3 *ngIf="knowledgeSource.Type == 1">PDF Datei</h3>
+        <h3 *ngIf="knowledgeSource.Type == 0">G-Doc</h3>
+        <h3 *ngIf="knowledgeSource.Type == 1">PDF</h3>
       </td>
-      <td><h4>{{knowledgeSource.Votes}}</h4></td>
     </tr>
   </table>
+  <div *ngIf="!curSelectedKnowledgeSource && !addKnowledgeSource" (click)="showAddKnowledgeSource();" class="add">+</div>
 </div>

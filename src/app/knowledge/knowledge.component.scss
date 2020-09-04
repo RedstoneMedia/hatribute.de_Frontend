@@ -42,3 +42,46 @@ a {
     color: $font-color-important;
   }
 }
+
+.add {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin: auto;
+  width: 1em;
+  font-size: 2em;
+  cursor: pointer;
+
+  &:hover {
+    color: $font-color-important;
+    animation-name: AddRotate;
+    animation-duration: 0.3s;
+    animation-delay: 0.1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+  }
+}
+
+@keyframes AddRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.error-msg {
+  margin-top : 0.5%;
+  display: block;
+  font-size: 75%;
+}
+
+.error {
+  color: $error-color;
+}
