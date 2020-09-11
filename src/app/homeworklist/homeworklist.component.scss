@@ -147,6 +147,18 @@ td {
   }
 }
 
+#Course {
+  width: 50%;
+  padding-right: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
+
+  @media #{$information-phone} {
+    margin-bottom: 10%;
+    width: 90%;
+  }
+}
+
 .error-msg {
   margin-top : 0.5%;
   display: block;

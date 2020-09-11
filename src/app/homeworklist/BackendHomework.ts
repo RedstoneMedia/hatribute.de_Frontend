@@ -3,15 +3,22 @@ import { BackendSession } from '../BackendSession';
 import { HomeworklistComponent } from './homeworklist.component';
 import { Constants } from '../constants';
 
-export class BackendSchoolClass extends BackendSession {
+export class BackendHomework extends BackendSession {
 
   constructor(client: HttpClient, host: any, adrress = Constants.backendUrl, port = 3182) {
     super(client, host, adrress);
   }
 
   get_school_class_data(succsesFunction, errorFunction) {
-    this.post_with_session_no_data("get_school_class", (data: any) => {
-      this.host.schoolClass = data.school_class;
+    this.post_with_session_no_data("get_user_courses", (data: any) => {
+      this.host.homework = [];
+      data.courses.forEach(course => {
+        let homeworkList = course.homework;
+        homeworkList.forEach(homework => {
+          this.host.homework.push(homework);
+        });
+      });
+      this.host.courses = data.courses;
       succsesFunction(data);
     }, (error: any) => {
       errorFunction(error);
@@ -19,10 +26,10 @@ export class BackendSchoolClass extends BackendSession {
     });
   }
 
-  add_homework(exercise: string, subject, subExercises: any, DueDate: string, succsesFunction) {
+  add_homework(exercise: string, courseId: number, subExercises: any, DueDate: string, succsesFunction) {
     const jsonData = {
       "exercise" : exercise,
-      "subject" : subject,
+      "course_id" : courseId,
       "subExercises" : subExercises,
       "dueDate" : DueDate
     };

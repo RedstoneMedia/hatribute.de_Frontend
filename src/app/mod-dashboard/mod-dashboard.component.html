@@ -18,7 +18,8 @@
           <div class="modal-close" (click)="closeUser()">+</div>
           <h4 class="user-title">{{curUser.name}}</h4>
 
-          <h6 *ngIf="curUser.role >= 2" class="admin-text"><b>Admin</b></h6>
+          <h6 *ngIf="curUser.role >= 3" class="admin-text"><b>Admin</b></h6>
+          <h6 *ngIf="curUser.role == 2" class="moderator-text"><b>Moderator</b></h6>
           <h6 *ngIf="curUser.role == 1" class="better-user-text"><b>Nutzer+</b></h6>
           <h6 *ngIf="curUser.role == 0" class="normal-user-text"><b>Normaler Nutzer</b></h6>
           <h6 *ngIf="curUser.role == -1"class="limited-user-text"><b>Gebannt</b></h6>

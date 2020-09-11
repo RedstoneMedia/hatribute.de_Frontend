@@ -11,14 +11,14 @@ export class BackendSigin extends BackendComunicator {
     super(client, host, adrress);
   }
 
-  sign_in(password: string, email: string, name: string, school: string, schoolClass: string) {
+  sign_in(password: string, email: string, name: string, school: string, firstTimeSignInToken: string) {
       password = password.trim().toString();
       const jsondata = JSON.stringify({
         "password" : password,
         "email" : email,
         "name" : name,
         "school" : school,
-        "school_class" : schoolClass
+        "first_time_sign_in_token" : firstTimeSignInToken
       });
       // Sign in with data
       this.post_data(jsondata, "sign-in", (data: any) => {

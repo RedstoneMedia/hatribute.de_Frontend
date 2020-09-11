@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { ModDashboardComponent } from './mod-dashboard.component';
-import { BackendSchoolClass } from '../homeworklist/BackendSchoolClass';
+import { BackendHomework } from '../homeworklist/BackendHomework';
 import { Constants } from '../constants';
 
-export class BackendModDashboard extends BackendSchoolClass {
+export class BackendModDashboard extends BackendHomework {
 
   constructor(client: HttpClient, host: ModDashboardComponent, adrress = Constants.backendUrl, port = 3182) {
     super(client, host, adrress);

@@ -15,21 +15,22 @@
       </div>
     </div>
 
-    <div class="class" [ngClass]="{'error': signInForm.controls['schoolClass'].errors && !signInForm.controls['schoolClass'].pristine}" >
-      <label>Klasse : </label>
-      <input type="text" name="schoolClass" formControlName="schoolClass">
-      <div *ngIf="signInForm.controls['schoolClass'].errors && !signInForm.controls['schoolClass'].pristine" class="error-msg">
-          <div [hidden]="!signInForm.controls['schoolClass'].errors.required">Klasse ist benötigt.</div>
-          <div [hidden]="!signInForm.controls['schoolClass'].errors.pattern">Klasse ist nicht valid.</div>
+    <div class="firstTimeSignInToken" [ngClass]="{'error': signInForm.controls['firstTimeSignInToken'].errors && !signInForm.controls['firstTimeSignInToken'].pristine}" >
+      <label>Token : </label>
+      <input type="text" name="firstTimeSignInToken" formControlName="firstTimeSignInToken">
+      <div *ngIf="signInForm.controls['firstTimeSignInToken'].errors && !signInForm.controls['firstTimeSignInToken'].pristine" class="error-msg">
+          <div [hidden]="!signInForm.controls['firstTimeSignInToken'].errors.required">Token wird benötigt.</div>
+          <div [hidden]="!signInForm.controls['firstTimeSignInToken'].errors.minlength">Token muss 200 Zeichen lang sein.</div>
+          <div [hidden]="!signInForm.controls['firstTimeSignInToken'].errors.maxlength">Token muss 200 Zeichen lang sein.</div>
       </div>
     </div>
 
     <div class="name" [ngClass]="{'error': signInForm.controls['name'].errors && !signInForm.controls['name'].pristine}" >
-        <label>Name : </label>
+        <label>Nutzername : </label>
         <input type="text" name="name" formControlName="name">
         <div *ngIf="signInForm.controls['name'].errors && !signInForm.controls['name'].pristine" class="error-msg">
-            <div [hidden]="!signInForm.controls['name'].errors.required">Name ist benötigt.</div>
-            <div [hidden]="!signInForm.controls['name'].errors.minlength">Name ist zu kurtz.</div>
+            <div [hidden]="!signInForm.controls['name'].errors.required">Nutzername ist benötigt.</div>
+            <div [hidden]="!signInForm.controls['name'].errors.minlength">Nutzername ist zu kurtz.</div>
         </div>
     </div>
 

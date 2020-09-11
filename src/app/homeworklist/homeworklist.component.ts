@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../dataService';
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
-import { BackendSchoolClass } from './BackendSchoolClass';
+import { BackendHomework } from './BackendHomework';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ValidateDate } from '../DateValidator';
 
@@ -15,8 +15,9 @@ import { ValidateDate } from '../DateValidator';
 
 export class HomeworklistComponent implements OnInit {
 
-  backendSchoolClass: BackendSchoolClass;
-  schoolClass: any;
+  backendSchoolClass: BackendHomework;
+  homework: any;
+  courses: any;
   curSlectedHomework: any;
   curUploadSubHomework: any;
   curSubHomeworkDisplay: any;
@@ -29,7 +30,7 @@ export class HomeworklistComponent implements OnInit {
 
   AddHomeworkForm = new FormGroup({
     Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
-    Subject : new FormControl(null, [Validators.required]),
+    Course : new FormControl(null, [Validators.required]),
     DueDate : new FormControl(null, [ValidateDate, Validators.required]),
     SubExercise : new FormControl(null, [])
   });
@@ -42,7 +43,7 @@ export class HomeworklistComponent implements OnInit {
 
   ngOnInit() {
     this.data.changeCurRoute("homework-list");
-    this.backendSchoolClass = new BackendSchoolClass(this.client, this);
+    this.backendSchoolClass = new BackendHomework(this.client, this);
     this.backendSchoolClass.get_school_class_data(() => {
         this.backendSchoolClass.post_with_session_no_data("get_data", (data: any) => {
           this.UserData = data.user;
@@ -56,15 +57,15 @@ export class HomeworklistComponent implements OnInit {
   }
 
   updateCanDelete() {
-    this.schoolClass.homework.forEach(element => {
+    this.homework.forEach(element => {
       if (this.UserData.role >= 2) {
         element["CanDelete"] = true;
       } else {
         if (element.CreatorId === this.UserData.id) {
           let good = true;
-          if (this.schoolClass.homework.SubHomework !== undefined) {
-            for (let i = 0; i < this.schoolClass.homework.SubHomework.length; i++) {
-              const subHomework = this.schoolClass.homework.SubHomework[i];
+          if (this.homework.SubHomework !== undefined) {
+            for (let i = 0; i < this.homework.SubHomework.length; i++) {
+              const subHomework = this.homework.SubHomework[i];
               if (subHomework.Done === true) {
                 good = false;
                 break;
@@ -80,7 +81,7 @@ export class HomeworklistComponent implements OnInit {
   }
 
   showHomeworkDetails(index: number) {
-    this.curSlectedHomework = this.schoolClass.homework[index];
+    this.curSlectedHomework = this.homework[index];
   }
 
   closeHomeworkDetails() {
@@ -121,7 +122,6 @@ export class HomeworklistComponent implements OnInit {
         this.usingBase64ImageLoading = true;
         this.backendSchoolClass.get_sub_homework_base64_images(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
           // setting base64 images so they can be displayed
-          console.log(data);
           this.curSubHomeworkDisplay["base64_images"] = data.base64_images;
         }, (error) => {
           this.notEnougthPoints = true;
@@ -224,9 +224,9 @@ export class HomeworklistComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Subject.valid && validSubExercises && this.AddHomeworkForm.controls.DueDate.valid) {
+    if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Course.valid && validSubExercises && this.AddHomeworkForm.controls.DueDate.valid) {
       // tslint:disable-next-line: max-line-length
-      this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Subject.value, subExercisesRaw, this.AddHomeworkForm.controls.DueDate.value, () => {
+      this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Course.value, subExercisesRaw, this.AddHomeworkForm.controls.DueDate.value, () => {
         this.backendSchoolClass.get_school_class_data(() => {
           this.AddHomeworkForm.reset();
           this.updateCanDelete();

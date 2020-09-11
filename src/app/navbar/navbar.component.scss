@@ -17,14 +17,14 @@
   color: $navbar_tab_color;
 }
 
-#mod-dashboard-long-text {
+#dashboard-long-text {
 
   @media #{$information-phone} {
     display: none;
   }
 }
 
-#mod-dashboard-short-text {
+#dashboard-short-text {
   display: none;
   @media #{$information-phone} {
     display: unset;

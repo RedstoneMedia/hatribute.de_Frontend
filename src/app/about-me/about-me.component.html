@@ -3,8 +3,12 @@
 
   <h3 [className]="UserData?.points < 5 ? 'limited-user-text': 'normal-user-text'">Du hast {{UserData?.points}} Punkte</h3>
 
-  <span *ngIf="UserData?.role >= 2">
+  <span *ngIf="UserData?.role >= 3">
     <h3 class="admin-text"><b>Eingelogt als Admin</b></h3>
+  </span>
+
+  <span *ngIf="UserData?.role == 2">
+    <h3 class="moderator-text"><b>Eingelogt als Moderator</b></h3>
   </span>
 
   <span *ngIf="UserData?.role == 1">
@@ -20,7 +24,6 @@
     <h3 class="limited-user-text"><b>Eingelogt als Nutzer mit stark limitierten rechten</b></h3>
     <p class="limited-user-sub-text">Diese Rolle wird nur vergeben wen du die Regeln dieser Website nicht einhälst .</p>
   </span>
-
 
   <div class="about-me-container">
     <button (click)="logout()">Aus Loggen</button>

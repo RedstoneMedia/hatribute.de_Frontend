@@ -18,8 +18,8 @@ export class SigninComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
     password: new FormControl(null, [Validators.minLength(7), Validators.required]),
+    firstTimeSignInToken : new FormControl(null, [Validators.minLength(200), Validators.maxLength(200), Validators.required]),
     name : new FormControl(null, [Validators.minLength(4), Validators.required]),
-    schoolClass : new FormControl(null, [Validators.pattern(/^\d{1,2}[hrgHRG]\d$/), Validators.required]),
     school : new FormControl(null, [Validators.minLength(5), Validators.required])
   });
 
@@ -41,11 +41,11 @@ export class SigninComponent implements OnInit {
     const pwd = this.signInForm.controls.password;
     const email = this.signInForm.controls.email;
     const name = this.signInForm.controls.name;
-    const schoolClass = this.signInForm.controls.schoolClass;
     const school = this.signInForm.controls.school;
+    const firstTimeSignInToken = this.signInForm.controls.firstTimeSignInToken;
 
-    if (pwd.valid && email.valid && name.valid && schoolClass.valid && school.valid) {
-      this.backendSignIn.sign_in(pwd.value, email.value, name.value, school.value, schoolClass.value);
+    if (pwd.valid && email.valid && name.valid && school.valid && firstTimeSignInToken.valid) {
+      this.backendSignIn.sign_in(pwd.value, email.value, name.value, school.value, firstTimeSignInToken.value);
       this.signInForm.reset();
     }
   }

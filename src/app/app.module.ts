@@ -21,6 +21,7 @@ import { Base64ImageSafePipe } from './base64-image-safe.pipe';
 import { ValidateDate } from './DateValidator';
 import { ModDashboardComponent } from './mod-dashboard/mod-dashboard.component';
 import { KnowledgeComponent } from './knowledge/knowledge.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 const myRoutes: Routes = [
   {path : '', component: StartComponent},
@@ -29,6 +30,7 @@ const myRoutes: Routes = [
   {path : 'about-me', component: AboutMeComponent},
   {path : 'homework-list', component: HomeworklistComponent},
   {path : 'mod-dashboard', component: ModDashboardComponent},
+  {path : 'admin-dashboard', component: AdminDashboardComponent},
   {path : 'knowledge', component: KnowledgeComponent}
 ];
 
@@ -43,7 +45,8 @@ const myRoutes: Routes = [
     HomeworklistComponent,
     Base64ImageSafePipe,
     ModDashboardComponent,
-    KnowledgeComponent
+    KnowledgeComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
