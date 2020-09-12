@@ -1,1 +1,67 @@
-<p>admin-dashboard works!</p>
+<div id="admin-dashboard">
+
+  <!--User list-->
+  <div id="user-list">
+    <h3>Nutzer Liste</h3>
+    <table>
+      <tr>
+        <th>Nutzer</th>
+        <th>Role</th>
+        <th>Punkte</th>
+        <th>Id</th>
+        <th>Schul Id</th>
+      </tr>
+      <tr class="user" (click)="openUserEditPopUp(user)" *ngFor="let user of users; index as i;" [class]="user.is_active == true ? '' : 'not_active'">
+        <td>{{user.name}}</td>
+        <td>{{user.role}}</td>
+        <td>{{user.points}}</td>
+        <td>{{user.id}}</td>
+        <td>{{user.school_id}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!--Side bar-->
+  <div id="side-bar">
+
+      <!--Add user form-->
+    <div id="user-add">
+      <h3>Nutzer Hinzufügen</h3>
+      <form class="addNewUserForm" [formGroup]="AddUserForm" (ngSubmit)="addNewUser()">
+        <div class="school" [ngClass]="{'error': AddUserForm.controls['school'].errors && !AddUserForm.controls['school'].pristine}" >
+          <label>Schulname : </label>
+          <input type="text" name="school" formControlName="school" placeholder="test-school">
+          <div *ngIf="AddUserForm.controls['school'].errors && !AddUserForm.controls['school'].pristine" class="error-msg">
+            <div [hidden]="!AddUserForm.controls['school'].errors.required">Schulname ist benötigt.</div>
+            <div [hidden]="!AddUserForm.controls['school'].errors.minlength">Schulname ist zu kurtz.</div>
+          </div>
+        </div>
+
+        <div class="name" [ngClass]="{'error': AddUserForm.controls['name'].errors && !AddUserForm.controls['name'].pristine}" >
+          <label>Nutzername : </label>
+          <input type="text" name="name" formControlName="name">
+          <div *ngIf="AddUserForm.controls['name'].errors && !AddUserForm.controls['name'].pristine" class="error-msg">
+            <div [hidden]="!AddUserForm.controls['name'].errors.required">Nutzername ist benötigt.</div>
+            <div [hidden]="!AddUserForm.controls['name'].errors.minlength">Nutzername ist zu kurtz.</div>
+          </div>
+        </div>
+
+        <button type="submit">Account erstellen</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Edit user popup-->
+<div *appPopUpWrapper="userEditPopUpData">
+  <div class="key-value-pair-edit" *ngFor="let currentKeyValuePair of currentUser | keyvalue">
+    "{{currentKeyValuePair.key}}" :
+    <input *ngIf="adminReadOnlyKeys.indexOf(currentKeyValuePair.key) < 0" [value]="currentKeyValuePair.value" (change)="changeEditPopUpInputValue(currentKeyValuePair.key, $event)">
+    <input readonly *ngIf="adminReadOnlyKeys.indexOf(currentKeyValuePair.key) > -1" [value]="currentKeyValuePair.value">
+  </div>
+  <div *ngIf="currentUser.is_active == false" style="margin-bottom: 5px;">
+    <button *ngIf="currentUser.newToken === undefined" (click)="generateNewTokenForDeactivatedUser()">Token generieren</button>
+    <button (click)="removeDeactivatedUser()">Account löschen</button>
+  </div>
+  <button (click)="writeUserChanges()">Änderungen speichern</button>
+</div>

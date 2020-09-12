@@ -1,3 +1,4 @@
+import { PopupData } from './../pop-up-wrapper/pop-up-data';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../dataService';
 import { HttpClient } from '@angular/common/http';
@@ -28,6 +29,12 @@ export class HomeworklistComponent implements OnInit {
   notEnougthPoints = false;
   report: boolean;
 
+  HomworkDetailPopUpData: PopupData;
+  HomworkViewPopUpData: PopupData;
+  HomworkReportPopUpData: PopupData;
+  HomworkUploadPopUpData: PopupData;
+  HomworkAddPopUpData: PopupData;
+
   AddHomeworkForm = new FormGroup({
     Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
     Course : new FormControl(null, [Validators.required]),
@@ -42,6 +49,11 @@ export class HomeworklistComponent implements OnInit {
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
   ngOnInit() {
+    this.HomworkDetailPopUpData = new PopupData("Hausaufgaben");
+    this.HomworkViewPopUpData = new PopupData("Hausaufgabe");
+    this.HomworkReportPopUpData = new PopupData("Report");
+    this.HomworkUploadPopUpData = new PopupData("Hochladen");
+    this.HomworkAddPopUpData = new PopupData("Hausaufgabe hinzufügen");
     this.data.changeCurRoute("homework-list");
     this.backendSchoolClass = new BackendHomework(this.client, this);
     this.backendSchoolClass.get_school_class_data(() => {
@@ -82,10 +94,12 @@ export class HomeworklistComponent implements OnInit {
 
   showHomeworkDetails(index: number) {
     this.curSlectedHomework = this.homework[index];
+    this.HomworkDetailPopUpData.open();
   }
 
   closeHomeworkDetails() {
     this.curSlectedHomework = null;
+    this.HomworkDetailPopUpData.close();
   }
 
   deleteHomwork() {
@@ -99,15 +113,18 @@ export class HomeworklistComponent implements OnInit {
 
   showUploadSubHomework(i) {
     this.curUploadSubHomework = this.curSlectedHomework.SubHomework[i];
+    this.HomworkUploadPopUpData.open();
   }
 
   closeUploadSubHomework() {
     this.curUploadSubHomework = null;
+    this.HomworkUploadPopUpData.close();
   }
 
   showSubHomework(i) {
     this.usingBase64ImageLoading = false;
     this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
+    this.HomworkViewPopUpData.open();
     this.curSubHomeworkDisplay["imageUrls"] = [];
     const start = new Date().getTime();
     this.backendSchoolClass.get_sub_homework_images_url(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, (data) => {
@@ -137,6 +154,7 @@ export class HomeworklistComponent implements OnInit {
 
   closeSubHomework() {
     this.curSubHomeworkDisplay = null;
+    this.HomworkViewPopUpData.close();
   }
 
   onImageUploadChange(files) {
@@ -238,18 +256,22 @@ export class HomeworklistComponent implements OnInit {
 
   showAddHomework() {
     this.addHomeworkModal = true;
+    this.HomworkAddPopUpData.open();
   }
 
   closeAddHomework() {
     this.addHomeworkModal = false;
+    this.HomworkAddPopUpData.close();
   }
 
   showReport() {
     this.report = true;
+    this.HomworkReportPopUpData.open();
   }
 
   closeReport() {
     this.report = false;
+    this.HomworkReportPopUpData.close();
   }
 
   addReport() {

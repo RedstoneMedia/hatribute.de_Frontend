@@ -1,3 +1,4 @@
+import { PopupData } from './../pop-up-wrapper/pop-up-data';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../dataService';
@@ -24,9 +25,14 @@ export class KnowledgeComponent implements OnInit {
     Data : new FormControl(null, [Validators.required])
   });
 
+  KnowledgeAddPopUpData: PopupData;
+  KnowledgeViewPopUpData: PopupData;
+
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
   ngOnInit() {
+    this.KnowledgeAddPopUpData = new PopupData("Wissen Hinzufügen");
+    this.KnowledgeViewPopUpData = new PopupData("Wissen");
     this.data.changeCurRoute("knowledge");
     this.backendKnowledge = new BackendKnowledge(this.client, this);
     this.backendKnowledge.get_knowledge_sources((data) => {
@@ -37,18 +43,23 @@ export class KnowledgeComponent implements OnInit {
 
   showKnowledgeSourceDetails(index: number) {
     this.curSelectedKnowledgeSource = this.KnowledgeSources[index];
+    this.KnowledgeViewPopUpData.title = this.curSelectedKnowledgeSource.Title;
+    this.KnowledgeViewPopUpData.open();
   }
 
   closeKnowledgeSourceDetails() {
     this.curSelectedKnowledgeSource = null;
+    this.KnowledgeViewPopUpData.close();
   }
 
   showAddKnowledgeSource() {
     this.addKnowledgeSource = true;
+    this.KnowledgeAddPopUpData.open();
   }
 
   closeAddKnowledgeSource() {
     this.addKnowledgeSource = false;
+    this.KnowledgeAddPopUpData.close();
   }
 
   addNewKnowledgeSource() {

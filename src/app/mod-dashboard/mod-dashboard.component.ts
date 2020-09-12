@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from '../dataService';
 import { Router } from '@angular/router';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { PopupData } from '../pop-up-wrapper/pop-up-data';
 
 @Component({
   selector: 'app-mod-dashboard',
@@ -18,6 +19,8 @@ export class ModDashboardComponent implements OnInit {
   curReportedHomeworkDisplay: any;
   users: any;
   curUser: any;
+  userRemovePointsPopUpData: PopupData;
+  userViewReportPopUpData: PopupData;
 
   PointRemoveForm = new FormGroup({
     Points : new FormControl(null, [Validators.required, Validators.pattern(/^-{0,1}\d+$/)])
@@ -26,6 +29,8 @@ export class ModDashboardComponent implements OnInit {
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) { }
 
   ngOnInit() {
+    this.userViewReportPopUpData = new PopupData("Report Sub Image anzeige");
+    this.userRemovePointsPopUpData = new PopupData("Punkte Abziehen");
     this.data.changeCurRoute("mod-dashboard");
     this.backendModDashboard = new BackendModDashboard(this.client, this);
     this.backendModDashboard.get_reports(() => {
@@ -52,6 +57,7 @@ export class ModDashboardComponent implements OnInit {
     }, (error) => {
       this.closeReportedHomework();
     });
+    this.userViewReportPopUpData.open();
   }
 
   closeReportedHomework() {
@@ -60,6 +66,7 @@ export class ModDashboardComponent implements OnInit {
 
   showUser(user) {
     this.curUser = user;
+    this.userRemovePointsPopUpData.open();
   }
 
   closeUser() {

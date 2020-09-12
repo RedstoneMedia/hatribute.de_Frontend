@@ -1,0 +1,11 @@
+<div *ngIf="popupData.isOpen">
+  <div class="bg-popup"></div>
+  <div class="popup">
+    <div class="popup-content">
+      <div class="popup-close" (click)="close()">+</div>
+      <h4 class="popup-title">{{popupData.title}}</h4>
+      <br>
+      <ng-container *ngTemplateOutlet="template"></ng-container>
+    </div>
+  </div>
+</div>

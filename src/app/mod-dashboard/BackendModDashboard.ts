@@ -33,8 +33,8 @@ export class BackendModDashboard extends BackendHomework {
 
   get_users_data(succsesFunction) {
     this.post_with_session_no_data("get_users_data", (data: any) => {
-      succsesFunction();
       this.host.users = data.users;
+      succsesFunction();
     }, (error: any) => {
       this.host.router.navigate(['login']);
     });

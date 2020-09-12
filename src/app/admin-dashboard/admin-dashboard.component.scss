@@ -1,0 +1,83 @@
+@import "~src/global";
+
+#admin-dashboard {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+
+  @media #{$information-phone} {
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  div {
+    padding-bottom: 5px;
+    background-color: $main-font-color;
+    color: darken($color: $main-font-color, $amount: 40);
+  }
+}
+
+#user-list {
+  flex: 2;
+  padding: 10px;
+  width: fit-content;
+
+  table {
+    display: table;
+    text-align: left;
+    margin-top: 10px;
+    @media #{$information-phone} {
+      display: inline-table;
+      margin-left: 0%;
+      text-align: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    td, th {
+      padding-right: 10px;
+    }
+
+    .user {
+      &:hover {
+        color: $navbar_selected_tab_color;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.not_active {
+  color: #b8b8b8;
+}
+
+#side-bar {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+}
+
+#user-add {
+
+  .error {
+    color: $error-color;
+  }
+
+  .error-msg {
+    margin-top : 0.5%;
+    display: block;
+    font-size: 75%;
+  }
+}
+
+
+
+.key-value-pair-edit {
+  margin-bottom: 5px;
+}
+

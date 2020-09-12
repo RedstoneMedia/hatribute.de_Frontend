@@ -2,12 +2,8 @@
 
   <h1>Hausaufgaben</h1>
 
-  <div *ngIf="curSlectedHomework" class="bg-modal"></div>
-  <div *ngIf="curSlectedHomework" class="modal">
-    <div class="modal-content">
-      <div class="modal-close" (click)="closeHomeworkDetails()">+</div>
-      <h4>Hausaufgaben Details</h4>
-      <h4 *ngIf="notEnougthPoints" class="error">Nicht Genügend Punkte</h4>
+  <div *appPopUpWrapper="HomworkDetailPopUpData">
+    <h4 *ngIf="notEnougthPoints" class="error">Nicht Genügend Punkte</h4>
       <div class="sub_Homework" *ngFor="let sub_homework of curSlectedHomework.SubHomework; index as i;">
 
           <span *ngIf="sub_homework.Done else normal_display" class="sub_homework_finished" (click)="showSubHomework(i)">
@@ -27,120 +23,95 @@
             <ng-template #normal_no_deregister><h5>{{sub_homework.User.name}} hat sich bereits für diese Aufgabe gemeldet.</h5></ng-template>
           </ng-template>
       </div>
-    <button *ngIf="curSlectedHomework.CanDelete === true" (click)="deleteHomwork();" class="delete">Löschen (Löscht sofort)</button>
-    </div>
   </div>
 
-  <div *ngIf="curSubHomeworkDisplay" class="bg-modal"></div>
-  <div *ngIf="curSubHomeworkDisplay" class="modal">
-      <div class="modal-content">
-          <div class="modal-close" (click)="closeSubHomework()">+</div>
-          <h4>Hausaufgabe anzeige</h4>
-          <div *ngIf="!usingBase64ImageLoading">
-            <div *ngFor="let imageUrl of curSubHomeworkDisplay?.imageUrls">
-                <img class="image_display" [src]="imageUrl" alt="Bild konnte aufgrund von Vebindungsproblemen nicht geladen werden">
-            </div>
-          </div>
-
-          <div *ngIf="usingBase64ImageLoading">
-            <div *ngFor="let base_64Image of curSubHomeworkDisplay?.base64_images">
-              <img class="image_display" [src]="base_64Image | base64ImageSafe">
-            </div>
-          </div>
-
-          <img *ngIf="!curSubHomeworkDisplay.reported" (click)="showReport()" src="assets/img/report_icon.png" alt="image" class="report">
-      </div>
-  </div>
-
-  <div *ngIf="report" class="bg-modal"></div>
-  <div *ngIf="report" class="modal">
-    <div class="modal-content">
-        <div class="modal-close" (click)="closeReport()">+</div>
-        <h4>Report</h4>
-        <form [formGroup]="ReportForm" (ngSubmit)="addReport()">
-          <div [ngClass]="{'error': ReportForm.controls['Type'].errors}">
-            <label >Type : </label>
-            <select id="Type" required name="Type" formControlName="Type" class="Type">
-                <option value="" disabled>Verstoß wählen</option>
-                <option>0. Fehler in Lösung</option>
-                <option>1. Bild ist keine Hausaufgabe</option>
-                <option>2. Bild enthält Gewalt</option>
-                <option>3. Bild enthält Pornographische Inhalte</option>
-                <option>4. Bild enthält 2. und 3.</option>
-            </select>
-            <div *ngIf="ReportForm.controls['Type'].errors && !ReportForm.controls['Type'].pristine" class="error-msg">
-                <div [hidden]="!ReportForm.controls['Type'].errors.required">Fach wird benötigt.</div>
-            </div>
-          </div>
-          <br>
-          <br>
-          <button type="submit">Report</button>
-      </form>
-    </div>
-  </div>
-
-  <div *ngIf="curUploadSubHomework" class="bg-modal"></div>
-  <div *ngIf="curUploadSubHomework" class="modal">
-      <div class="modal-content">
-          <div class="modal-close" (click)="closeUploadSubHomework()">+</div>
-          <h4>Hausaufgaben Hochladen</h4>
-          <input type="file" name="photo" accept="image/*" capture="camera" alife-file-to-base64 multiple (onFileChanged)="onImageUploadChange($event)"/>
-          <br>
-          <br>
-          <button (click)="uploadHomworkImage()">Hochladen</button>
-      </div>
-  </div>
-
-  <div *ngIf="addHomeworkModal" class="bg-modal"></div>
-  <div *ngIf="addHomeworkModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-close" (click)="closeAddHomework()">+</div>
-        <h4>Hausaufgabe Hinzufügen</h4>
-        <form class="AddHomeworkForm" [formGroup]="AddHomeworkForm" (ngSubmit)="addHomework()">
-            <!--Exercise-->
-            <div [ngClass]="{'error': AddHomeworkForm.controls['Exercise'].errors}">
-              <label >Aufgabe : </label>
-              <input type="text" id="Exercise" required name="Exercise" formControlName="Exercise">
-              <div *ngIf="AddHomeworkForm.controls['Exercise'].errors && !AddHomeworkForm.controls['Exercise'].pristine" class="error-msg">
-                  <div [hidden]="!AddHomeworkForm.controls['Exercise'].errors.required">Aufgabe wird benötigt.</div>
-                  <div [hidden]="!AddHomeworkForm.controls['Exercise'].errors.minLength">Aufgabe ist zu Kurtz.</div>
-              </div>
-            </div>
-            <!--Course-->
-            <br>
-            <div [ngClass]="{'error': AddHomeworkForm.controls['Course'].errors}">
-                <label >Kurs : </label>
-                <select required id="Course" name="Course" formControlName="Course" class="Course">
-                    <option value="">Kurs wählen</option>
-                    <option *ngFor="let course of courses" [value]="course.CourseId">{{course.CourseName}}</option>
-                </select>
-                <div *ngIf="AddHomeworkForm.controls['Course'].errors && !AddHomeworkForm.controls['Course'].pristine" class="error-msg">
-                    <div [hidden]="!AddHomeworkForm.controls['Course'].errors.required">Kurse wird benötigt.</div>
-                </div>
-            </div>
-            <!--Sub Exercise-->
-            <br>
-            <div>
-                <label >Unter Aufgaben : </label>
-                <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise">
-            </div>
-
-            <!--Due Date-->
-            <br>
-            <div [ngClass]="{'error': AddHomeworkForm.controls['DueDate'].errors}">
-                <label >Fällig : </label>
-                <input type="date" id="DueDate" required name="DueDate" formControlName="DueDate" class="DueDate">
-                <div *ngIf="AddHomeworkForm.controls['DueDate'].errors && !AddHomeworkForm.controls['DueDate'].pristine" class="error-msg">
-                  <div [hidden]="!AddHomeworkForm.controls['DueDate'].errors.required">Das Datum wird benötigt.</div>
-                  <div [hidden]="!AddHomeworkForm.controls['DueDate'].errors.datePassed">Das Datum ist in schon vergangen.</div>
-              </div>
-            </div>
-
-            <br>
-            <button type="submit">Hausaufgabe Hinzufügen</button>
-          </form>
+  <div *appPopUpWrapper="HomworkViewPopUpData">
+    <div *ngIf="!usingBase64ImageLoading">
+      <div *ngFor="let imageUrl of curSubHomeworkDisplay?.imageUrls">
+          <img class="image_display" [src]="imageUrl" alt="Bild konnte aufgrund von Vebindungsproblemen nicht geladen werden">
       </div>
     </div>
+
+    <div *ngIf="usingBase64ImageLoading">
+      <div *ngFor="let base_64Image of curSubHomeworkDisplay?.base64_images">
+        <img class="image_display" [src]="base_64Image | base64ImageSafe">
+      </div>
+    </div>
+  </div>
+
+  <div *appPopUpWrapper="HomworkReportPopUpData">
+    <form [formGroup]="ReportForm" (ngSubmit)="addReport()">
+      <div [ngClass]="{'error': ReportForm.controls['Type'].errors}">
+        <label >Type : </label>
+        <select id="Type" required name="Type" formControlName="Type" class="Type">
+            <option value="" disabled>Verstoß wählen</option>
+            <option>0. Fehler in Lösung</option>
+            <option>1. Bild ist keine Hausaufgabe</option>
+            <option>2. Bild enthält Gewalt</option>
+            <option>3. Bild enthält Pornographische Inhalte</option>
+            <option>4. Bild enthält 2. und 3.</option>
+        </select>
+        <div *ngIf="ReportForm.controls['Type'].errors && !ReportForm.controls['Type'].pristine" class="error-msg">
+            <div [hidden]="!ReportForm.controls['Type'].errors.required">Fach wird benötigt.</div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <button type="submit">Report</button>
+    </form>
+  </div>
+
+  <div *appPopUpWrapper="HomworkUploadPopUpData">
+    <input type="file" name="photo" accept="image/*" capture="camera" alife-file-to-base64 multiple (onFileChanged)="onImageUploadChange($event)"/>
+    <br>
+    <br>
+    <button (click)="uploadHomworkImage()">Hochladen</button>
+  </div>
+
+  <div *appPopUpWrapper="HomworkAddPopUpData">
+    <form class="AddHomeworkForm" [formGroup]="AddHomeworkForm" (ngSubmit)="addHomework()">
+      <!--Exercise-->
+      <div [ngClass]="{'error': AddHomeworkForm.controls['Exercise'].errors}">
+        <label >Aufgabe : </label>
+        <input type="text" id="Exercise" required name="Exercise" formControlName="Exercise">
+        <div *ngIf="AddHomeworkForm.controls['Exercise'].errors && !AddHomeworkForm.controls['Exercise'].pristine" class="error-msg">
+            <div [hidden]="!AddHomeworkForm.controls['Exercise'].errors.required">Aufgabe wird benötigt.</div>
+            <div [hidden]="!AddHomeworkForm.controls['Exercise'].errors.minLength">Aufgabe ist zu Kurtz.</div>
+        </div>
+      </div>
+      <!--Course-->
+      <br>
+      <div [ngClass]="{'error': AddHomeworkForm.controls['Course'].errors}">
+          <label >Kurs : </label>
+          <select required id="Course" name="Course" formControlName="Course" class="Course">
+              <option value="">Kurs wählen</option>
+              <option *ngFor="let course of courses" [value]="course.CourseId">{{course.CourseName}}</option>
+          </select>
+          <div *ngIf="AddHomeworkForm.controls['Course'].errors && !AddHomeworkForm.controls['Course'].pristine" class="error-msg">
+              <div [hidden]="!AddHomeworkForm.controls['Course'].errors.required">Kurse wird benötigt.</div>
+          </div>
+      </div>
+      <!--Sub Exercise-->
+      <br>
+      <div>
+          <label >Unter Aufgaben : </label>
+          <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise">
+      </div>
+
+      <!--Due Date-->
+      <br>
+      <div [ngClass]="{'error': AddHomeworkForm.controls['DueDate'].errors}">
+          <label >Fällig : </label>
+          <input type="date" id="DueDate" required name="DueDate" formControlName="DueDate" class="DueDate">
+          <div *ngIf="AddHomeworkForm.controls['DueDate'].errors && !AddHomeworkForm.controls['DueDate'].pristine" class="error-msg">
+            <div [hidden]="!AddHomeworkForm.controls['DueDate'].errors.required">Das Datum wird benötigt.</div>
+            <div [hidden]="!AddHomeworkForm.controls['DueDate'].errors.datePassed">Das Datum ist in schon vergangen.</div>
+        </div>
+      </div>
+      <br>
+      <button type="submit">Hausaufgabe Hinzufügen</button>
+    </form>
+  </div>
 
   <table id="HomeworkTable">
     <tr>
@@ -157,6 +128,6 @@
     </tr>
   </table>
 
-  <div *ngIf="!curSlectedHomework && !addHomeworkModal" (click)="showAddHomework();" class="add">+</div>
+  <div *ngIf="!HomworkAddPopUpData.isOpen && !HomworkDetailPopUpData.isOpen" (click)="showAddHomework();" class="add">+</div>
 
 </div>
