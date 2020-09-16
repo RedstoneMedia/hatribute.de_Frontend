@@ -4,6 +4,7 @@
     <div *appPopUpWrapper="userViewReportPopUpData">
       <app-image-display [subHomeworkDisplay]="curReportedHomeworkDisplay" [backendHomework]="backendModDashboard" (notEnoughtPoints)="imageViewError($event)"></app-image-display>
       <button (click)="resetSubHomework()">Lösung Löschen</button>
+      <button (click)="removeFalseReport()">Report ist nicht wahr</button>
     </div>
 
     <div *appPopUpWrapper="userRemovePointsPopUpData">

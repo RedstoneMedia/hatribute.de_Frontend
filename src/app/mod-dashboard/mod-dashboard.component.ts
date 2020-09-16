@@ -48,14 +48,7 @@ export class ModDashboardComponent implements OnInit {
 
   showReportedHomework(reportedHomework) {
     this.curReportedHomeworkDisplay = reportedHomework;
-    this.curReportedHomeworkDisplay["imageUrls"] = [];
-    this.backendModDashboard.get_sub_homework_images_url(this.curReportedHomeworkDisplay.reportHomeworkId, this.curReportedHomeworkDisplay.reportSubHomeworkId, (data) => {
-      for (let j = 0; j < data.images_total; j++) {
-        this.curReportedHomeworkDisplay.imageUrls.push(`\\${data.images_url}\\${j}.png`);
-      }
-    }, (error) => {
-      this.closeReportedHomework();
-    });
+    this.curReportedHomeworkDisplay.id = this.curReportedHomeworkDisplay.reportSubHomeworkId;
     this.userViewReportPopUpData.open();
   }
 
@@ -68,6 +61,7 @@ export class ModDashboardComponent implements OnInit {
 
   closeReportedHomework() {
     this.curReportedHomeworkDisplay = null;
+    this.userViewReportPopUpData.close();
   }
 
   showUser(user) {
@@ -90,6 +84,14 @@ export class ModDashboardComponent implements OnInit {
 
   resetSubHomework() {
     this.backendModDashboard.reset_sub_homework(this.curReportedHomeworkDisplay.reportHomeworkId, this.curReportedHomeworkDisplay.reportSubHomeworkId, () => {
+      this.backendModDashboard.get_reports(() => {
+        this.closeReportedHomework();
+      }, () => {});
+    });
+  }
+
+  removeFalseReport() {
+    this.backendModDashboard.remove_false_report(this.curReportedHomeworkDisplay.reportSubHomeworkId, () => {
       this.backendModDashboard.get_reports(() => {
         this.closeReportedHomework();
       }, () => {});

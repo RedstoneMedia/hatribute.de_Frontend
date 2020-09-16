@@ -31,6 +31,17 @@ export class BackendModDashboard extends BackendHomework {
     });
   }
 
+  remove_false_report(subHomeworkId: number, succsesFunction) {
+    const jsonData = {
+      "sub_homework_id" : subHomeworkId
+    };
+    this.post_with_session(jsonData, "remove_false_report", (data: any) => {
+      succsesFunction();
+    }, (error: any) => {
+      this.host.router.navigate(['login']);
+    });
+  }
+
   get_users_data(succsesFunction) {
     this.post_with_session_no_data("get_users_data", (data: any) => {
       this.host.users = data.users;
