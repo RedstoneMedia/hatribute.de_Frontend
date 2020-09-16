@@ -17,8 +17,11 @@ export class AdminDashboardComponent implements OnInit {
   backendAdminDashboard: BackendAdminDashboard;
   UserData: any;
   users: any;
+  courses: any;
   currentUser: any;
+  currentCourse: any;
   userEditPopUpData: PopupData;
+  courseEditPopUpData: PopupData;
   adminReadOnlyKeys = Constants.adminReadOnlyKeys;
 
   AddUserForm = new FormGroup({
@@ -30,19 +33,24 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.data.changeCurRoute("admin-dashboard");
-    this.userEditPopUpData = new PopupData("User Popup");
+    this.courseEditPopUpData = new PopupData("Kurs Popup");
+    this.userEditPopUpData = new PopupData("Nutzer Popup");
     this.backendAdminDashboard = new BackendAdminDashboard(this.client, this);
-    this.backendAdminDashboard.get_users_data(() => {
-      this.backendAdminDashboard.post_with_session_no_data("get_data", (data: any) => {
-        this.UserData = data.user;
-        this.data.changeRole(data.user.role);
-        if (this.UserData.role < 3) {
-          this.router.navigate(["homework-list"]);
-        }
-      }, (error) => {
-        console.log(error);
-        this.router.navigate(['login']);
+    this.backendAdminDashboard.post_with_session_no_data("get_data", (data: any) => {
+      this.UserData = data.user;
+      this.data.changeRole(data.user.role);
+      if (this.UserData.role < 3) {
+        this.router.navigate(["homework-list"]);
+      }
+      this.backendAdminDashboard.get_users_data(() => {
+        this.backendAdminDashboard.getAllCourses((data: any) => {
+          console.log(data);
+          this.courses = data.courses;
+        });
       });
+    }, (error) => {
+      console.log(error);
+      this.router.navigate(['login']);
     });
   }
 
@@ -61,7 +69,6 @@ export class AdminDashboardComponent implements OnInit {
         event.srcElement.value = this.currentUser[key];
       }
     }
-
   }
 
   writeUserChanges(): void {
@@ -104,6 +111,36 @@ export class AdminDashboardComponent implements OnInit {
     this.backendAdminDashboard.removeDeactivatedUser(this.currentUser.id, (newUserData: any) => {
       this.backendAdminDashboard.get_users_data(() => {
         this.userEditPopUpData.close();
+      });
+    });
+  }
+
+  openCourseEditPopUp(course: any): void {
+    this.currentCourse = course;
+    this.courseEditPopUpData.open();
+  }
+
+  closeCourseEditPopUp(): void {
+    this.courseEditPopUpData.close();
+    this.currentCourse = null;
+  }
+
+  changeCoursePopUpInputValue(key, event): void {
+    try {
+      this.currentCourse[key] = JSON.parse(event.srcElement.value);
+    } catch (SyntaxError) {
+      if (typeof this.currentCourse[key] === "string") {
+        this.currentCourse[key] = event.srcElement.value;
+      } else {
+        event.srcElement.value = this.currentCourse[key];
+      }
+    }
+  }
+
+  writeCourseChanges() {
+    this.backendAdminDashboard.writeCourseChanges(this.currentCourse, () => {
+      this.backendAdminDashboard.getAllCourses(() => {
+        this.closeCourseEditPopUp();
       });
     });
   }

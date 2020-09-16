@@ -26,17 +26,8 @@
   </div>
 
   <div *appPopUpWrapper="HomworkViewPopUpData">
-    <div *ngIf="!usingBase64ImageLoading">
-      <div *ngFor="let imageUrl of curSubHomeworkDisplay?.imageUrls">
-          <img class="image_display" [src]="imageUrl" alt="Bild konnte aufgrund von Vebindungsproblemen nicht geladen werden">
-      </div>
-    </div>
-
-    <div *ngIf="usingBase64ImageLoading">
-      <div *ngFor="let base_64Image of curSubHomeworkDisplay?.base64_images">
-        <img class="image_display" [src]="base_64Image | base64ImageSafe">
-      </div>
-    </div>
+    <app-image-display [subHomeworkDisplay]="curSubHomeworkDisplay" [backendHomework]="backendSchoolClass" (notEnoughtPoints)="notEnoughtPointsImageDisplay($event)"></app-image-display>
+    <img *ngIf="!curSubHomeworkDisplay.reported" (click)="showReport()" src="assets/img/report_icon.png" alt="image" class="report">
   </div>
 
   <div *appPopUpWrapper="HomworkReportPopUpData">

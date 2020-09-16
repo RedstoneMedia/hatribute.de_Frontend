@@ -47,7 +47,6 @@ export class ModDashboardComponent implements OnInit {
   }
 
   showReportedHomework(reportedHomework) {
-
     this.curReportedHomeworkDisplay = reportedHomework;
     this.curReportedHomeworkDisplay["imageUrls"] = [];
     this.backendModDashboard.get_sub_homework_images_url(this.curReportedHomeworkDisplay.reportHomeworkId, this.curReportedHomeworkDisplay.reportSubHomeworkId, (data) => {
@@ -58,6 +57,13 @@ export class ModDashboardComponent implements OnInit {
       this.closeReportedHomework();
     });
     this.userViewReportPopUpData.open();
+  }
+
+  imageViewError(error: boolean) {
+    if (error) {
+      this.userViewReportPopUpData.close();
+      this.curReportedHomeworkDisplay = null;
+    }
   }
 
   closeReportedHomework() {
@@ -89,4 +95,6 @@ export class ModDashboardComponent implements OnInit {
       }, () => {});
     });
   }
+
+  // TODO : Add option to remove a false report
 }

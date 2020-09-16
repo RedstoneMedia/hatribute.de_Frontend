@@ -2,9 +2,7 @@
     <h1>Reports</h1>
 
     <div *appPopUpWrapper="userViewReportPopUpData">
-      <div *ngFor="let imageUrl of curReportedHomeworkDisplay?.imageUrls">
-        <img class="image_display" [src]="imageUrl">
-      </div>
+      <app-image-display [subHomeworkDisplay]="curReportedHomeworkDisplay" [backendHomework]="backendModDashboard" (notEnoughtPoints)="imageViewError($event)"></app-image-display>
       <button (click)="resetSubHomework()">Lösung Löschen</button>
     </div>
 

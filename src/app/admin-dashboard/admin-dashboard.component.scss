@@ -22,31 +22,43 @@
 }
 
 #user-list {
-  flex: 2;
+  flex: 1;
   padding: 10px;
   width: fit-content;
+  @media #{$information-phone} {
+    width: 100%;
+  }
+}
 
-  table {
-    display: table;
-    text-align: left;
+#course-list {
+  flex: 1;
+  padding: 10px;
+  width: fit-content;
+  @media #{$information-phone} {
+    width: 100%;
+  }
+}
+
+table {
+  display: table;
+  text-align: left;
+  margin-top: 10px;
+  @media #{$information-phone} {
+    display: inline-table;
+    margin-left: 0%;
+    text-align: center;
+    width: 100%;
     margin-top: 10px;
-    @media #{$information-phone} {
-      display: inline-table;
-      margin-left: 0%;
-      text-align: center;
-      width: 100%;
-      margin-top: 10px;
-    }
+  }
 
-    td, th {
-      padding-right: 10px;
-    }
+  td, th {
+    padding-right: 10px;
+  }
 
-    .user {
-      &:hover {
-        color: $navbar_selected_tab_color;
-        cursor: pointer;
-      }
+  .hover-change {
+    &:hover {
+      color: $navbar_selected_tab_color;
+      cursor: pointer;
     }
   }
 }
@@ -59,7 +71,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-
 }
 
 #user-add {

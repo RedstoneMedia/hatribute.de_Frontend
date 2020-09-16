@@ -24,6 +24,7 @@ import { PopUpWrapperComponent } from './pop-up-wrapper/pop-up-wrapper.component
 
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { Base64ImageSafePipe } from './base64-image-safe.pipe';
+import { ImageDisplayComponent } from './image-display/image-display.component';
 
 
 const myRoutes: Routes = [
@@ -52,6 +53,7 @@ const myRoutes: Routes = [
     AdminDashboardComponent,
     PopUpWrapperDirective,
     PopUpWrapperComponent,
+    ImageDisplayComponent,
   ],
   imports: [
     BrowserModule,

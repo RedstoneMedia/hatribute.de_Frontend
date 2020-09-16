@@ -1,0 +1,11 @@
+<div *ngIf="!usingBase64ImageLoading">
+  <div *ngFor="let imageUrl of subHomeworkDisplay?.imageUrls">
+      <img class="image_display" [src]="imageUrl" alt="Bild konnte aufgrund von Vebindungsproblemen nicht geladen werden">
+  </div>
+</div>
+
+<div *ngIf="usingBase64ImageLoading">
+  <div *ngFor="let base_64Image of subHomeworkDisplay?.base64_images">
+    <img class="image_display" [src]="base_64Image | base64ImageSafe">
+  </div>
+</div>
