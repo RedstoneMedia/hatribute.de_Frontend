@@ -97,6 +97,4 @@ export class ModDashboardComponent implements OnInit {
       }, () => {});
     });
   }
-
-  // TODO : Add option to remove a false report
 }
