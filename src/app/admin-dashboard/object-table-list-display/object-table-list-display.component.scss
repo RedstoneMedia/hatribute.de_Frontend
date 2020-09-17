@@ -1,0 +1,29 @@
+@import "~src/global";
+
+table {
+  display: table;
+  text-align: left;
+  margin-top: 10px;
+  @media #{$information-phone} {
+    display: inline-table;
+    margin-left: 0%;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  td, th {
+    padding-right: 10px;
+  }
+
+  .hover-change {
+    &:hover {
+      color: $navbar_selected_tab_color;
+      cursor: pointer;
+    }
+  }
+}
+
+.key-value-pair-edit {
+  margin-bottom: 5px;
+}

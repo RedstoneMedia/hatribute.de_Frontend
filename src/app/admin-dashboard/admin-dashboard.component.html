@@ -1,42 +1,12 @@
 <div id="admin-dashboard">
 
-  <!--User list-->
-  <div id="user-list">
-    <h3>Nutzer Liste</h3>
-    <table>
-      <tr>
-        <th>Nutzer</th>
-        <th>Role</th>
-        <th>Punkte</th>
-        <th>Id</th>
-        <th>Schul Id</th>
-      </tr>
-      <tr class="user hover-change" (click)="openUserEditPopUp(user)" *ngFor="let user of users; index as i;" [class]="user.is_active == true ? '' : 'not_active'">
-        <td>{{user.name}}</td>
-        <td>{{user.role}}</td>
-        <td>{{user.points}}</td>
-        <td>{{user.id}}</td>
-        <td>{{user.school_id}}</td>
-      </tr>
-    </table>
-  </div>
+  <!--User List-->
+  <app-object-table-list-display id="user-list" [objects]="users" [displayOptions]="usersTableListDisplayOptions"></app-object-table-list-display>
 
   <!--Course list-->
-  <div id="course-list">
-    <h3>Kurs Liste</h3>
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Standard</th>
-      </tr>
-      <tr class="course hover-change" (click)="openCourseEditPopUp(course)" *ngFor="let course of courses; index as i;">
-        <td>{{course.CourseId}}</td>
-        <td>{{course.CourseName}}</td>
-        <td>{{course.IsDefaultCourse}}</td>
-      </tr>
-    </table>
-  </div>
+  <app-object-table-list-display id="course-list" [objects]="courses" [displayOptions]="courseTableListDisplayOptions"></app-object-table-list-display>
+
+
 
   <!--Side bar-->
   <div id="side-bar">
@@ -67,30 +37,4 @@
       </form>
     </div>
   </div>
-</div>
-
-
-<!--Edit user popup-->
-<div *appPopUpWrapper="userEditPopUpData">
-  <div class="key-value-pair-edit" *ngFor="let currentKeyValuePair of currentUser | keyvalue">
-    "{{currentKeyValuePair.key}}" :
-    <input *ngIf="adminReadOnlyKeys.indexOf(currentKeyValuePair.key) < 0" [value]="currentKeyValuePair.value" (change)="changeEditPopUpInputValue(currentKeyValuePair.key, $event)">
-    <input readonly *ngIf="adminReadOnlyKeys.indexOf(currentKeyValuePair.key) > -1" [value]="currentKeyValuePair.value">
-  </div>
-  <div *ngIf="currentUser.is_active == false" style="margin-bottom: 5px;">
-    <button *ngIf="currentUser.newToken === undefined" (click)="generateNewTokenForDeactivatedUser()">Token generieren</button>
-    <button (click)="removeDeactivatedUser()">Account löschen</button>
-  </div>
-  <button (click)="writeUserChanges()">Änderungen speichern</button>
-</div>
-
-
-<!--Edit course popup-->
-<div *appPopUpWrapper="courseEditPopUpData">
-  <div class="key-value-pair-edit" *ngFor="let currentKeyValuePair of currentCourse | keyvalue">
-    "{{currentKeyValuePair.key}}" :
-    <input *ngIf="adminReadOnlyKeys.indexOf(currentKeyValuePair.key) < 0" [value]="currentKeyValuePair.value" (change)="changeCoursePopUpInputValue(currentKeyValuePair.key, $event)">
-    <input readonly *ngIf="adminReadOnlyKeys.indexOf(currentKeyValuePair.key) > -1" [value]="currentKeyValuePair.value">
-  </div>
-  <button (click)="writeCourseChanges()">Änderungen speichern</button>
 </div>

@@ -9,6 +9,8 @@ export class BackendKnowledge extends BackendSession {
     super(client, host, address);
   }
 
+  // TODO: Add ablity  to add new sources
+
   get_knowledge_sources(successFunction: any, errorFunction: any) {
     this.post_with_session_no_data("get_knowledge_sources", (data: any) => {
       successFunction(data);

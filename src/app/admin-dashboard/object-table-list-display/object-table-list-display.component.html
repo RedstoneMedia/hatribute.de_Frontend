@@ -1,0 +1,31 @@
+<div class="object-list">
+  <h3>{{displayOptions.tableName}}</h3>
+  <table>
+    <tr>
+      <th *ngFor="let column of displayOptions.tableColumnsMap | keyvalue">
+        {{column.value}}
+      </th>
+    </tr>
+    <tr class="object hover-change" (click)="openObjectEditPopUp(object)" *ngFor="let object of objects; index as i;" [ngStyle]="displayOptions.getCurrentStyleFromStyleConditions(object)">
+      <td *ngFor="let column of displayOptions.tableColumnsMap | keyvalue">
+        {{object[column.key]}}
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<!--Edit object popup-->
+<div *appPopUpWrapper="objectEditPopUpData">
+  <div class="key-value-pair-edit" *ngFor="let currentKeyValuePair of currentObject | keyvalue">
+    "{{currentKeyValuePair.key}}" :
+    <input *ngIf="displayOptions.readOnlyKeys.indexOf(currentKeyValuePair.key) < 0" [value]="currentKeyValuePair.value" (change)="changeObjectEditPopUpInputValue(currentKeyValuePair.key, $event)">
+    <input readonly *ngIf="displayOptions.readOnlyKeys.indexOf(currentKeyValuePair.key) > -1" [value]="currentKeyValuePair.value">
+  </div>
+  <div style="margin-bottom: 5px;">
+    <span *ngFor="let action of displayOptions.actions">
+      <button *ngIf="action.canDisplay(currentObject)" (click)="executeAction(action)">{{action.actionName}}</button>
+    </span>
+  </div>
+  <button (click)="writeObjectChanges()">Änderungen speichern</button>
+</div>

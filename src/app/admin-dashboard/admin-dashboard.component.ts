@@ -1,5 +1,5 @@
+import { ObjectTableListDisplayOptions, ObjectTableListDisplayOptionsAction, ObjectTableListDisplayWhenKeyIsEqualToConditon } from './object-table-list-display/ObjectTableListDisplayOptions';
 import { Constants } from './../constants';
-import { PopupData } from './../pop-up-wrapper/pop-up-data';
 import { BackendAdminDashboard } from './BackendAdminDashboard';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -18,11 +18,8 @@ export class AdminDashboardComponent implements OnInit {
   UserData: any;
   users: any;
   courses: any;
-  currentUser: any;
-  currentCourse: any;
-  userEditPopUpData: PopupData;
-  courseEditPopUpData: PopupData;
-  adminReadOnlyKeys = Constants.adminReadOnlyKeys;
+  courseTableListDisplayOptions: ObjectTableListDisplayOptions;
+  usersTableListDisplayOptions: ObjectTableListDisplayOptions;
 
   AddUserForm = new FormGroup({
     name : new FormControl(null, [Validators.required, Validators.minLength(4)]),
@@ -33,8 +30,7 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.data.changeCurRoute("admin-dashboard");
-    this.courseEditPopUpData = new PopupData("Kurs Popup");
-    this.userEditPopUpData = new PopupData("Nutzer Popup");
+    this.initTables();
     this.backendAdminDashboard = new BackendAdminDashboard(this.client, this);
     this.backendAdminDashboard.post_with_session_no_data("get_data", (data: any) => {
       this.UserData = data.user;
@@ -54,37 +50,52 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  openUserEditPopUp(user: any): void {
-    this.currentUser = user;
-    this.userEditPopUpData.open();
-  }
+  initTables() {
+    // Course table
+    this.courseTableListDisplayOptions = new ObjectTableListDisplayOptions("Kurs-Liste", (currentCourse: any) => {
+      this.backendAdminDashboard.writeCourseChanges(currentCourse, () => {
+        this.backendAdminDashboard.getAllCourses(() => {});
+      });
+    }, Constants.adminReadOnlyKeys);
+    this.courseTableListDisplayOptions.addColumn("CourseId", "Id");
+    this.courseTableListDisplayOptions.addColumn("CourseName", "Name");
+    this.courseTableListDisplayOptions.addColumn("IsDefaultCourse", "Standart");
 
-  changeEditPopUpInputValue(key, event): void {
-    try {
-      this.currentUser[key] = JSON.parse(event.srcElement.value);
-    } catch (SyntaxError) {
-      if (typeof this.currentUser[key] === "string") {
-        this.currentUser[key] = event.srcElement.value;
-      } else {
-        event.srcElement.value = this.currentUser[key];
-      }
-    }
-  }
 
-  writeUserChanges(): void {
-    delete this.currentUser.newToken;
-    this.backendAdminDashboard.writeUserChanges(this.currentUser, () => {
-      this.backendAdminDashboard.get_users_data(() => {
-        this.currentUser = null;
-        this.userEditPopUpData.close();
+    // User table
+    this.usersTableListDisplayOptions = new ObjectTableListDisplayOptions("Nutzer-Liste", (currentUser: any) => {
+      delete currentUser.newToken;
+      this.backendAdminDashboard.writeUserChanges(currentUser, () => {
+        this.backendAdminDashboard.get_users_data(() => {});
+      });
+    }, Constants.adminReadOnlyKeys);
+    this.usersTableListDisplayOptions.addColumn("name", "Nutzer");
+    this.usersTableListDisplayOptions.addColumn("role", "Role");
+    this.usersTableListDisplayOptions.addColumn("points", "Punkte");
+    this.usersTableListDisplayOptions.addColumn("id", "Id");
+    this.usersTableListDisplayOptions.addColumn("school_id", "Schul Id");
+
+    // Gen new token action
+    const genNewTokenAction = new ObjectTableListDisplayOptionsAction("Token generieren", (currentUser: any) => {
+      this.backendAdminDashboard.generateNewTokenForDeactivatedUser(currentUser.id, (newToken: string) => {
+        currentUser.newToken = newToken;
       });
     });
-  }
+    genNewTokenAction.addCondition(new ObjectTableListDisplayWhenKeyIsEqualToConditon("is_active", false));
+    this.usersTableListDisplayOptions.addAction(genNewTokenAction);
 
-  generateNewTokenForDeactivatedUser(): void {
-    this.backendAdminDashboard.generateNewTokenForDeactivatedUser(this.currentUser.id, (newToken: string) => {
-      this.currentUser.newToken = newToken;
-    });
+    // Remove deactivated user action
+    const removeDeactivatedUserAction = new ObjectTableListDisplayOptionsAction("Account löschen", (currentUser: any) => {
+      this.backendAdminDashboard.removeDeactivatedUser(currentUser.id, (newUserData: any) => {
+        this.backendAdminDashboard.get_users_data(() => {});
+      });
+    }, true);
+    removeDeactivatedUserAction.addCondition(new ObjectTableListDisplayWhenKeyIsEqualToConditon("is_active", false));
+    this.usersTableListDisplayOptions.addAction(removeDeactivatedUserAction);
+
+    // Make user row gray if not active
+    this.usersTableListDisplayOptions.addStyleCondition(new ObjectTableListDisplayWhenKeyIsEqualToConditon("is_active", false), {color : "#b8b8b8"});
+
   }
 
   addNewUser(): void {
@@ -98,50 +109,11 @@ export class AdminDashboardComponent implements OnInit {
             const user = this.users[i];
             if (user.id === newUserData.new_user_id) {
               user.newToken = newUserData.new_first_time_sign_in_token;
-              this.openUserEditPopUp(user);
               break;
             }
           }
         });
       });
     }
-  }
-
-  removeDeactivatedUser(): void {
-    this.backendAdminDashboard.removeDeactivatedUser(this.currentUser.id, (newUserData: any) => {
-      this.backendAdminDashboard.get_users_data(() => {
-        this.userEditPopUpData.close();
-      });
-    });
-  }
-
-  openCourseEditPopUp(course: any): void {
-    this.currentCourse = course;
-    this.courseEditPopUpData.open();
-  }
-
-  closeCourseEditPopUp(): void {
-    this.courseEditPopUpData.close();
-    this.currentCourse = null;
-  }
-
-  changeCoursePopUpInputValue(key, event): void {
-    try {
-      this.currentCourse[key] = JSON.parse(event.srcElement.value);
-    } catch (SyntaxError) {
-      if (typeof this.currentCourse[key] === "string") {
-        this.currentCourse[key] = event.srcElement.value;
-      } else {
-        event.srcElement.value = this.currentCourse[key];
-      }
-    }
-  }
-
-  writeCourseChanges() {
-    this.backendAdminDashboard.writeCourseChanges(this.currentCourse, () => {
-      this.backendAdminDashboard.getAllCourses(() => {
-        this.closeCourseEditPopUp();
-      });
-    });
   }
 }
