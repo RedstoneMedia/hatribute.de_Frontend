@@ -76,7 +76,7 @@
           <label >Kurs : </label>
           <select required id="Course" name="Course" formControlName="Course" class="Course">
               <option value="">Kurs wählen</option>
-              <option *ngFor="let course of courses" [value]="course.CourseId">{{course.CourseName}}</option>
+              <option *ngFor="let courseKeyValuePair of courses | keyvalue" [value]="courseKeyValuePair.key">{{courseKeyValuePair.value.CourseName}}</option>
           </select>
           <div *ngIf="AddHomeworkForm.controls['Course'].errors && !AddHomeworkForm.controls['Course'].pristine" class="error-msg">
               <div [hidden]="!AddHomeworkForm.controls['Course'].errors.required">Kurse wird benötigt.</div>
@@ -112,7 +112,7 @@
       <th>Fällig</th>
     </tr>
     <tr (click)="showHomeworkDetails(i)" *ngFor="let homework of homework; index as i;" class="Homework" [className]="homework.DonePercentage === 100 ? 'done': ''">
-        <td><h3>{{courses[homework.CourseId - 1].CourseName}}</h3></td>
+        <td><h3>{{courses.get(homework.CourseId).CourseName}}</h3></td>
         <td><h3>{{homework.Exercise}}</h3></td>
         <td><h4>{{homework.DonePercentage}}%</h4></td>
         <td><h4 class="urgent_level_{{homework.UrgentLevel}}">{{homework.Due}}</h4></td>

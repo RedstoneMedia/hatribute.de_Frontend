@@ -12,6 +12,8 @@
       </td>
     </tr>
   </table>
+
+  <div *ngIf="displayOptions.addPopupInfo" (click)="addObject();" class="add">+</div>
 </div>
 
 
@@ -28,4 +30,22 @@
     </span>
   </div>
   <button (click)="writeObjectChanges()">Änderungen speichern</button>
+</div>
+
+
+<!--Add object popup-->
+<div *appPopUpWrapper="objectAddPopUpData">
+
+  <form class="object-add" [formGroup]="addFormGroup" (ngSubmit)="addNewObject()">
+    <div class="key-value-pair-edit" *ngFor="let inputKeyValuePair of displayOptions.addPopupInfo.inputMap | keyvalue" [ngClass]="{'error': addFormGroup.controls[inputKeyValuePair.key].errors && !addFormGroup.controls[inputKeyValuePair.key].pristine}">
+      <label>{{inputKeyValuePair.value.displayName}} : </label>
+      <input type="text" [name]="inputKeyValuePair.key" [formControlName]="inputKeyValuePair.key" [placeholder]="inputKeyValuePair.value.placeholderText">
+      <div *ngIf="addFormGroup.controls[inputKeyValuePair.key].errors && !addFormGroup.controls[inputKeyValuePair.key].pristine" class="error-msg">
+        <div [hidden]="!addFormGroup.controls[inputKeyValuePair.key].errors.required">{{inputKeyValuePair.value.displayName}} ist benötigt.</div>
+        <div [hidden]="!addFormGroup.controls[inputKeyValuePair.key].errors.pattern">{{inputKeyValuePair.value.displayName}} ist im falschen Format.</div>
+      </div>
+    </div>
+
+    <button type="submit">{{displayOptions.addPopupInfo.addText}}</button>
+  </form>
 </div>

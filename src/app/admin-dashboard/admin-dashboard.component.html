@@ -10,31 +10,5 @@
 
   <!--Side bar-->
   <div id="side-bar">
-
-      <!--Add user form-->
-    <div id="user-add">
-      <h3>Nutzer Hinzufügen</h3>
-      <form class="addNewUserForm" [formGroup]="AddUserForm" (ngSubmit)="addNewUser()">
-        <div class="school" [ngClass]="{'error': AddUserForm.controls['school'].errors && !AddUserForm.controls['school'].pristine}" >
-          <label>Schulname : </label>
-          <input type="text" name="school" formControlName="school" placeholder="test-school">
-          <div *ngIf="AddUserForm.controls['school'].errors && !AddUserForm.controls['school'].pristine" class="error-msg">
-            <div [hidden]="!AddUserForm.controls['school'].errors.required">Schulname ist benötigt.</div>
-            <div [hidden]="!AddUserForm.controls['school'].errors.minlength">Schulname ist zu kurtz.</div>
-          </div>
-        </div>
-
-        <div class="name" [ngClass]="{'error': AddUserForm.controls['name'].errors && !AddUserForm.controls['name'].pristine}" >
-          <label>Nutzername : </label>
-          <input type="text" name="name" formControlName="name">
-          <div *ngIf="AddUserForm.controls['name'].errors && !AddUserForm.controls['name'].pristine" class="error-msg">
-            <div [hidden]="!AddUserForm.controls['name'].errors.required">Nutzername ist benötigt.</div>
-            <div [hidden]="!AddUserForm.controls['name'].errors.minlength">Nutzername ist zu kurtz.</div>
-          </div>
-        </div>
-
-        <button type="submit">Account erstellen</button>
-      </form>
-    </div>
   </div>
 </div>

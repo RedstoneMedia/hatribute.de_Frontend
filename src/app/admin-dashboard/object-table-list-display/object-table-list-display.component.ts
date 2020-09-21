@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { ObjectTableListDisplayOptions, ObjectTableListDisplayOptionsAction } from './ObjectTableListDisplayOptions';
 import { Constants } from './../../constants';
 import { PopupData } from './../../pop-up-wrapper/pop-up-data';
@@ -15,13 +16,19 @@ export class ObjectTableListDisplayComponent implements OnInit {
   @Input() objects;
   @Input() displayOptions: ObjectTableListDisplayOptions;
   objectEditPopUpData: PopupData;
+  objectAddPopUpData: PopupData;
   currentObject: any;
   adminReadOnlyKeys = Constants.adminReadOnlyKeys;
+  addFormGroup: FormGroup;
 
   constructor(private client: HttpClient, protected data: DataService, protected router: Router) {}
 
   ngOnInit(): void {
     this.objectEditPopUpData = new PopupData(this.displayOptions.tableName);
+    this.objectAddPopUpData = new PopupData(this.displayOptions.tableName);
+    if (this.displayOptions.addPopupInfo) {
+      this.addFormGroup = this.displayOptions.addPopupInfo.getFormGroup();
+    }
   }
 
   openObjectEditPopUp(object: any): void {
@@ -50,6 +57,17 @@ export class ObjectTableListDisplayComponent implements OnInit {
       } else {
         event.srcElement.value = this.currentObject[key];
       }
+    }
+  }
+
+  addObject() {
+    this.objectAddPopUpData.open();
+  }
+
+  addNewObject() {
+    if (this.displayOptions.addPopupInfo.addObjectFromDataInForms()) {
+      this.objectAddPopUpData.close();
+      this.addFormGroup.reset();
     }
   }
 

@@ -71,4 +71,28 @@ export class BackendAdminDashboard extends BackendModDashboard {
       console.error(error);
     });
   }
+
+  addCourse(courseName: string, schoolName: string, isDefaultCourse: boolean, successFunction: any): void {
+    const jsonData = {
+      course_name : courseName,
+      school_name : schoolName,
+      is_default_course: isDefaultCourse
+    };
+    this.post_with_session(jsonData, "add_course", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+    });
+  }
+
+  removeCourse(courseId: number, successFunction: (data: any) => void): void {
+    const jsonData = {
+      course_id : courseId,
+    };
+    this.post_with_session(jsonData, "remove_course", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+    });
+  }
 }

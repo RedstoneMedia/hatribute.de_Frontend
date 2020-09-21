@@ -1,4 +1,4 @@
-import { ObjectTableListDisplayOptions, ObjectTableListDisplayOptionsAction, ObjectTableListDisplayWhenKeyIsEqualToConditon } from './object-table-list-display/ObjectTableListDisplayOptions';
+import { ObjectTableListDisplayAddInputInfo, ObjectTableListDisplayAddPopupInfo, ObjectTableListDisplayOptions, ObjectTableListDisplayOptionsAction, ObjectTableListDisplayWhenKeyIsEqualToConditon } from './object-table-list-display/ObjectTableListDisplayOptions';
 import { Constants } from './../constants';
 import { BackendAdminDashboard } from './BackendAdminDashboard';
 import { Component, OnInit } from '@angular/core';
@@ -40,7 +40,6 @@ export class AdminDashboardComponent implements OnInit {
       }
       this.backendAdminDashboard.get_users_data(() => {
         this.backendAdminDashboard.getAllCourses((data: any) => {
-          console.log(data);
           this.courses = data.courses;
         });
       });
@@ -52,23 +51,54 @@ export class AdminDashboardComponent implements OnInit {
 
   initTables() {
     // Course table
+    const addNewCoursePopupInfo = new ObjectTableListDisplayAddPopupInfo((data: any) => {
+      this.backendAdminDashboard.addCourse(data.CourseName, data.school, data.DefaultCourse === "true", () => {});
+    }, "Kurs Erstellen");
+    addNewCoursePopupInfo.addInputToPopup("CourseName", new ObjectTableListDisplayAddInputInfo("Name", new FormControl(null, [Validators.required, Validators.pattern("^[\\w-_]{2,20}$")])));
+    addNewCoursePopupInfo.addInputToPopup("DefaultCourse", new ObjectTableListDisplayAddInputInfo("Standart", new FormControl(null, [Validators.required, Validators.pattern("^(ja)|(nein)|(true)|(false)$")])));
+    addNewCoursePopupInfo.addInputToPopup("school", new ObjectTableListDisplayAddInputInfo("Schulname", new FormControl(null, [Validators.required, Validators.pattern("^[\\w-_]{2,40}$")]), "test-school"));
     this.courseTableListDisplayOptions = new ObjectTableListDisplayOptions("Kurs-Liste", (currentCourse: any) => {
       this.backendAdminDashboard.writeCourseChanges(currentCourse, () => {
         this.backendAdminDashboard.getAllCourses(() => {});
       });
-    }, Constants.adminReadOnlyKeys);
+    }, Constants.adminReadOnlyKeys, addNewCoursePopupInfo);
     this.courseTableListDisplayOptions.addColumn("CourseId", "Id");
     this.courseTableListDisplayOptions.addColumn("CourseName", "Name");
     this.courseTableListDisplayOptions.addColumn("IsDefaultCourse", "Standart");
 
+    // Remove course action
+    const removeCourseAction = new ObjectTableListDisplayOptionsAction("Krus Löschen", (currentCourse: any) => {
+      this.backendAdminDashboard.removeCourse(currentCourse.CourseId, (data: any) => {
+        this.backendAdminDashboard.getAllCourses((data: any) => {
+          this.courses = data.courses;
+        });
+      });
+    }, true);
+    this.courseTableListDisplayOptions.addAction(removeCourseAction);
+
 
     // User table
+    const addNewUserPopupInfo = new ObjectTableListDisplayAddPopupInfo((data: any) => {
+      this.backendAdminDashboard.setupNewUser(data.name, data.school, (newUserData: any) => {
+        this.backendAdminDashboard.get_users_data(() => {
+          for (let i = 0; i < this.users.length; i++) {
+            const user = this.users[i];
+            if (user.id === newUserData.new_user_id) {
+              user.newToken = newUserData.new_first_time_sign_in_token;
+              break;
+            }
+          }
+        });
+      });
+    }, "Account Erstellen");
+    addNewUserPopupInfo.addInputToPopup("school", new ObjectTableListDisplayAddInputInfo("Schulname", new FormControl(null, [Validators.required, Validators.pattern("^[\\w-_]{2,40}$")]), "test-school"));
+    addNewUserPopupInfo.addInputToPopup("name", new ObjectTableListDisplayAddInputInfo("Nutzername", new FormControl(null, [Validators.required, Validators.pattern("^[\\w-_]{4,30}$")])));
     this.usersTableListDisplayOptions = new ObjectTableListDisplayOptions("Nutzer-Liste", (currentUser: any) => {
       delete currentUser.newToken;
       this.backendAdminDashboard.writeUserChanges(currentUser, () => {
         this.backendAdminDashboard.get_users_data(() => {});
       });
-    }, Constants.adminReadOnlyKeys);
+    }, Constants.adminReadOnlyKeys, addNewUserPopupInfo);
     this.usersTableListDisplayOptions.addColumn("name", "Nutzer");
     this.usersTableListDisplayOptions.addColumn("role", "Role");
     this.usersTableListDisplayOptions.addColumn("points", "Punkte");
@@ -96,24 +126,5 @@ export class AdminDashboardComponent implements OnInit {
     // Make user row gray if not active
     this.usersTableListDisplayOptions.addStyleCondition(new ObjectTableListDisplayWhenKeyIsEqualToConditon("is_active", false), {color : "#b8b8b8"});
 
-  }
-
-  addNewUser(): void {
-    const userName = this.AddUserForm.controls.name;
-    const schoolName = this.AddUserForm.controls.school;
-
-    if (userName.valid && schoolName.valid) {
-      this.backendAdminDashboard.setupNewUser(userName.value, schoolName.value, (newUserData: any) => {
-        this.backendAdminDashboard.get_users_data(() => {
-          for (let i = 0; i < this.users.length; i++) {
-            const user = this.users[i];
-            if (user.id === newUserData.new_user_id) {
-              user.newToken = newUserData.new_first_time_sign_in_token;
-              break;
-            }
-          }
-        });
-      });
-    }
   }
 }

@@ -12,13 +12,14 @@ export class BackendHomework extends BackendSession {
   get_school_class_data(succsesFunction, errorFunction) {
     this.post_with_session_no_data("get_user_courses", (data: any) => {
       this.host.homework = [];
+      this.host.courses = new Map<number, any>();
       data.courses.forEach(course => {
+        this.host.courses.set(course.CourseId, course);
         let homeworkList = course.homework;
         homeworkList.forEach(homework => {
           this.host.homework.push(homework);
         });
       });
-      this.host.courses = data.courses;
       succsesFunction(data);
     }, (error: any) => {
       errorFunction(error);
