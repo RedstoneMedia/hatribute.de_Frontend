@@ -9,7 +9,7 @@ export class BackendHomework extends BackendSession {
     super(client, host, adrress);
   }
 
-  get_school_class_data(succsesFunction, errorFunction) {
+  get_user_courses(succsesFunction, errorFunction) {
     this.post_with_session_no_data("get_user_courses", (data: any) => {
       this.host.homework = [];
       this.host.courses = new Map<number, any>();

@@ -26,6 +26,7 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { Base64ImageSafePipe } from './base64-image-safe.pipe';
 import { ImageDisplayComponent } from './image-display/image-display.component';
 import { ObjectTableListDisplayComponent } from './admin-dashboard/object-table-list-display/object-table-list-display.component';
+import { CourseSelectListComponent } from './about-me/course-select-list/course-select-list.component';
 
 
 const myRoutes: Routes = [
@@ -56,6 +57,7 @@ const myRoutes: Routes = [
     PopUpWrapperComponent,
     ImageDisplayComponent,
     ObjectTableListDisplayComponent,
+    CourseSelectListComponent,
   ],
   imports: [
     BrowserModule,

@@ -56,7 +56,7 @@ export class HomeworklistComponent implements OnInit {
     this.HomworkAddPopUpData = new PopupData("Hausaufgabe hinzufügen");
     this.data.changeCurRoute("homework-list");
     this.backendSchoolClass = new BackendHomework(this.client, this);
-    this.backendSchoolClass.get_school_class_data(() => {
+    this.backendSchoolClass.get_user_courses(() => {
         this.backendSchoolClass.post_with_session_no_data("get_data", (data: any) => {
           this.UserData = data.user;
           this.data.changeRole(data.user.role);
@@ -104,7 +104,7 @@ export class HomeworklistComponent implements OnInit {
 
   deleteHomwork() {
     this.backendSchoolClass.delete_homework(this.curSlectedHomework.id, () => {
-      this.backendSchoolClass.get_school_class_data(() => {
+      this.backendSchoolClass.get_user_courses(() => {
         this.updateCanDelete();
       }, () => {});
     });
@@ -189,7 +189,7 @@ export class HomeworklistComponent implements OnInit {
   deRegisterForSubHomework(i) {
     this.curSlectedHomework.SubHomework[i].User.name = null;
     this.backendSchoolClass.de_register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {
-      this.backendSchoolClass.get_school_class_data(() => {
+      this.backendSchoolClass.get_user_courses(() => {
         this.closeHomeworkDetails();
       }, () => {});
     });
@@ -227,7 +227,7 @@ export class HomeworklistComponent implements OnInit {
     if ( this.AddHomeworkForm.controls.Exercise.valid && this.AddHomeworkForm.controls.Course.valid && validSubExercises && this.AddHomeworkForm.controls.DueDate.valid) {
       // tslint:disable-next-line: max-line-length
       this.backendSchoolClass.add_homework(this.AddHomeworkForm.controls.Exercise.value, this.AddHomeworkForm.controls.Course.value, subExercisesRaw, this.AddHomeworkForm.controls.DueDate.value, () => {
-        this.backendSchoolClass.get_school_class_data(() => {
+        this.backendSchoolClass.get_user_courses(() => {
           this.AddHomeworkForm.reset();
           this.updateCanDelete();
           this.closeAddHomework();
@@ -261,7 +261,7 @@ export class HomeworklistComponent implements OnInit {
       const typeString = this.ReportForm.controls.Type.value;
       const type = Number.parseFloat(typeString.split('.')[0]);
       this.backendSchoolClass.report_sub_image(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, type, () => {
-        this.backendSchoolClass.get_school_class_data(() => {
+        this.backendSchoolClass.get_user_courses(() => {
           this.ReportForm.reset();
           this.closeReport();
           this.closeSubHomework();

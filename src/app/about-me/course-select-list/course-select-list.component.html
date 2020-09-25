@@ -1,0 +1,35 @@
+<div>
+
+  <div id="course-list">
+    <div id="course-name-list">
+      <div *ngFor="let course of courses">
+        {{course.CourseName}}
+      </div>
+    </div>
+    <div id="course-waste-bin-list">
+      <div *ngFor="let course of courses" class="remove-course" (click)="removeCourseFormMyList(course)">
+        🗑️
+      </div>
+    </div>
+  </div>
+
+  <div (click)="addCourseToMyListOpenPopup();" class="add">+</div>
+
+</div>
+
+<div *appPopUpWrapper="addCourseToMyListPopUpData">
+  <form id="add-course-to-my-list-form" [formGroup]="addCourseToMyListForm" (submit)="addCourseToMyList()">
+    <div [ngClass]="{'error': addCourseToMyListForm.controls['course'].errors && !addCourseToMyListForm.controls['course'].pristine}">
+      <label>Kurs : </label>
+      <select id="course-select-add-dropdown" name="course" formControlName="course">
+        <option *ngFor="let course of allUserSchoolCourses" [value]="course.CourseId">{{course.CourseName}}</option>
+      </select>
+      <div *ngIf="addCourseToMyListForm.controls['course'].errors && !addCourseToMyListForm.controls['course'].pristine" class="error-msg">
+        <div [hidden]="!addCourseToMyListForm.controls['course'].errors.required">Kurs wird benötigt.</div>
+      </div>
+    </div>
+    <br>
+
+    <button type="submit">Kurs hinzufügen</button>
+  </form>
+</div>
