@@ -36,8 +36,7 @@ const myRoutes: Routes = [
   {path : 'about-me', component: AboutMeComponent},
   {path : 'homework-list', component: HomeworklistComponent},
   {path : 'mod-dashboard', component: ModDashboardComponent},
-  {path : 'admin-dashboard', component: AdminDashboardComponent},
-  {path : 'knowledge', component: KnowledgeComponent}
+  {path : 'admin-dashboard', component: AdminDashboardComponent}
 ];
 
 @NgModule({
@@ -51,7 +50,6 @@ const myRoutes: Routes = [
     HomeworklistComponent,
     Base64ImageSafePipe,
     ModDashboardComponent,
-    KnowledgeComponent,
     AdminDashboardComponent,
     PopUpWrapperDirective,
     PopUpWrapperComponent,

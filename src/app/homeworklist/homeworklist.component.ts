@@ -70,14 +70,14 @@ export class HomeworklistComponent implements OnInit {
 
   updateCanDelete() {
     this.homework.forEach(element => {
-      if (this.UserData.role >= 2) {
+      if (this.UserData.role >= 3) {
         element["CanDelete"] = true;
       } else {
         if (element.CreatorId === this.UserData.id) {
           let good = true;
-          if (this.homework.SubHomework !== undefined) {
-            for (let i = 0; i < this.homework.SubHomework.length; i++) {
-              const subHomework = this.homework.SubHomework[i];
+          if (element.SubHomework !== undefined) {
+            for (let i = 0; i < element.SubHomework.length; i++) {
+              const subHomework = element.SubHomework[i];
               if (subHomework.Done === true) {
                 good = false;
                 break;

@@ -23,6 +23,7 @@
             <ng-template #normal_no_deregister><h5>{{sub_homework.User.name}} hat sich bereits für diese Aufgabe gemeldet.</h5></ng-template>
           </ng-template>
       </div>
+      <button *ngIf="curSlectedHomework.CanDelete" (click)="deleteHomwork()">Aufgabe Entfernen</button>
   </div>
 
   <div *appPopUpWrapper="HomworkViewPopUpData">
