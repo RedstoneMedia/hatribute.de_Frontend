@@ -52,6 +52,11 @@
         </div>
     </div>
 
+    <div class="accept-privacy-notice" [ngClass]="{'error': signInForm.controls['acceptPrivacyNotice'].errors && !signInForm.controls['acceptPrivacyNotice'].pristine || signInForm.controls['acceptPrivacyNotice'].value === false}">
+      <label>Ich stimme der Datenschutzerklärung zu : </label>
+      <input type="checkbox" name="accept-privacy-notice" formControlName="acceptPrivacyNotice">
+    </div>
+
     <button type="submit">Account erstellen</button>
 
     <br>

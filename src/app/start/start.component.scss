@@ -19,4 +19,11 @@
   width: 100%;
   text-align: center;
   font-size: 10px;
+
+  a {
+    margin-left: 5%;
+    font-weight: bold;
+    color: $main-font-color;
+    width: 100%;
+  }
 }

@@ -27,6 +27,8 @@ import { Base64ImageSafePipe } from './base64-image-safe.pipe';
 import { ImageDisplayComponent } from './image-display/image-display.component';
 import { ObjectTableListDisplayComponent } from './admin-dashboard/object-table-list-display/object-table-list-display.component';
 import { CourseSelectListComponent } from './about-me/course-select-list/course-select-list.component';
+import { PrivacyNoticeComponent } from './privacy-notice/privacy-notice.component';
+import { SiteDetailsComponent } from './site-details/site-details.component';
 
 
 const myRoutes: Routes = [
@@ -36,7 +38,9 @@ const myRoutes: Routes = [
   {path : 'about-me', component: AboutMeComponent},
   {path : 'homework-list', component: HomeworklistComponent},
   {path : 'mod-dashboard', component: ModDashboardComponent},
-  {path : 'admin-dashboard', component: AdminDashboardComponent}
+  {path : 'admin-dashboard', component: AdminDashboardComponent},
+  {path : "privacy-notice", component: PrivacyNoticeComponent},
+  {path : "site-details", component: SiteDetailsComponent}
 ];
 
 @NgModule({
@@ -56,6 +60,8 @@ const myRoutes: Routes = [
     ImageDisplayComponent,
     ObjectTableListDisplayComponent,
     CourseSelectListComponent,
+    PrivacyNoticeComponent,
+    SiteDetailsComponent,
   ],
   imports: [
     BrowserModule,

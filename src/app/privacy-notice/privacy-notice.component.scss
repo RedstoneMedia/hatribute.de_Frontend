@@ -1,0 +1,14 @@
+@import "~src/global";
+
+#content {
+  color: black;
+  width: 50%;
+  margin: 0 auto;
+  text-align: left;
+
+  a {
+    font-size: 6px;
+    text-decoration: none;
+    color: black;
+  }
+}

@@ -20,7 +20,8 @@ export class SigninComponent implements OnInit {
     password: new FormControl(null, [Validators.minLength(7), Validators.required]),
     firstTimeSignInToken : new FormControl(null, [Validators.minLength(200), Validators.maxLength(200), Validators.required]),
     name : new FormControl(null, [Validators.minLength(4), Validators.required]),
-    school : new FormControl(null, [Validators.minLength(5), Validators.required])
+    school : new FormControl(null, [Validators.minLength(5), Validators.required]),
+    acceptPrivacyNotice: new FormControl(null, [Validators.required]),
   });
 
   right = null;
@@ -43,8 +44,9 @@ export class SigninComponent implements OnInit {
     const name = this.signInForm.controls.name;
     const school = this.signInForm.controls.school;
     const firstTimeSignInToken = this.signInForm.controls.firstTimeSignInToken;
+    const acceptPrivacyNotice = this.signInForm.controls.acceptPrivacyNotice;
 
-    if (pwd.valid && email.valid && name.valid && school.valid && firstTimeSignInToken.valid) {
+    if (pwd.valid && email.valid && name.valid && school.valid && firstTimeSignInToken.valid && acceptPrivacyNotice.value === true) {
       this.backendSignIn.sign_in(pwd.value, email.value, name.value, school.value, firstTimeSignInToken.value);
       this.signInForm.reset();
     }
