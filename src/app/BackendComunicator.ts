@@ -28,6 +28,7 @@ export class BackendComunicator {
         'Content-Type':  'application/json'
       })
     };
+
     this.client.post(`${Constants.requestProtocol}://${this.backendAdress}:${this.backendPort}/${route}`, DataObject , httpOptions).subscribe(
       (data: any) => this._succses(data, succsesFunction),
       error => this._error(error, errorFunction)

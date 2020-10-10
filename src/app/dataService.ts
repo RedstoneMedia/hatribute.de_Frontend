@@ -1,3 +1,4 @@
+import { NONE_TYPE } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -11,8 +12,28 @@ export class DataService {
   currentlyLoggedIn = this.loggedInSource.asObservable();
   private currentRoleSource = new BehaviorSubject(-2);
   currentRole = this.currentRoleSource.asObservable();
+  private isBusy = false;
+  private tasks = [];
 
-  constructor() {}
+  constructor() {
+    setInterval(() => {
+      if (!this.isBusy) {
+        if (this.tasks.length > 0) {
+          this.isBusy = true;
+          const task = this.tasks.pop();
+          task();  // this task will have to call doneWithTask() to signal that it has ended, so the next task can be processed.
+        }
+      }
+    }, 100);
+  }
+
+  doneWithTask() {
+    this.isBusy = false;
+  }
+
+  pushAsyncTaskToBeSynchronouslyExecuted(task) {
+    this.tasks.push(task);
+  }
 
   changeCurRoute(route: string) {
     this.curRouteSource.next(route);
