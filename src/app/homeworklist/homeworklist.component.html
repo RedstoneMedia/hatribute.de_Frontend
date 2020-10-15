@@ -13,14 +13,13 @@
           <span *ngIf="sub_homework.User.name"> | {{sub_homework.User.name}}</span>
           <h2 *ngIf="!sub_homework.User.name else normal_no_add" (click)="registerForSubHomework(i)" class="register">Eintragen</h2>
           <ng-template #normal_no_add>
-            <div *ngIf="sub_homework.User.name == UserData.name else normal_no_deregister">
+            <div *ngIf="sub_homework.User.name == UserData.name">
                 <span *ngIf="!sub_homework.Done">
                   <button (click)="showUploadSubHomework(i)">Fertig</button>
                   <br>
                 </span>
                 <span class="deRegister" (click)="deRegisterForSubHomework(i)">{{sub_homework.User.name}} | Abmelden</span>
             </div>
-            <ng-template #normal_no_deregister><h5>{{sub_homework.User.name}} hat sich bereits für diese Aufgabe gemeldet.</h5></ng-template>
           </ng-template>
       </div>
       <button *ngIf="curSlectedHomework.CanDelete" (click)="deleteHomwork()">Aufgabe Entfernen</button>

@@ -11,10 +11,10 @@ export class BackendLogin extends BackendComunicator {
     super(client, host, adrress);
   }
 
-  login(password: string, email: string, stayLoggedIn: boolean) {
+  login(password: string, userName: string, stayLoggedIn: boolean) {
       const jsondata = JSON.stringify({
         "password" : password.trim(),
-        "email" : email,
+        "user_name" : userName,
         "stay_logged_in" : stayLoggedIn
       });
       // login with password
@@ -32,7 +32,7 @@ export class BackendLogin extends BackendComunicator {
         this.host.data.changeLoggedIn(true);
         this.host.router.navigate(['about-me']);
       }, error => {
-        this.host.errortext = "Falsches Passwort oder Email.";
+        this.host.errortext = "Falsches Passwort oder Falscher Nutzername.";
         this.host.right = false;
         localStorage.clear();
       });

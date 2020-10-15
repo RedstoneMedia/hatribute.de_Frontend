@@ -33,7 +33,7 @@ export class ImageDisplayComponent implements OnInit {
       }
       const end = new Date().getTime();
       const time = end - start;
-      if (time > 200) { // if request took longer then 200 ms use other method to display images
+      if (time > 300) { // if request took longer then 300 ms use other method to display images
         console.log(`Request took to long : ${time}ms using base64 to load images instead`);
         // Now trying to load images again but with the base64 image method
         this.usingBase64ImageLoading = true;

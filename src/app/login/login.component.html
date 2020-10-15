@@ -5,12 +5,12 @@
   <h1>Login</h1>
 
   <form class="loginform" [formGroup]="loginForm" (ngSubmit)="login()">
-    <div [ngClass]="{'error': loginForm.controls['email'].errors && !loginForm.controls['email'].pristine}">
-      <label >Email : </label>
-      <input type="email" required name="email" formControlName="email">
-      <div *ngIf="loginForm.controls['email'].errors && !loginForm.controls['email'].pristine" class="error-msg">
-          <div [hidden]="!loginForm.controls['email'].errors.required">Email wird benötigt.</div>
-          <div [hidden]="!loginForm.controls['email'].errors.pattern">Email ist invalid.</div>
+    <div [ngClass]="{'error': loginForm.controls['userName'].errors && !loginForm.controls['userName'].pristine}">
+      <label >Nutzername : </label>
+      <input required name="userName" formControlName="userName">
+      <div *ngIf="loginForm.controls['userName'].errors && !loginForm.controls['userName'].pristine" class="error-msg">
+          <div [hidden]="!loginForm.controls['userName'].errors.required">Nutzername wird benötigt.</div>
+          <div [hidden]="!loginForm.controls['userName'].errors.pattern">Nutzername ist invalid.</div>
       </div>
     </div>
 

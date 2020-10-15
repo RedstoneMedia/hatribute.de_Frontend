@@ -11,13 +11,30 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CourseSelectListComponent implements OnInit {
   @Input() backendAboutMe: BackendAboutMe;
   courses: any;
-  allUserSchoolCourses: any;
+  allUserAvailableToAddSchoolCourses: any;
   addCourseToMyListPopUpData: PopupData;
   addCourseToMyListForm = new FormGroup({
     course: new FormControl(null, [Validators.required])
   });
 
   constructor() { }
+
+  getSchoolCoursesAvailableToAdd(data: any): void {
+    this.allUserAvailableToAddSchoolCourses = [];
+    for (const course of data.courses) {
+      let includeCourse = true;
+      for (const addedCourse of this.courses) {
+        if (addedCourse.CourseId === course.CourseId) {
+          includeCourse = false;
+          break;
+        }
+      }
+      includeCourse &&= course.IsDefaultCourse === false;
+      if (includeCourse) {
+        this.allUserAvailableToAddSchoolCourses.push(course);
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.addCourseToMyListPopUpData = new PopupData("Kurs hinzufügen");
@@ -29,15 +46,9 @@ export class CourseSelectListComponent implements OnInit {
           this.courses.push(course);
         }
       }
-    });
-    this.backendAboutMe.getAllUserSchoolCourses((data: any) => {
-      this.allUserSchoolCourses = [];
-      for (let i = 0; i < data.courses.length; i++) {
-        const course = data.courses[i];
-        if (course.IsDefaultCourse === false) {
-          this.allUserSchoolCourses.push(course);
-        }
-      }
+      this.backendAboutMe.getAllUserSchoolCourses((data: any) => {
+        this.getSchoolCoursesAvailableToAdd(data);
+      });
     });
   }
 
@@ -51,6 +62,9 @@ export class CourseSelectListComponent implements OnInit {
             this.courses.push(course);
           }
         }
+        this.backendAboutMe.getAllUserSchoolCourses((data: any) => {
+          this.getSchoolCoursesAvailableToAdd(data);
+        });
       });
     });
   }
@@ -70,6 +84,10 @@ export class CourseSelectListComponent implements OnInit {
               this.courses.push(course);
             }
           }
+          this.backendAboutMe.getAllUserSchoolCourses((data: any) => {
+            this.getSchoolCoursesAvailableToAdd(data);
+          });
+          this.addCourseToMyListForm.reset();
           this.addCourseToMyListPopUpData.close();
         });
       });

@@ -11,12 +11,11 @@ export class BackendSigin extends BackendComunicator {
     super(client, host, adrress);
   }
 
-  sign_in(password: string, email: string, name: string, school: string, firstTimeSignInToken: string) {
+  sign_in(password: string, userName: string, school: string, firstTimeSignInToken: string) {
       password = password.trim().toString();
       const jsondata = JSON.stringify({
         "password" : password,
-        "email" : email,
-        "name" : name,
+        "user_name" : userName,
         "school" : school,
         "first_time_sign_in_token" : firstTimeSignInToken
       });
@@ -24,7 +23,7 @@ export class BackendSigin extends BackendComunicator {
       this.post_data(jsondata, "sign-in", (data: any) => {
         const jsondata = JSON.stringify({
           "password" : password,
-          "email" : email,
+          "user_name" : userName,
           "stay_logged_in" : false
         });
         // Login with salted password
@@ -42,7 +41,7 @@ export class BackendSigin extends BackendComunicator {
         });
       }, error => {
         console.log(error);
-        this.host.errortext = "Fehler beim Kreieren des Account.";
+        this.host.errortext = "Fehler beim kreieren des Account.";
         this.host.right = false;
       });
   }

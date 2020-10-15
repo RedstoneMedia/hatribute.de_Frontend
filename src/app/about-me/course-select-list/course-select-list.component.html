@@ -22,7 +22,7 @@
     <div [ngClass]="{'error': addCourseToMyListForm.controls['course'].errors && !addCourseToMyListForm.controls['course'].pristine}">
       <label>Kurs : </label>
       <select id="course-select-add-dropdown" name="course" formControlName="course">
-        <option *ngFor="let course of allUserSchoolCourses" [value]="course.CourseId">{{course.CourseName}}</option>
+        <option *ngFor="let course of allUserAvailableToAddSchoolCourses" [value]="course.CourseId">{{course.CourseName}}</option>
       </select>
       <div *ngIf="addCourseToMyListForm.controls['course'].errors && !addCourseToMyListForm.controls['course'].pristine" class="error-msg">
         <div [hidden]="!addCourseToMyListForm.controls['course'].errors.required">Kurs wird benötigt.</div>
