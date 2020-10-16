@@ -19,7 +19,7 @@ export class HomeworklistComponent implements OnInit {
   backendSchoolClass: BackendHomework;
   homework: any;
   courses: any;
-  curSlectedHomework: any;
+  curSelectedHomework: any;
   curUploadSubHomework: any;
   curSubHomeworkDisplay: any;
   usingBase64ImageLoading = false;
@@ -36,7 +36,7 @@ export class HomeworklistComponent implements OnInit {
   HomworkAddPopUpData: PopupData;
 
   AddHomeworkForm = new FormGroup({
-    Exercise : new FormControl(null, [Validators.required, Validators.minLength(4)]),
+    Exercise : new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(800)]),
     Course : new FormControl(null, [Validators.required]),
     DueDate : new FormControl(null, [ValidateDate, Validators.required]),
     SubExercise : new FormControl(null, [])
@@ -70,7 +70,7 @@ export class HomeworklistComponent implements OnInit {
 
   updateCanDelete() {
     this.homework.forEach(element => {
-      if (this.UserData.role >= 3) {
+      if (this.UserData.role >= 2) {
         element["CanDelete"] = true;
       } else {
         if (element.CreatorId === this.UserData.id) {
@@ -93,17 +93,17 @@ export class HomeworklistComponent implements OnInit {
   }
 
   showHomeworkDetails(index: number) {
-    this.curSlectedHomework = this.homework[index];
+    this.curSelectedHomework = this.homework[index];
     this.HomworkDetailPopUpData.open();
   }
 
   closeHomeworkDetails() {
-    this.curSlectedHomework = null;
+    this.curSelectedHomework = null;
     this.HomworkDetailPopUpData.close();
   }
 
   deleteHomwork() {
-    this.backendSchoolClass.delete_homework(this.curSlectedHomework.id, () => {
+    this.backendSchoolClass.delete_homework(this.curSelectedHomework.id, () => {
       this.backendSchoolClass.get_user_courses(() => {
         this.updateCanDelete();
       }, () => {});
@@ -112,7 +112,7 @@ export class HomeworklistComponent implements OnInit {
   }
 
   showUploadSubHomework(i) {
-    this.curUploadSubHomework = this.curSlectedHomework.SubHomework[i];
+    this.curUploadSubHomework = this.curSelectedHomework.SubHomework[i];
     this.HomworkUploadPopUpData.open();
   }
 
@@ -122,7 +122,7 @@ export class HomeworklistComponent implements OnInit {
   }
 
   showSubHomework(i) {
-    this.curSubHomeworkDisplay = this.curSlectedHomework.SubHomework[i];
+    this.curSubHomeworkDisplay = this.curSelectedHomework.SubHomework[i];
     this.HomworkViewPopUpData.open();
   }
 
@@ -163,32 +163,32 @@ export class HomeworklistComponent implements OnInit {
     if (imageNameValid) {
       // tslint:disable-next-line: max-line-length
       this.curUploadSubHomework.Done = true;
-      const subHomeworkCount = this.curSlectedHomework.SubHomework.length;
+      const subHomeworkCount = this.curSelectedHomework.SubHomework.length;
       let doneSubHomeworkCount = 0;
-      this.curSlectedHomework.SubHomework.forEach(element => {
+      this.curSelectedHomework.SubHomework.forEach(element => {
         if (element.Done) {
           doneSubHomeworkCount++;
         }
       });
 
-      this.curSlectedHomework.DonePercentage = Math.round((doneSubHomeworkCount / subHomeworkCount) * 100);
+      this.curSelectedHomework.DonePercentage = Math.round((doneSubHomeworkCount / subHomeworkCount) * 100);
       // tslint:disable-next-line: max-line-length
-      this.backendSchoolClass.upload_sub_homework(this.curSlectedHomework.id, this.curUploadSubHomework.id, this.homeworkUploadFiles, () => {}, () => {});
+      this.backendSchoolClass.upload_sub_homework(this.curSelectedHomework.id, this.curUploadSubHomework.id, this.homeworkUploadFiles, () => {}, () => {});
       this.closeUploadSubHomework();
     }
   }
 
   registerForSubHomework(i) {
-    this.backendSchoolClass.register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {
-      this.curSlectedHomework.SubHomework[i].User.name = this.UserData.name;
+    this.backendSchoolClass.register_for_sub_homework(this.curSelectedHomework.id, this.curSelectedHomework.SubHomework[i].id, () => {
+      this.curSelectedHomework.SubHomework[i].User.name = this.UserData.name;
     }, (user) => {
-      this.curSlectedHomework.SubHomework[i].User = user; // someone has already registered for this homework
+      this.curSelectedHomework.SubHomework[i].User = user; // someone has already registered for this homework
     });
   }
 
   deRegisterForSubHomework(i) {
-    this.curSlectedHomework.SubHomework[i].User.name = null;
-    this.backendSchoolClass.de_register_for_sub_homework(this.curSlectedHomework.id, this.curSlectedHomework.SubHomework[i].id, () => {
+    this.curSelectedHomework.SubHomework[i].User.name = null;
+    this.backendSchoolClass.de_register_for_sub_homework(this.curSelectedHomework.id, this.curSelectedHomework.SubHomework[i].id, () => {
       this.backendSchoolClass.get_user_courses(() => {
         this.closeHomeworkDetails();
       }, () => {});
@@ -196,26 +196,17 @@ export class HomeworklistComponent implements OnInit {
   }
 
   addHomework() {
-    // Generate subExercises
+    // Generate subExercises from string
     const subExercisesRaw = [];
     let validSubExercises = true;
     const subExercise = this.AddHomeworkForm.controls.SubExercise.value;
     if (subExercise !== null) {
-      subExercise.split(" ").forEach(element => {
-        element = element.replace(" ", "");
-        element = element.toLowerCase();
-        if (element.charAt(1) === '-') {
-          if (!(element.charCodeAt(0) > element.charCodeAt(2))) {
-            for (let i = element.charCodeAt(0); i < element.charCodeAt(2) + 1; i++) {
-              subExercisesRaw.push( String.fromCharCode(i));
-            }
-          } else {
-            validSubExercises = false;
-          }
-        } else if (element.charAt(1) === '+') {
-          subExercisesRaw.push(element.charAt(0));
-          subExercisesRaw.push(element.charAt(2));
+      subExercise.split(";").forEach(element => {
+        element = element.replace(";", "");
+        if (element.length > 800) {
+          validSubExercises = false;
         }
+        subExercisesRaw.push(element);
       });
     }
 
@@ -260,7 +251,7 @@ export class HomeworklistComponent implements OnInit {
     if (this.ReportForm.controls.Type.valid) {
       const typeString = this.ReportForm.controls.Type.value;
       const type = Number.parseFloat(typeString.split('.')[0]);
-      this.backendSchoolClass.report_sub_image(this.curSlectedHomework.id, this.curSubHomeworkDisplay.id, type, () => {
+      this.backendSchoolClass.report_sub_image(this.curSelectedHomework.id, this.curSubHomeworkDisplay.id, type, () => {
         this.backendSchoolClass.get_user_courses(() => {
           this.ReportForm.reset();
           this.closeReport();

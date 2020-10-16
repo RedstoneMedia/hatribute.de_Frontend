@@ -4,7 +4,7 @@
 
   <div *appPopUpWrapper="HomworkDetailPopUpData">
     <h4 *ngIf="notEnougthPoints" class="error">Nicht Genügend Punkte</h4>
-      <div class="sub_Homework" *ngFor="let sub_homework of curSlectedHomework.SubHomework; index as i;">
+      <div class="sub_Homework" *ngFor="let sub_homework of curSelectedHomework.SubHomework; index as i;">
 
           <span *ngIf="sub_homework.Done else normal_display" class="sub_homework_finished" (click)="showSubHomework(i)">
               {{sub_homework.Exercise}} | Fertig : Ja
@@ -22,7 +22,7 @@
             </div>
           </ng-template>
       </div>
-      <button *ngIf="curSlectedHomework.CanDelete" (click)="deleteHomwork()">Aufgabe Entfernen</button>
+      <button *ngIf="curSelectedHomework.CanDelete" (click)="deleteHomwork()">Aufgabe Entfernen</button>
   </div>
 
   <div *appPopUpWrapper="HomworkViewPopUpData">
@@ -86,7 +86,8 @@
       <br>
       <div>
           <label >Unter Aufgaben : </label>
-          <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise">
+          <input id="SubExercise" required name="SubExercise" formControlName="SubExercise" class="SubExercise" placeholder="Unteraufgaben mit ';' separiert">
+          <br>
       </div>
 
       <!--Due Date-->
