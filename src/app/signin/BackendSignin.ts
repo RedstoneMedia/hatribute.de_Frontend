@@ -1,6 +1,5 @@
 import { BackendComunicator } from '../BackendComunicator';
 import { HttpClient } from '@angular/common/http';
-import * as CryptoJS from 'crypto-js';
 import {Router} from "@angular/router";
 import { SigninComponent } from './signin.component';
 import { Constants } from '../constants';
