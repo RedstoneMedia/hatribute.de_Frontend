@@ -39,12 +39,15 @@
   }
 }
 
-
-#side-bar {
-  display: flex;
-  flex-direction: column;
+#school-list {
   flex: 1;
+  padding: 10px;
+  width: fit-content;
+  @media #{$information-phone} {
+    width: 100%;
+  }
 }
+
 
 #user-add {
 

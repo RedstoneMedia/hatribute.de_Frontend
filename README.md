@@ -1,6 +1,6 @@
-# Eure-Hausaufgaben.net Frontend
+# hatribute.de Frontend
 
-The Frontend of Eure-Hausaufgaben.net
+The Frontend of hatribute.de
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.7.
 

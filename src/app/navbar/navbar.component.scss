@@ -43,7 +43,7 @@ a {
   color: $navbar_selected_tab_color
 }
 
-#eure-hausaufgaben-text {
+#website-name-text {
   grid-column: -1;
   @media #{$information-phone} {
     display: none;

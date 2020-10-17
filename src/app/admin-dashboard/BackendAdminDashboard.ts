@@ -38,6 +38,17 @@ export class BackendAdminDashboard extends BackendModDashboard {
     });
   }
 
+  writeSchoolChanges(schoolChangeData, successFunction: any): void {
+    const jsonData = {
+      school_changes : schoolChangeData
+    };
+    this.post_with_session(jsonData, "write_school_changes", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+    });
+  }
+
   generateNewTokenForDeactivatedUser(userId: number, successFunction: any): void {
     const jsonData = {
       user_id : userId
@@ -90,6 +101,37 @@ export class BackendAdminDashboard extends BackendModDashboard {
       course_id : courseId,
     };
     this.post_with_session(jsonData, "remove_course", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+    });
+  }
+
+
+  getAllSchools(successFunction: any): void {
+    this.post_with_session_no_data("get_all_schools", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+    });
+  }
+
+  addSchool(schoolName: string, successFunction: any): void {
+    const jsonData = {
+      school_name : schoolName
+    };
+    this.post_with_session(jsonData, "add_school", (data: any) => {
+      successFunction(data);
+    }, (error: any) => {
+      console.error(error);
+    });
+  }
+
+  removeSchool(schoolId: number, successFunction: (data: any) => void): void {
+    const jsonData = {
+      school_id : schoolId,
+    };
+    this.post_with_session(jsonData, "remove_school", (data: any) => {
       successFunction(data);
     }, (error: any) => {
       console.error(error);
