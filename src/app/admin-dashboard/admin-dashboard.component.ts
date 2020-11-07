@@ -99,7 +99,7 @@ export class AdminDashboardComponent implements OnInit {
       });
     }, "Account Erstellen");
     addNewUserPopupInfo.addInputToPopup("school", new ObjectTableListDisplayAddInputInfo("Schulname", new FormControl(null, [Validators.required, Validators.pattern("^[\\w-_]{2,40}$")]), "test-school"));
-    addNewUserPopupInfo.addInputToPopup("name", new ObjectTableListDisplayAddInputInfo("Nutzername", new FormControl(null, [Validators.required, Validators.pattern("^[\\w-_]{4,30}$")])));
+    addNewUserPopupInfo.addInputToPopup("name", new ObjectTableListDisplayAddInputInfo("Nutzername", new FormControl(null, [Validators.required, Validators.pattern("^[\\w\.-äüöß]{4,30}$")])));
     this.usersTableListDisplayOptions = new ObjectTableListDisplayOptions("Nutzer-Liste", (currentUser: any) => {
       delete currentUser.newToken;
       this.backendAdminDashboard.writeUserChanges(currentUser, () => {
